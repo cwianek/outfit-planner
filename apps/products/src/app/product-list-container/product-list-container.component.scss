@@ -1,0 +1,16 @@
+.product-list {
+
+  &__category {
+    text-transform: lowercase;
+
+    &::first-letter {
+      text-transform: uppercase;
+    }
+  }
+
+}
+
+.product-item{
+  background-color: rebeccapurple !important;
+  padding: 500px;
+}

@@ -1,0 +1,10 @@
+<div class="outfit-preview container">
+  <p-knob [ngModel]="probability" valueTemplate="{value}%" [size]="80" [strokeWidth]="5" [readonly]="true"></p-knob>
+  <div class="row d-flex justify-content-center" *ngFor="let productsRow of alignedProducts">
+    <div class="col-4" *ngFor="let product of productsRow">
+      <outfit-planner-mf-product-item
+        [product]="product">
+      </outfit-planner-mf-product-item>
+    </div>
+  </div>
+</div>

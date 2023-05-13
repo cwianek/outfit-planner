@@ -1,0 +1,31 @@
+{
+  "/api/products/*": {
+    "target": "http://products/api/products",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/api": ""
+    }
+  },
+  "/api/outfits/*": {
+    "target": "http://localhost/api/outfits",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/api": ""
+    }
+  },
+  "/auth/*": {
+    "target": "http://products:4201/auth",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/auth": ""
+    },
+    "headers": {"Host":"localhost"},
+    "xfwd": true
+  }
+}

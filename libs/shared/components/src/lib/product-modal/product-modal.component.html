@@ -1,0 +1,33 @@
+<h1 mat-dialog-title>{{modalData.title}}</h1>
+<div mat-dialog-content [formGroup]="productForm" class="p-4">
+  <mat-form-field class="w-100" appearance="fill">
+    <mat-label>Category</mat-label>
+    <mat-select [formControlName]="'category'" class="product-modal__option-name">
+      <mat-option class="product-modal__option-name" *ngFor="let category of modalData.categories" [value]="category">
+        {{category}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="w-100" appearance="fill" (click)="fileInput.click()">
+    <mat-label>Image file</mat-label>
+    <input type="text"
+           placeholder="Select file"
+           aria-label="Image file"
+           matInput
+           [readonly]="true"
+           [formControlName]="'fileName'">
+    <mat-icon [fontIcon]="productForm.controls.fileName.value ? 'file_download_done': 'upload'" matIconSuffix></mat-icon>
+  </mat-form-field>
+
+  <input hidden #fileInput (change)="onFileChange($event)" type="file" id="file">
+
+  <div mat-dialog-actions class="mt-2">
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-button [mat-dialog-close]="productForm.value" [disabled]="!this.productForm.valid" cdkFocusInitial>Add
+    </button>
+  </div>
+</div>
+
+
+

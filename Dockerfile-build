@@ -1,0 +1,47 @@
+FROM node:16-alpine3.12 as build
+
+ARG APP_NAME
+
+WORKDIR /app
+
+COPY . .
+#COPY ./package.json .
+
+RUN npm install -g @angular/cli
+RUN npm install -g nx
+
+RUN npm install
+RUN nx build ${APP_NAME}
+
+#RUN mkdir -p dist/${APP_NAME}
+#RUN cd dist
+
+#RUN echo "Current working directory i12323s: $(ls -al)"
+
+#RUN touch dist/${APP_NAME}/gowno.txt
+
+#FROM nginx:1.21-alpine
+#
+#ARG APP_NAME
+#
+#WORKDIR /app
+#
+#COPY --from=build /app/nginx.conf ./nginx.conf
+#RUN echo "Current working directory i12323s: $(ls -al)"
+#RUN echo "Current working directory i1233s: $(pwd)"
+#
+#COPY ./nginx.conf /etc/nginx/templates/nginx.conf.template
+#CMD ["cd", "/app/dist"]
+#RUN echo "Current working directory i12323s: $(ls -al)"
+#
+#COPY --from=build /app/dist/apps/${APP_NAME} /usr/share/nginx/html/
+#
+## Copy the build output from the previous stage to the Nginx document root
+##COPY mnt/c/Projekty/outfit-planner-mf/dist/apps/products /usr/share/nginx/html
+#
+## Expose port 80
+#EXPOSE 80
+#
+## Start Nginx
+#CMD ["nginx", "-g", "daemon off;"]
+##CMD nx run-many --target=serve --projects=dashboard,products --host 0.0.0.0 --disable-host-check --poll 500 --verbose

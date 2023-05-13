@@ -1,0 +1,30 @@
+outfit-planner-mf-outfit-creator {
+  .outfit-creator__modal {
+  }
+
+  .outfit-creator__category-link {
+    cursor: pointer;
+  }
+
+  .product-item {
+    min-height: 10vh;
+    //&__image {
+    //  width: 100px !important;
+    //}
+
+  }
+
+  .outfit-creator__product-categories{
+    text-align: end;
+  }
+
+  @media (max-width: 992px) {
+    .outfit-creator__product-categories {
+      text-align: center;
+    }
+  }
+
+}
+
+
+

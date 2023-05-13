@@ -1,0 +1,26 @@
+<!--<div class="dashboard-nav">Admin Dashboard</div>-->
+<!--<div *ngIf="isLoggedIn$ | async; else signIn">-->
+<!--  You are authenticated so you can see this content.-->
+<!--</div>-->
+<!--<ng-template #signIn><router-outlet></router-outlet></ng-template>-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" [routerLink]="''" >Outfitplanne123r</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li role="button" class="nav-item" [routerLink]="'outfits'">
+          <a class="nav-link active">Outfits</a>
+        </li>
+        <li role="button" class="nav-item" [routerLink]="'products'">
+          <a class="nav-link">Products</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<router-outlet></router-outlet>

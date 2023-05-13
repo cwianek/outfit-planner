@@ -1,0 +1,18 @@
+<section *ngIf="(groupedProducts$ | async) as grouped" class="w-100 p-4 pb-4 product-list"
+         style="background-color: hsl(0, 0%, 95%)">
+  <div *ngFor="let group of grouped | keyvalue; trackBy: groupTrackBy">
+    <div class="product-list__category">
+      {{group.key}}
+    </div>
+    <div class="row">
+      <div *ngFor="let product of group.value; trackBy: productTrackBy"
+           class="col-md-6 col-lg-4 col-xl-3 mb-4">
+        <mat-card class=" shadow-sm">
+          <mat-card-content>
+            <outfit-planner-mf-product-item [product]="product"></outfit-planner-mf-product-item>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</section>

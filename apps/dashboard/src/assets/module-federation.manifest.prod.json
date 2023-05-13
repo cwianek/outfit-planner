@@ -1,0 +1,4 @@
+{
+  "products": "http://dashboard/remote/products",
+  "outfits": "http://localhost:4202"
+}

@@ -1,0 +1,5 @@
+<ng-container *ngIf="(outfits$ | async) as outfits">
+  <div class="carousel-container flex">
+      <outfit-planner-mf-outfits-list class="flex-grow-1 flex" [outfits]="outfits"></outfit-planner-mf-outfits-list>
+  </div>
+</ng-container>
