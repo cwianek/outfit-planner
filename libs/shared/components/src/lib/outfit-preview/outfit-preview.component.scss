@@ -1,8 +1,26 @@
 .outfit-preview {
   overflow: hidden;
-
+  max-width: 500px;
 
 
 }
 
 
+.knob-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  left: -20px;
+  top: -20px;
+  z-index: 100;
+
+  .p-knob-text{
+    font-size: 16px;
+  }
+}
+
+.knob-text {
+  position: absolute;
+  margin-top: 8px; /* Adjust the margin as needed */
+  text-align: center;
+}

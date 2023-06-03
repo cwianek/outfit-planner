@@ -8,6 +8,7 @@ import {
 } from "@outfit-planner-mf/shared/components";
 import {Observable, Subscription} from "rxjs";
 import {MatDialog} from '@angular/material/dialog';
+import {UserService} from "@outfit-planner-mf/shared/auth";
 
 @Component({
   selector: 'outfit-planner-mf-product-list-container',
@@ -16,19 +17,20 @@ import {MatDialog} from '@angular/material/dialog';
 })
 export class ProductListContainerComponent implements OnInit, OnDestroy {
 
-  productCategories: string[] = [ProductCategory.Tshirt, ProductCategory.Jacket, ProductCategory.Hoodie, ProductCategory.Trousers, ProductCategory.Shoe, ProductCategory.Socks]
+  productCategories: string[] = [ProductCategory.Tshirt, ProductCategory.Jacket, ProductCategory.Sweatshirt, ProductCategory.Trousers, ProductCategory.Shoes, ProductCategory.Socks]
 
   products: Product[] = [];
 
   genericSub: Subscription = new Subscription();
 
-  constructor(private productsService: ProductsService, private dialog: MatDialog) {
+  constructor(private productsService: ProductsService, private dialog: MatDialog, private userService: UserService) {
   }
 
-  openDialog(): void {
+  openDialog(category: string): void {
     const modalData: ProductModalData = {
       title: 'Add new product',
-      categories: this.productCategories
+      categories: this.productCategories,
+      selectedCategory: category
     }
     const dialogRef = this.dialog.open(ProductModalComponent, {
       data: modalData,

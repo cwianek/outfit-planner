@@ -1,4 +1,7 @@
 outfit-planner-mf-outfit-creator {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
   .outfit-creator__modal {
   }
 
@@ -24,7 +27,27 @@ outfit-planner-mf-outfit-creator {
     }
   }
 
+  .product-item__image {
+    width: 115px;
+  }
 }
 
 
+
+//.mat-mdc-dialog-surface {
+//  display: flex !important;
+//  flex: 1 !important;
+//}
+//
+//.mat-mdc-dialog-container, .mat-mdc-dialog-container {
+//  display: flex;
+//  flex-direction: column;
+//  flex-grow: 1;
+//}
+//
+//.mat-mdc-dialog-content {
+//  flex-grow: 1;
+//  padding: 10px;
+//  //max-height: none !important;
+//}
 

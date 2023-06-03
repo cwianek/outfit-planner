@@ -6,6 +6,7 @@ import {
   ProductModalData
 } from "@outfit-planner-mf/shared/components";
 import {MatDialog} from "@angular/material/dialog";
+import {UserService} from "@outfit-planner-mf/shared/auth";
 
 
 @Component({
@@ -15,6 +16,8 @@ import {MatDialog} from "@angular/material/dialog";
 export class RemoteEntryComponent {
 
 
+  constructor(private userService: UserService) {
+  }
 
 
 }

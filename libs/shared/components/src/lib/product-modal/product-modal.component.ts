@@ -10,6 +10,8 @@ import {
 } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {UserService} from "@outfit-planner-mf/shared/auth";
+import {Observable} from "rxjs";
 
 interface ProductForm {
   category: FormControl<string | null>;
@@ -20,6 +22,7 @@ interface ProductForm {
 export interface ProductModalData{
   title: string,
   categories: string[],
+  selectedCategory: string
 }
 
 export interface ProductAddedResult {
@@ -44,7 +47,6 @@ export class ProductModalComponent {
   @Input() title = ''
 
   @Output() productAdded: EventEmitter<ProductAddedResult> = new EventEmitter();
-
 
   productForm: FormGroup<ProductForm>;
 

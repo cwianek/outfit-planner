@@ -1,0 +1,25 @@
+.column {
+}
+
+.column1 {
+  /* Additional styles for column 1 */
+}
+
+.column2 {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+
+  /* Additional styles for column 2 */
+}
+
+.item{
+  align-self: center;
+}
+
+
+@media screen and (max-width: 992px) {
+  .products-container {
+    flex-direction: column !important;
+  }
+}

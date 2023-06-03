@@ -1,18 +1,29 @@
-<section *ngIf="(groupedProducts$ | async) as grouped" class="w-100 p-4 pb-4 product-list"
-         style="background-color: hsl(0, 0%, 95%)">
-  <div *ngFor="let group of grouped | keyvalue; trackBy: groupTrackBy">
-    <div class="product-list__category">
-      {{group.key}}
+<section *ngIf="(viewModel | async) as vm" class="p-4 pb-4 product-list">
+  <div class="products-container flex-row container-fluid d-flex">
+    <div class="">
+      <outfit-planner-mf-product-categories-list [orientation]="screenWidth >= 992 ? 'horizontal' : 'vertical'"
+        (categorySelected)="activeCategory = $event"></outfit-planner-mf-product-categories-list>
     </div>
-    <div class="row">
-      <div *ngFor="let product of group.value; trackBy: productTrackBy"
-           class="col-md-6 col-lg-4 col-xl-3 mb-4">
-        <mat-card class=" shadow-sm">
+    <div *ngIf="vm.groupedProducts[activeCategory]" class="align-content-start container-fluid row">
+      <div *ngFor="let product of vm.groupedProducts[activeCategory]; trackBy: productTrackBy"
+           class="item col-6 col-md-4 mb-4">
+        <mat-card class="shadow-sm" *ngIf="product">
           <mat-card-content>
-            <outfit-planner-mf-product-item [product]="product"></outfit-planner-mf-product-item>
+        <outfit-planner-mf-product-item [product]="product"></outfit-planner-mf-product-item>
           </mat-card-content>
         </mat-card>
       </div>
+      <div *ngIf="vm.isLoggedIn" class="item col-6 col-lg-4 mb-4">
+        <div class="p-2">
+          <p-button (onClick)="onProductAdded()" icon="pi pi-plus" styleClass="p-button-secondary p-button-text"></p-button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!vm.groupedProducts[activeCategory] && vm.isLoggedIn"
+         class="container-fluid p-2 justify-content-center d-flex flex-1 align-items-center">
+      <div class="p-1">Add first item from this category</div>
+      <p-button icon="pi pi-plus" styleClass="p-button-secondary p-button-text" (onClick)="onProductAdded()">
+      </p-button>
     </div>
   </div>
 </section>

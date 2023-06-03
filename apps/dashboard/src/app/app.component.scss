@@ -1,0 +1,119 @@
+@media screen and (min-width: 992px) {
+  .container-fluid, main {
+    max-width: 768px;
+    margin: 0 auto;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .container-fluid, main {
+    max-width: 992px;
+    margin: 0 auto;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .navbar-brand{
+    display: none;
+  }
+}
+
+.icon-container__text{
+  font-size: 12px;
+}
+
+.mat-icon{
+  font-size:24px !important; //make it bigger, the default being 24px.
+  min-width:30px;           //Do not forget to adjust the
+  height:24px;
+}
+
+.buttons-container{
+  margin-right: 20px;
+}
+
+.navbar{
+  background-color: white;
+  opacity: 0.95;
+  padding: 0;
+}
+.navigation-button{
+  scale: 0.75;
+}
+
+.navbar-brand{
+  //margin-left: 50px;
+}
+
+.navbar-brand{
+  cursor: pointer;
+}
+
+.navbutton__label{
+  display: flex;
+}
+
+.navigation-button--active{
+  color: #ff4081 !important;
+}
+
+.icon-display {
+  transform: scale(0.8);
+}
+
+body{
+  overflow-y: overlay;
+}
+
+.tooltip-inner{
+  font-size: 12px;
+  opacity: 0.4;
+
+  &:hover{
+    opacity: 0.5;
+  }
+}
+
+//.tooltip-container{
+//  position: relative;
+//}
+//
+//.custom-tooltip {
+//  right: 50%;
+//  bottom:0;
+//  position: absolute;
+//  display: inline-block;
+//  cursor: pointer;
+//}
+//
+//.custom-tooltip::before {
+//  content: "";
+//  position: absolute;
+//  border-width: 5px;
+//  border-style: solid;
+//  border-color: transparent transparent #ff4081 transparent;
+//}
+//
+//.custom-tooltip::after {
+//  content: "Log in to create your own outfits";
+//  top: 10px;
+//  width: 120px;
+//  justify-content: center;
+//  position: absolute;
+//  background-color: #ff4081;
+//  color: #ffffff;
+//  padding: 5px;
+//  border-radius: 4px;
+//  font-size: 14px;
+//  opacity: 0.6;
+//  pointer-events: none;
+//  transition: opacity 0.2s ease-in-out;
+//
+//  &:hover{
+//    opacity: 1;
+//  }
+//}
+//
+//.custom-tooltip:hover::after {
+//  opacity: 1;
+//}

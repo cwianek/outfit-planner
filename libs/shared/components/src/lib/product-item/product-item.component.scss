@@ -3,8 +3,41 @@
   caret-color: transparent;
 
   &__image{
-    width: 150px;
+    //width: 135px;
   }
+
+  &__T-SHIRT{
+    height: 180px;
+    scale: 0.9;
+  }
+
+  &__JACKET{
+    height: 180px;
+    position: relative;
+    bottom: 30px;
+  }
+
+  &__SWEATSHIRT{
+    height: 180px;
+    position: relative;
+    bottom: 15px;
+    scale: 0.95;
+  }
+
+  &__SOCKS{
+    height: 100px;
+  }
+
+  &__TROUSERS{
+    height: 220px;
+  }
+
+  &__SHOES{
+    height: 80px;
+  }
+
+
+
 
   //&__image-width {
   //  width: 150px;
@@ -16,4 +49,8 @@
   //  //  width: 200px;
   //  //}
   //}
+}
+
+.product-empty{
+  align-self: center;
 }

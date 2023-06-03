@@ -5,7 +5,8 @@ import {
   RouterStateSnapshot, UrlTree
 } from '@angular/router';
 import {KeycloakAuthGuard, KeycloakService} from 'keycloak-angular';
-import {from, map, Observable, of, shareReplay, switchMap, tap} from "rxjs";
+import {filter, from, map, Observable, of, shareReplay, switchMap, tap} from "rxjs";
+import {UserService} from "./user.service";
 
 export const KEYCLOAK_GUARD_CONFIG = new InjectionToken<string>('KeycloakGuardConfig');
 
@@ -13,9 +14,7 @@ export interface KeycloakGuardConfig {
   clientId: string
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class KeycloakGuard implements CanActivate {
 
   keycloakInitialization: Observable<boolean> | null = null;
@@ -23,17 +22,29 @@ export class KeycloakGuard implements CanActivate {
   constructor(
     private keycloak: KeycloakService,
     @Inject(KEYCLOAK_GUARD_CONFIG)
-    private keycloakConfig: KeycloakGuardConfig
+    private keycloakConfig: KeycloakGuardConfig,
+    private userService: UserService
   ) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     return this.isLoggedIn().pipe(
       switchMap((loggedIn: boolean) => {
-        if (!loggedIn) {
-          return this.keycloakLogin(state);
+        // if (!loggedIn) {
+        //   return this.keycloakLogin(state);
+        //
+        let instance = this.keycloak.getKeycloakInstance();
+        this.userService.setKeycloakInstance(this.keycloak);
+        let clientId = this.keycloak.getKeycloakInstance().clientId;
+        if(loggedIn){
+          this.userService.setLoggedIn(loggedIn);
         }
-        return of(loggedIn)
+        if(!loggedIn){
+          this.userService.isUserLoggedIn$.pipe(filter((logged) => logged)).subscribe(() => {
+            this.keycloakLogin(state);
+          })
+        }
+        return of(true)
       })
     )
   }

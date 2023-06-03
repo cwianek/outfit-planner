@@ -1,20 +1,29 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable, shareReplay, tap} from "rxjs";
-import {Product} from "@outfit-planner-mf/shared/components";
+import {Observable, shareReplay, switchMap, tap} from "rxjs";
 import {Cache, InvalidateCache, SharedCacheService} from "./shared-cache.service";
+import {UserService} from "@outfit-planner-mf/shared/auth";
+import {Product} from "../defs";
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProductsService{
+export class ProductsService {
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private userService: UserService) {
   }
 
   @Cache("products")
   getProducts(): Observable<Product[]> {
-    return this.httpClient.get<Product[]>('/api/products');
+          return this.httpClient.get<Product[]>('/api/products')
+    //
+    // return this.userService.isUserLoggedIn$.pipe(
+    //   switchMap((isLoggedIn) => {
+    //     if (isLoggedIn) {
+    //       return this.httpClient.get<Product[]>('/api/products')
+    //     }
+    //     return this.httpClient.get<Product[]>('/api/products/mock')
+    //   }))
   }
 
   @InvalidateCache("products")

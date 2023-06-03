@@ -9,7 +9,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {ProductListContainerComponent} from "../product-list-container/product-list-container.component";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
-import {KEYCLOAK_GUARD_CONFIG, KeycloakGuard} from "@outfit-planner-mf/shared/auth";
+import {KEYCLOAK_GUARD_CONFIG, KeycloakGuard, MockInterceptor, UserService} from "@outfit-planner-mf/shared/auth";
 import {remoteRoutes} from "./entry.routes";
 import {AsyncPipe} from "@angular/common";
 
@@ -39,10 +39,18 @@ import {AsyncPipe} from "@angular/common";
     {
       provide: KEYCLOAK_GUARD_CONFIG,
       useValue: {
-        clientId: 'product-service'
+        clientId: 'product-service' //TODO
       },
+
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: MockInterceptor,
+      multi: true,
     },
     KeycloakGuard,
+    KeycloakService,
+    // UserService
   ],
 })
 export class RemoteEntryModule {

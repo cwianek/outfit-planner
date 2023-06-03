@@ -1,15 +1,12 @@
 <h1 mat-dialog-title>Create an outift</h1>
 <div mat-dialog-content class="p-4 outfit-creator__modal d-flex flex-column">
 
-  <div class="row">
-    <div class="col-12 col-lg-3 order-lg-last outfit-creator__product-categories">
-      <div class="mb-1" *ngFor="let category of categories">
-        <a class="outfit-creator__category-link link-secondary" (click)="selectedCategory = category">{{category}}</a>
-      </div>
-    </div>
-      <div class="col-12 col-lg-9 outfit-creator__products-preview">
+  <div class="products-container pb-3">
+    <outfit-planner-mf-product-categories-list (categorySelected)="selectedCategory = $event" [orientation]="'vertical'"></outfit-planner-mf-product-categories-list>
+  </div>
+
+      <div class="col-12 outfit-creator__products-preview">
         <outfit-planner-mf-outfit-preview [outfit]="outfit"></outfit-planner-mf-outfit-preview>
-    </div>
   </div>
 
   <div>
@@ -20,7 +17,6 @@
     <!--  </cdk-virtual-scroll-viewport>-->
 
     <!--    <cdk-virtual-scroll-viewport itemSize="50"   class="example-viewport">-->
-    <div class="mt-3 mb-2">{{selectedCategory}}</div>
     <div class="pb-3 row">
       <div class="col-6 col-sm-4 col-lg-3" *ngFor="let product of productByCategory[selectedCategory]">
         <outfit-planner-mf-product-item

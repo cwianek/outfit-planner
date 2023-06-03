@@ -24,36 +24,42 @@ import {
 import {OutfitPreviewComponent} from './outfit-preview/outfit-preview.component';
 import {OutfitsService} from './services/outfits.service';
 import {KnobModule} from "primeng/knob";
+import {TabMenuModule} from "primeng/tabmenu";
+import {ProductCategoriesListComponent} from "./product-categories-list/product-categories-list.component";
+import {ButtonModule} from "primeng/button";
 
 @NgModule({
-    imports: [
-        CommonModule,
-        NgbDropdownModule,
-        ReactiveFormsModule,
-        NgbModalModule,
-        MatSlideToggleModule,
-        FormsModule,
-        MatDialogModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule,
-        MatSelectModule,
-        MatIconModule,
-        MatCardModule,
-        CdkVirtualScrollViewport,
-        CdkFixedSizeVirtualScroll,
-        CdkVirtualForOf,
-        CdkVirtualScrollableWindow,
-        NgbCarousel,
-        NgbSlide,
-        KnobModule,
-    ],
+  imports: [
+    CommonModule,
+    NgbDropdownModule,
+    ReactiveFormsModule,
+    NgbModalModule,
+    MatSlideToggleModule,
+    FormsModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatSelectModule,
+    MatIconModule,
+    MatCardModule,
+    CdkVirtualScrollViewport,
+    CdkFixedSizeVirtualScroll,
+    CdkVirtualForOf,
+    CdkVirtualScrollableWindow,
+    NgbCarousel,
+    NgbSlide,
+    KnobModule,
+    TabMenuModule,
+    ButtonModule,
+  ],
   declarations: [
     ProductModalComponent,
     ProductItemComponent,
     ProductsListComponent,
     OutfitCreatorComponent,
     OutfitPreviewComponent,
+    ProductCategoriesListComponent
   ],
   exports: [ProductItemComponent, ProductModalComponent, ProductsListComponent, OutfitPreviewComponent],
   providers: [

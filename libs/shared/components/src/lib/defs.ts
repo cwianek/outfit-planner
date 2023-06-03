@@ -1,3 +1,4 @@
+export type GroupedProducts = { [key: string]: Product[] };
 
 export interface Product {
   id: string;
@@ -37,10 +38,10 @@ export interface Link {
 }
 
 export enum ProductCategory{
-  Shoe = "SHOE",
+  Shoes = "SHOES",
   Tshirt = "T-SHIRT",
   Trousers = "TROUSERS",
   Jacket = "JACKET",
-  Hoodie = "HOODIE",
+  Sweatshirt = "SWEATSHIRT",
   Socks = "SOCKS"
 }

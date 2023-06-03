@@ -16,7 +16,7 @@ export class ProductItemComponent implements AfterViewInit {
   constructor(private productService: ProductsService) {}
 
   ngAfterViewInit(): void {
-    if(!this.product.id){
+    if(!this.product?.id){
       return;
     }
 

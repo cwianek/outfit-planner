@@ -1,31 +1,53 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {
-  BehaviorSubject,
+  BehaviorSubject, combineLatest,
   map,
   Observable,
 } from "rxjs";
-import {Product} from "../defs";
+import {GroupedProducts, Product, ProductCategory} from "../defs";
+import {UserService} from "@outfit-planner-mf/shared/auth";
 
-type GroupedProducts = { [key: string]: Product[] };
 
 @Component({
   selector: 'outfit-planner-mf-products-list',
   templateUrl: './products-list.component.html',
   styleUrls: ['./products-list.component.scss'],
 })
-export class ProductsListComponent implements OnChanges {
+export class ProductsListComponent implements OnChanges, OnInit {
+
+  @HostListener('window:resize', [])
+  onWindowResize() {
+    this.screenWidth = window.innerWidth;
+  }
+
+  viewModel: Observable<{
+    isLoggedIn: boolean,
+    groupedProducts: GroupedProducts
+  }> = new Observable();
 
   @Input() products: Product[] = [];
 
+  @Output() productAdded: EventEmitter<string> = new EventEmitter<string>();
+
+  screenWidth: number = 0;
+
   products$ = new BehaviorSubject<Product[] | null>(null);
 
-  groupedProducts$: Observable<{ [key: string]: Product[] }>;
+  isLoggedIn: Observable<boolean> = this.userService.isUserLoggedIn$;
 
-  constructor() {
+  groupedProducts$: Observable<GroupedProducts>;
+
+  activeCategory: string = Object.values(ProductCategory)[0];
+
+  constructor(private userService: UserService) {
     this.groupedProducts$ = this.products$.pipe(
       map((products) => products || []),
       map(this.groupProducts)
     )
+
+    this.viewModel = combineLatest([this.groupedProducts$, this.isLoggedIn]).pipe(map(([groupedProducts, isLoggedIn]) => {
+      return {isLoggedIn, groupedProducts }
+    }))
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -51,4 +73,11 @@ export class ProductsListComponent implements OnChanges {
     return grouped;
   }
 
+  onProductAdded() {
+    this.productAdded.emit(this.activeCategory);
+  }
+
+  ngOnInit(): void {
+    this.onWindowResize()
+  }
 }
