@@ -1,4 +1,4 @@
 {
-  "products": "https://products",
-  "outfits": "https://outfits"
+  "products": "/remote/products",
+  "outfits": "/remote/outfits"
 }
