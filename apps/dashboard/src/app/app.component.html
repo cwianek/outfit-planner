@@ -1,14 +1,14 @@
 <nav class="navbar sticky-top navbar-expand-lg shadow-1 ">
 <!--  <div style="position: absolute" class="navbar-brand" [routerLink]="''">Outfitplanner</div>-->
-  <div class="navbar-content container-fluid d-flex justify-content-between">
+  <div class="navbar-content container-fluid d-flex justify-content-between flex-nowrap">
     <div class="navbar-brand cursor-pointer" [routerLink]="''">Outfitplanner</div>
 
     <div class="d-flex justify-content-end buttons-container">
 
 
       <ng-container *ngTemplateOutlet="navigationButtonTemplate; context: { label: 'Dashboard', icon: 'fa-house', routerLink: ['./']  }"></ng-container>
-      <ng-container *ngTemplateOutlet="navigationButtonTemplate; context: { label: 'Outfits', icon: 'fa-shirt', routerLink: 'outfits'}"></ng-container>
       <ng-container *ngTemplateOutlet="navigationButtonTemplate; context: { label: 'Products', icon: 'fa-tags', routerLink: 'products' }"></ng-container>
+      <ng-container *ngTemplateOutlet="navigationButtonTemplate; context: { label: 'Outfits', icon: 'fa-shirt', routerLink: 'outfits'}"></ng-container>
 
     </div>
 
@@ -17,11 +17,9 @@
       <p-menu (onHide)="triggerTooltip()" (onShow)="triggerTooltip()" class="menu" #menu [model]="menuItems" [popup]="true"></p-menu>
 
       <div class="tooltip-container">
-        <p-button #target (onClick)="menu.toggle($event)" class="d-flex flex-column p-button-sm" [styleClass]="'p-button-rounded p-button-text p-button-sm p-button-secondary'">
-          <div>
+        <p-button #target (onClick)="menu.toggle($event)" class="d-flex flex-column p-button-sm"  [styleClass]="'p-button-rounded p-button-text p-button-secondary'">
             <mat-icon fontSet="fa" [ngClass]="{'navigation-button--active': (isLoggedIn$ | async)}" class="icon-display" [fontIcon]="'fa-bars'"></mat-icon>
             <mat-icon fontSet="fa" [ngClass]="{'navigation-button--active': (isLoggedIn$ | async)}" [fontIcon]="'fa-circle-user'"></mat-icon>
-          </div>
         </p-button>
       </div>
       <div

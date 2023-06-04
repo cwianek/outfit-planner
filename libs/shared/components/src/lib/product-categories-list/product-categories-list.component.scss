@@ -29,6 +29,7 @@
 
 .categories--vertical{
   flex-direction: row;
+  flex-wrap: wrap;
 
   .tab-button--active::after {
     content: "";

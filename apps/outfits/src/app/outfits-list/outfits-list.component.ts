@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges,
   ViewChild,
   ViewEncapsulation
@@ -10,7 +11,7 @@ import {
   OutfitsService,
   ToggleWearOutfitRequest
 } from '@outfit-planner-mf/shared/components';
-import {NgbCarousel} from "@ng-bootstrap/ng-bootstrap";
+import {NgbCarousel, NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
 import {map, switchMap} from "rxjs";
 import {MenuItem} from "primeng/api";
 import {UserService} from "@outfit-planner-mf/shared/auth";
@@ -21,13 +22,14 @@ import {UserService} from "@outfit-planner-mf/shared/auth";
   styleUrls: ['./outfits-list.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class OutfitsListComponent implements OnInit, OnChanges {
+export class OutfitsListComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() outfits: Outfit[] = [];
 
   @Output() categorySelected: EventEmitter<string> = new EventEmitter<string>();
   @Output() newOutfitClicked: EventEmitter<void> = new EventEmitter<void>();
 
   @ViewChild('carousel', {static: true}) carousel: NgbCarousel | undefined;
+  @ViewChild('loginTooltip') loginTooltip: NgbTooltip | null = null;
 
   orderedOutfits: Outfit[] = [];
   isLoggedIn$ = this.userService.isUserLoggedIn$;
@@ -106,5 +108,23 @@ export class OutfitsListComponent implements OnInit, OnChanges {
 
   onMoreActionClick() {
 
+  }
+
+  ngAfterViewInit(): void {
+      this.isLoggedIn$.subscribe((isLoggedIn) => {
+        if(isLoggedIn){
+          this.closeTooltip();
+          return
+        }
+        this.loginTooltip?.isOpen() ? this.closeTooltip() : this.openTooltip();
+      })
+    }
+
+  private openTooltip() {
+    return this.loginTooltip?.open();
+  }
+
+  private closeTooltip() {
+    return this.loginTooltip?.close();
   }
 }

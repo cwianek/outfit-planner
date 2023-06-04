@@ -16,6 +16,13 @@
   .navbar-brand{
     display: none;
   }
+  .icon-display{
+    display: none;
+  }
+
+  .p-button{
+    padding: 0.5rem 0.5rem;
+  }
 }
 
 .icon-container__text{
@@ -29,7 +36,7 @@
 }
 
 .buttons-container{
-  margin-right: 20px;
+  //margin-right: 20px;
 }
 
 .navbar{
@@ -66,7 +73,8 @@ body{
 }
 
 .tooltip-inner{
-  font-size: 12px;
+  max-width: 80px;
+  font-size: 11px;
   opacity: 0.4;
 
   &:hover{

@@ -37,6 +37,38 @@
   }
 
 
+  @media screen and (max-width: 768px) {
+    &__T-SHIRT{
+      height: 135px;
+      scale: 0.9;
+    }
+
+    &__JACKET{
+      height: 135px;
+      position: relative;
+      bottom: 30px;
+    }
+
+    &__SWEATSHIRT{
+      height: 135px;
+      position: relative;
+      bottom: 15px;
+      scale: 0.95;
+    }
+
+    &__SOCKS{
+      height: 75px;
+    }
+
+    &__TROUSERS{
+      height: 165px;
+    }
+
+    &__SHOES{
+      height: 60px;
+    }
+  }
+
 
 
   //&__image-width {
