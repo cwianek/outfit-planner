@@ -1,0 +1,56 @@
+@import "libs/shared/styles/variables";
+
+.outfits-carousel {
+
+  &__wrapper {
+    border: none;
+  }
+
+  &__header {
+    font-size: $header-font-size;
+    color: $secondary-color;;
+  }
+
+  &__action-button {
+    overflow: visible;
+    z-index: 1;
+    position: absolute;
+    right: 0;
+    color: #64748B !important;
+  }
+
+  &__match-probability {
+    color: #64748B;
+    font-size: 18px;
+  }
+
+  &__worn-toggle {
+    color: #ff4081 !important;
+  }
+
+  &__worn-toggle--filled {
+    background-color: #ff4081 !important;
+    color: white;
+    border-color: #ff4081;
+  }
+
+  &__wrapper {
+    margin: 0 50px 50px 50px;
+  }
+
+  @media screen and (max-width: $md-min-width) {
+
+    &__wrapper {
+      margin: 0 5px 5px 5px;
+    }
+
+    .p-carousel-prev {
+      margin-right: 0 !important;
+    }
+
+    .p-carousel-next {
+      margin-left: 0 !important;
+    }
+
+  }
+}

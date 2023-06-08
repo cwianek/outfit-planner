@@ -1,54 +1,11 @@
-<nav class="navbar sticky-top navbar-expand-lg shadow-1 ">
-<!--  <div style="position: absolute" class="navbar-brand" [routerLink]="''">Outfitplanner</div>-->
-  <div class="navbar-content container-fluid d-flex justify-content-between flex-nowrap">
-    <div class="navbar-brand cursor-pointer" [routerLink]="''">Outfitplanner</div>
+<outfit-planner-mf-navigation-bar>
+</outfit-planner-mf-navigation-bar>
 
-    <div class="d-flex justify-content-end buttons-container">
+<p-progressSpinner
+  *ngIf="showSpinner"
+  class="spinner">
+</p-progressSpinner>
 
-
-      <ng-container *ngTemplateOutlet="navigationButtonTemplate; context: { label: 'Dashboard', icon: 'fa-house', routerLink: ['./']  }"></ng-container>
-      <ng-container *ngTemplateOutlet="navigationButtonTemplate; context: { label: 'Products', icon: 'fa-tags', routerLink: 'products' }"></ng-container>
-      <ng-container *ngTemplateOutlet="navigationButtonTemplate; context: { label: 'Outfits', icon: 'fa-shirt', routerLink: 'outfits'}"></ng-container>
-
-    </div>
-
-
-    <div class="log-in" *ngIf="(items | async) as menuItems">
-      <p-menu (onHide)="triggerTooltip()" (onShow)="triggerTooltip()" class="menu" #menu [model]="menuItems" [popup]="true"></p-menu>
-
-      <div class="tooltip-container">
-        <p-button #target (onClick)="menu.toggle($event)" class="d-flex flex-column p-button-sm"  [styleClass]="'p-button-rounded p-button-text p-button-secondary'">
-            <mat-icon fontSet="fa" [ngClass]="{'navigation-button--active': (isLoggedIn$ | async)}" class="icon-display" [fontIcon]="'fa-bars'"></mat-icon>
-            <mat-icon fontSet="fa" [ngClass]="{'navigation-button--active': (isLoggedIn$ | async)}" [fontIcon]="'fa-circle-user'"></mat-icon>
-        </p-button>
-      </div>
-      <div
-        [positionTarget]="'target'"
-        [autoClose]="false"
-        #loginTooltip="ngbTooltip"
-        triggers="manual"
-        placement="bottom"
-        [ngbTooltip]="'Log in to create your own outfits'"
-        [openDelay]="300"
-        [closeDelay]="500">
-      </div>
-    </div>
-  </div>
-
-</nav>
-
-<main>
+<main *ngIf="!showSpinner">
   <router-outlet></router-outlet>
 </main>
-
-
-<ng-template #navigationButtonTemplate let-label="label" let-icon="icon" let-routerLink="routerLink">
-  <div class="navigation-button" routerLinkActive #active="routerLinkActive" [routerLinkActiveOptions]="{exact: true}" [routerLink]="routerLink">
-    <p-button class="d-flex flex-column" [styleClass]="active.isActive ? 'p-button-text navigation-button--active' : 'p-button-text p-button-secondary'">
-      <div>
-        <mat-icon fontSet="fa" [fontIcon]="icon"></mat-icon>
-        <div class="navbutton__label">{{ label }}</div>
-      </div>
-    </p-button>
-  </div>
-</ng-template>

@@ -1,0 +1,14 @@
+@import "libs/shared/styles/variables";
+
+.products-list{
+
+  &__item{
+    align-self: center;
+  }
+
+  @media screen and (max-width: $lg-min-width) {
+    &__container {
+      flex-direction: column !important;
+    }
+  }
+}

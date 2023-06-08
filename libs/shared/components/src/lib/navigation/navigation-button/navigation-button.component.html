@@ -1,0 +1,15 @@
+<div class="navigation-button"
+     routerLinkActive
+     #active="routerLinkActive"
+     [routerLinkActiveOptions]="{exact: true}"
+     [routerLink]="link">
+  <p-button class="d-flex flex-column"
+            [styleClass]="active.isActive ? 'p-button-text navigation-button--active' : 'p-button-text p-button-secondary'">
+    <div>
+      <mat-icon fontSet="fa"
+                [fontIcon]="icon">
+      </mat-icon>
+      <div>{{ label }}</div>
+    </div>
+  </p-button>
+</div>

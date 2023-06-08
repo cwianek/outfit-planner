@@ -1,4 +1,4 @@
-import {APP_INITIALIZER, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppComponent} from './app.component';
@@ -7,29 +7,33 @@ import {RouterModule} from '@angular/router';
 import {appRoutes} from './app.routes';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {provideAnimations} from "@angular/platform-browser/animations";
-import {ProductsService, SharedComponentsModule} from "@outfit-planner-mf/shared/components";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {ButtonModule} from "primeng/button";
 import {SidebarModule} from "primeng/sidebar";
 import {KeycloakAngularModule, KeycloakBearerInterceptor, KeycloakService} from "keycloak-angular";
-import {KEYCLOAK_GUARD_CONFIG, KeycloakGuard, UserService} from "@outfit-planner-mf/shared/auth";
+import {KEYCLOAK_GUARD_CONFIG, KeycloakGuard} from "@outfit-planner-mf/shared/auth";
 import {MenuModule} from "primeng/menu";
 import {NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
+import {NavigationBarComponent} from "./navigation-bar/navigation-bar.component";
+import {NavigationComponentsModule} from "@outfit-planner-mf/shared/components";
+import {ProgressSpinnerModule} from "primeng/progressspinner";
 @NgModule({
-  declarations: [AppComponent, NxWelcomeComponent],
-    imports: [
-        BrowserModule,
-        HttpClientModule,
-        RouterModule.forRoot(appRoutes, {initialNavigation: 'enabledBlocking'}),
-        MatIconModule,
-        MatButtonModule,
-        ButtonModule,
-        SidebarModule,
-        KeycloakAngularModule,
-        MenuModule,
-        NgbTooltip
-    ],
+  declarations: [AppComponent, NxWelcomeComponent, NavigationBarComponent],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    RouterModule.forRoot(appRoutes, {initialNavigation: 'enabledBlocking'}),
+    MatIconModule,
+    MatButtonModule,
+    ButtonModule,
+    SidebarModule,
+    KeycloakAngularModule,
+    MenuModule,
+    NgbTooltip,
+    NavigationComponentsModule,
+    ProgressSpinnerModule
+  ],
   providers: [
     provideAnimations(),
     {

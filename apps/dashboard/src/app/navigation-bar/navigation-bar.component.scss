@@ -1,0 +1,41 @@
+@import "libs/shared/styles/variables";
+
+.navigation-bar {
+  background-color: white;
+  opacity: 0.95;
+  padding: 0;
+
+  &__brand-name {
+    display: none;
+    font-size: $header-font-size;
+  }
+
+  .navigation-button, .navigation-log-in__button {
+    scale: 0.75;
+
+    &--active {
+      color: #ff4081 !important;
+    }
+  }
+
+  .p-button {
+    padding: 0.2rem 0.1rem;
+  }
+
+  @media screen and (min-width: $sm-min-width) {
+    &__brand-name {
+      display: block;
+      cursor: pointer;
+    }
+    .p-button {
+      padding: 0.75rem 1rem;
+    }
+  }
+
+  .mat-icon {
+    font-size: 24px !important;
+    min-width: 30px;
+    height: 24px;
+  }
+}
+

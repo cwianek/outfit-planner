@@ -13,7 +13,6 @@ export class MockInterceptor implements HttpInterceptor {
       take(1),
       switchMap((authenticated: boolean) => {
         if (!authenticated && (request.url.includes("/api"))) {
-          // Modify the request path if user is not authenticated
           const modifiedRequest = request.clone({ url: this.appendWordAfterSecondSlash(request.url, "mock") });
           return next.handle(modifiedRequest);
         }
@@ -23,7 +22,7 @@ export class MockInterceptor implements HttpInterceptor {
     );
   }
 
-  appendWordAfterSecondSlash(inputUrl: string, wordToAppend: string): string {
+  private appendWordAfterSecondSlash(inputUrl: string, wordToAppend: string): string {
     const urlParts = inputUrl.match(/[^/"]+|"(?:\\"|[^"])+"/g) || [];
     if (urlParts && urlParts.length >= 3) {
       urlParts.splice(2, 0, wordToAppend);

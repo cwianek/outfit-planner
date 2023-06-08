@@ -1,0 +1,5 @@
+export * from './product-components.module'
+export * from './product-categories-list/product-categories-list.component'
+export * from './product-item/product-item.component'
+export * from './product-modal/product-modal.component'
+export * from './products-list/products-list.component'

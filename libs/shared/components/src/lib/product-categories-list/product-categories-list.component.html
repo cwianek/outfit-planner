@@ -1,9 +1,0 @@
-<div class="categories d-flex justify-content-center"
-     [ngClass]="{'categories--horizontal': orientation === 'horizontal', 'categories--vertical': orientation === 'vertical'}">
-  <div class="tab-button"
-       *ngFor="let category of categories"
-       [ngClass]="{'tab-button--active': category == selectedCategory}"
-       (click)="onCategorySelected(category)">
-    {{category}}
-  </div>
-</div>

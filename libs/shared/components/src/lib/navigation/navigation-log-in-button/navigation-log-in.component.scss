@@ -1,0 +1,17 @@
+.navigation-log-in {
+
+  .tooltip-inner {
+    max-width: 80px;
+    font-size: 11px;
+    opacity: 0.3;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+
+  .tooltip-arrow::before {
+    opacity: 0.3;
+  }
+
+}

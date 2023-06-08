@@ -1,0 +1,8 @@
+<div class="product-item d-flex align-items-center justify-content-center"
+     [ngClass]="{'product-item--empty': !product?.id}">
+  <img #imgRef
+       alt=""
+       class="rounded-1 product-item__image"
+       [ngClass]="'product-item__' + product?.category"
+  />
+</div>

@@ -1,0 +1,39 @@
+<div class="outfit-creator">
+  <h1 mat-dialog-title>Create an outift</h1>
+
+  <div mat-dialog-content
+       class="p-4 outfit-creator__modal">
+
+    <div class="pb-3">
+      <outfit-planner-mf-product-categories-list
+        (categorySelected)="selectedCategory = $event"
+        [orientation]="categoriesOrientation.Vertical">
+      </outfit-planner-mf-product-categories-list>
+    </div>
+
+    <div class="col-12">
+      <outfit-planner-mf-outfit-preview [outfit]="outfit"></outfit-planner-mf-outfit-preview>
+    </div>
+
+    <div>
+      <div class="pb-3 row">
+        <div class="col-6 col-sm-4 col-lg-3"
+             *ngFor="let product of productByCategory[selectedCategory]">
+          <outfit-planner-mf-product-item
+            (click)="addItem(product)"
+            [product]="product">
+          </outfit-planner-mf-product-item>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="mt-2"
+       mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button [mat-dialog-close]="outfit">Add
+    </button>
+  </div>
+
+</div>

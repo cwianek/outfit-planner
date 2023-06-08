@@ -1,14 +1,14 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {
   Product,
-  ProductAddedResult, ProductCategory,
+  ProductCategory,
   ProductModalComponent,
-  ProductModalData,
   ProductsService
 } from "@outfit-planner-mf/shared/components";
 import {Observable, Subscription} from "rxjs";
 import {MatDialog} from '@angular/material/dialog';
 import {UserService} from "@outfit-planner-mf/shared/auth";
+import {ProductAddedResult, ProductModalData} from "../../../../../libs/shared/components/src/lib/product/defs";
 
 @Component({
   selector: 'outfit-planner-mf-product-list-container',

@@ -1,17 +1,17 @@
-FROM node:16-alpine3.12 as build
-
-ARG APP_NAME
-
-WORKDIR /app
-
-COPY . .
-#COPY ./package.json .
-
-RUN npm install -g @angular/cli
-RUN npm install -g nx
-
-RUN npm install
-RUN nx build ${APP_NAME}
+#FROM node:16-alpine3.12 as build
+#
+#ARG APP_NAME
+#
+#WORKDIR /app
+#
+#COPY . .
+##COPY ./package.json .
+#
+##RUN npm install -g @angular/cli
+##RUN npm install -g nx
+#
+##RUN npm install
+##RUN nx build ${APP_NAME}
 
 FROM nginx:1.21-alpine
 ARG APP_NAME
@@ -20,8 +20,10 @@ ARG APP_NAME
 
 
 WORKDIR /app
-COPY --from=build /app/dist/apps/${APP_NAME} /usr/share/nginx/html
-COPY --from=build /app/nginx.conf /etc/nginx/templates/nginx.conf.template
+COPY . .
+
+#COPY --from=build /app/dist/apps/${APP_NAME} /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/templates/nginx.conf.template
 
 
 EXPOSE 80

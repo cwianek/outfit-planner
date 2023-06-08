@@ -1,0 +1,11 @@
+<div class="outfit-preview container-fluid d-flex justify-content-between flex-column">
+  <div class="row d-flex justify-content-center"
+       *ngFor="let productsRow of alignedProducts">
+    <div class="col-6 col-sm-4"
+         *ngFor="let product of productsRow">
+      <outfit-planner-mf-product-item
+        [product]="product">
+      </outfit-planner-mf-product-item>
+    </div>
+  </div>
+</div>

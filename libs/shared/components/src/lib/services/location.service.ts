@@ -1,8 +1,6 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable, shareReplay, tap} from "rxjs";
-import {Cache, InvalidateCache, SharedCacheService} from "./shared-cache.service";
-import {CreateOutfitRequest, Geolocation, Outfit, ToggleWearOutfitRequest} from "../defs";
+import {Observable} from "rxjs";
+import {Geolocation} from "../defs";
 
 @Injectable({
   providedIn: 'root'

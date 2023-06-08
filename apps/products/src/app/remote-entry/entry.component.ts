@@ -1,5 +1,4 @@
 import {ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
-import {UserService} from "@outfit-planner-mf/shared/auth";
 
 @Component({
   selector: 'outfit-planner-mf-products-entry',

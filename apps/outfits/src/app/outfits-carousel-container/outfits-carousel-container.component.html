@@ -1,0 +1,6 @@
+<ng-container *ngIf="outfits$ | async as outfits">
+  <outfit-planner-mf-outfits-carousel
+    (newOutfitCreation)="openOutfitCreatorModal()"
+    [outfits]="outfits">
+  </outfit-planner-mf-outfits-carousel>
+</ng-container>

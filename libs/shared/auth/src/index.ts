@@ -1,5 +1,4 @@
 export * from './lib/shared-auth.module';
 export * from './lib/user.service';
 export * from './lib/keycloak.guard'
-// export * from './lib/user.resolver'
 export * from './lib/mock-interceptor'

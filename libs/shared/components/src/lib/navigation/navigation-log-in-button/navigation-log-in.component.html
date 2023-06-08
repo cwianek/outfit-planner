@@ -1,0 +1,35 @@
+<div class="navigation-log-in"
+     *ngIf="(menuItems$ | async) as menuItems">
+  <p-menu (onHide)="triggerTooltip()"
+          (onShow)="triggerTooltip()"
+          class="menu"
+          #menu
+          [model]="menuItems"
+          [popup]="true">
+  </p-menu>
+  <div class="tooltip-container">
+    <p-button #target
+              (onClick)="menu.toggle($event)"
+              class="d-flex flex-column p-button-sm"
+              [styleClass]="'p-button-rounded p-button-text p-button-secondary'">
+      <mat-icon fontSet="fa"
+                [ngClass]="{'navigation-log-in__button--active': (isLoggedIn$ | async)}"
+                class="icon-display"
+                [fontIcon]="'fa-bars'">
+      </mat-icon>
+      <mat-icon fontSet="fa"
+                [ngClass]="{'navigation-log-in__button--active': (isLoggedIn$ | async)}"
+                [fontIcon]="'fa-circle-user'">
+      </mat-icon>
+    </p-button>
+  </div>
+  <div [positionTarget]="'target'"
+       [autoClose]="false"
+       #loginTooltip="ngbTooltip"
+       triggers="manual"
+       placement="bottom"
+       [ngbTooltip]="'Log in to create your own outfits'"
+       [openDelay]="300"
+       [closeDelay]="500">
+  </div>
+</div>

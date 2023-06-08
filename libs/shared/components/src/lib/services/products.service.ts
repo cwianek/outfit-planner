@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable, shareReplay, switchMap, tap} from "rxjs";
-import {Cache, InvalidateCache, SharedCacheService} from "./shared-cache.service";
-import {UserService} from "@outfit-planner-mf/shared/auth";
+import {Observable} from "rxjs";
+import {Cache, InvalidateCache} from "./shared-cache.service";
 import {Product} from "../defs";
 
 @Injectable({
@@ -10,20 +9,12 @@ import {Product} from "../defs";
 })
 export class ProductsService {
 
-  constructor(private httpClient: HttpClient, private userService: UserService) {
+  constructor(private httpClient: HttpClient) {
   }
 
   @Cache("products")
   getProducts(): Observable<Product[]> {
-          return this.httpClient.get<Product[]>('/api/products')
-    //
-    // return this.userService.isUserLoggedIn$.pipe(
-    //   switchMap((isLoggedIn) => {
-    //     if (isLoggedIn) {
-    //       return this.httpClient.get<Product[]>('/api/products')
-    //     }
-    //     return this.httpClient.get<Product[]>('/api/products/mock')
-    //   }))
+    return this.httpClient.get<Product[]>('/api/products')
   }
 
   @InvalidateCache("products")

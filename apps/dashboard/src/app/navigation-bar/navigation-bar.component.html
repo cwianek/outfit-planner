@@ -1,0 +1,15 @@
+<nav class="navigation-bar navbar sticky-top navbar-expand-lg shadow-1">
+  <div class="navigation-bar__content navbar-content container-fluid d-flex justify-content-between flex-nowrap">
+    <div class="navigation-bar__brand-name cursor-pointer"
+         [routerLink]="''">Outfitplanner
+    </div>
+    <div class="d-flex justify-content-end">
+      <outfit-planner-mf-navigation-button *ngFor="let item of navigationItems"
+                                           [icon]="item.icon"
+                                           [label]="item.label"
+                                           [link]="item.link">
+      </outfit-planner-mf-navigation-button>
+    </div>
+    <outfit-planner-mf-navigation-login-in></outfit-planner-mf-navigation-login-in>
+  </div>
+</nav>
