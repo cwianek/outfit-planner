@@ -16,12 +16,10 @@
     text-align: end;
   }
 
-  .product-item {
+  .product-item.product-item--empty{
+    max-width: 0;
+    max-height: 0;
     min-height: 10vh;
-
-    &__image {
-      width: 115px;
-    }
   }
 
 }

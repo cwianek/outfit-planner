@@ -51,8 +51,8 @@ export class OutfitsListContainerComponent implements AfterViewInit{
     }
     const dialogRef = this.dialog.open(OutfitCreatorComponent, {
       data: modalData,
-      minWidth: '500px',
-      // minHeight: '700px',
+      minWidth: '350px',
+      // minHeight: '500px',
       maxWidth: '700px'
     });
 

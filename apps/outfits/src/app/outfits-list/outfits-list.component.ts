@@ -25,7 +25,6 @@ import {UserService} from "@outfit-planner-mf/shared/auth";
 export class OutfitsListComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() outfits: Outfit[] = [];
 
-  @Output() categorySelected: EventEmitter<string> = new EventEmitter<string>();
   @Output() newOutfitClicked: EventEmitter<void> = new EventEmitter<void>();
 
   @ViewChild('carousel', {static: true}) carousel: NgbCarousel | undefined;
@@ -111,13 +110,13 @@ export class OutfitsListComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-      this.isLoggedIn$.subscribe((isLoggedIn) => {
-        if(isLoggedIn){
-          this.closeTooltip();
-          return
-        }
-        this.loginTooltip?.isOpen() ? this.closeTooltip() : this.openTooltip();
-      })
+      // this.isLoggedIn$.subscribe((isLoggedIn) => {
+      //   if(isLoggedIn){
+      //     this.closeTooltip();
+      //     return
+      //   }
+      //   this.loginTooltip?.isOpen() ? this.closeTooltip() : this.openTooltip();
+      // })
     }
 
   private openTooltip() {

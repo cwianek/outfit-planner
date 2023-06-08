@@ -25,6 +25,17 @@
   }
 }
 
+
+@media screen and (max-width: 576px) {
+  .icon-display{
+    display: none;
+  }
+
+  .p-button{
+    padding: 0.2rem 0.1rem;
+  }
+}
+
 .icon-container__text{
   font-size: 12px;
 }
@@ -82,6 +93,9 @@ body{
   }
 }
 
+.tooltip-arrow::before{
+  opacity: 0.4;
+}
 //.tooltip-container{
 //  position: relative;
 //}

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
-import {Observable, switchMap} from 'rxjs';
+import {Observable, switchMap, take} from 'rxjs';
 import { UserService } from '..';
 
 @Injectable()
@@ -10,6 +10,7 @@ export class MockInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return this.userService.isUserLoggedIn$.pipe(
+      take(1),
       switchMap((authenticated: boolean) => {
         if (!authenticated && (request.url.includes("/api"))) {
           // Modify the request path if user is not authenticated

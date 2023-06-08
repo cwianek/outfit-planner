@@ -1,88 +1,43 @@
 .product-item {
-
   caret-color: transparent;
+  padding-bottom: 10px;
 
-  &__image{
-    //width: 135px;
-  }
+  $element-heights: (
+    'T-SHIRT': 180px,
+    'JACKET': 180px,
+    'SWEATSHIRT': 180px,
+    'SOCKS': 100px,
+    'TROUSERS': 220px,
+    'SHOES': 80px,
+  );
 
-  &__T-SHIRT{
-    height: 180px;
-    scale: 0.9;
-  }
+  $screen-breakpoints: (
+    'xs': 0px,
+    'sm': 576px,
+  );
 
-  &__JACKET{
-    height: 180px;
-    position: relative;
-    bottom: 30px;
-  }
+  $xs-screen-rate: 0.7;
+  $sm-screen-rate: 1;
 
-  &__SWEATSHIRT{
-    height: 180px;
-    position: relative;
-    bottom: 15px;
-    scale: 0.95;
-  }
+  @each $breakpoint, $min-width in $screen-breakpoints {
+    @media screen and (min-width: $min-width) {
+      @each $element, $height in $element-heights {
+        &__#{$element} {
+          height: $height;
 
-  &__SOCKS{
-    height: 100px;
-  }
-
-  &__TROUSERS{
-    height: 220px;
-  }
-
-  &__SHOES{
-    height: 80px;
-  }
-
-
-  @media screen and (max-width: 768px) {
-    &__T-SHIRT{
-      height: 135px;
-      scale: 0.9;
-    }
-
-    &__JACKET{
-      height: 135px;
-      position: relative;
-      bottom: 30px;
-    }
-
-    &__SWEATSHIRT{
-      height: 135px;
-      position: relative;
-      bottom: 15px;
-      scale: 0.95;
-    }
-
-    &__SOCKS{
-      height: 75px;
-    }
-
-    &__TROUSERS{
-      height: 165px;
-    }
-
-    &__SHOES{
-      height: 60px;
+          @if $breakpoint == 'xs' {
+            height: calc($height * $xs-screen-rate);
+          } @else if $breakpoint == 'sm' {
+            height: calc(#{$height} * $sm-screen-rate);
+          }
+        }
+      }
     }
   }
-
-
-
-  //&__image-width {
-  //  width: 150px;
-  //  //&-SHOE {
-  //  //  width: 150px;
-  //  //}
-  //  //
-  //  //&-T-SHIRT {
-  //  //  width: 200px;
-  //  //}
-  //}
 }
 
-.product-empty{
-  align-self: center;
+.product-item.product-item--empty{
+  //max-width: 0;
+  //max-height: 0;
 }
+
