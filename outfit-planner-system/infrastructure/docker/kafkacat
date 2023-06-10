@@ -1,0 +1,5 @@
+docker run --rm -it --entrypoint bash --network outfit-planner-system_outfit-planner-system confluentinc/cp-kafkacat
+
+kafkacat -C -b kafka-broker-1:9092 -t product
+
+kafkacat -b kafka-broker-2:29092 -L

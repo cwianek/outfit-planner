@@ -1,0 +1,3 @@
+product-service:
+  issuers: http://products123/auth/realms/outfitplanner-realm,http://dashboard/auth/realms/outfitplanner-realm,http://products-dev/auth/realms/outfitplanner-realm
+

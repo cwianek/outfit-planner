@@ -1,0 +1,138 @@
+version: '3.7'
+
+volumes:
+  frontend-app:
+    driver_opts:
+      type: none
+      device: ${OUTFIT_PLANNER_MF_PATH}
+      o: bind
+
+services:
+
+  products-app:
+    hostname: products-development
+    #    command: nx run products:serve:development
+    ports:
+      - "4201:4201"
+    build:
+      context: ../../../outfit-planner-mf
+      dockerfile: Dockerfile-serve
+    environment:
+      APP_NAME: products
+    volumes:
+      - frontend-app:/app
+#      - shared-node-modules:/app/node_modules
+    networks:
+      - outfit-planner-system
+#
+  outfits-app:
+    hostname: outfits-development
+    #    command: nx run products:serve:development
+#    ports:
+#      - "4202:4202"
+    build:
+      context: ../../../outfit-planner-mf
+      dockerfile: Dockerfile-serve
+    environment:
+      APP_NAME: outfits
+    volumes:
+      - frontend-app:/app
+
+#      - mono-node-modules:/app/node_modules
+    networks:
+      - ${GLOBAL_NETWORK:-kafka}
+#
+  dashboard-app:
+    hostname: dashboard-development
+#    ports:
+##      - "4200:4200"
+##      - "4208:4201"
+##      - "4209:4202"
+    build:
+      context: ../../../outfit-planner-mf
+      dockerfile: Dockerfile-serve
+    environment:
+      APP_NAME: dashboard
+    volumes:
+      - frontend-app:/app
+
+#      - mono-node-modules:/app/node_modules
+    networks:
+      - ${GLOBAL_NETWORK:-kafka}
+
+  products-dev-proxy:
+#    restart: always
+    hostname: products-dev
+    build:
+      context: .
+      dockerfile: dev-proxy/Dockerfile
+    expose:
+      - 443
+      - 80
+    volumes:
+      - ${CERTS_PATH}:/etc/nginx/certs
+    environment:
+      FRONTEND_ENDPOINT_URL: http://products-development:4201
+      VIRTUAL_HOST: products-dev
+      VIRTUAL_PORT: 443
+      NGINX_ENVSUBST_OUTPUT_DIR: /etc/nginx
+      HTTPS_METHOD: redirect
+      VIRTUAL_PROTO: https
+    networks:
+      - ${GLOBAL_NETWORK:-kafka}
+    depends_on:
+      keycloak-authorization-server:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "https://localhost/healthcheck", "--fail", "--insecure"]
+      interval: 20s
+      timeout: 5s
+      retries: 25
+#
+  outfits-dev-proxy:
+#    restart: always
+    hostname: outfits-dev
+    build:
+      context: .
+      dockerfile: dev-proxy/Dockerfile
+    expose:
+      - 443
+      - 80
+    volumes:
+      - ${CERTS_PATH}:/etc/nginx/certs
+    environment:
+      FRONTEND_ENDPOINT_URL: http://outfits-development:4202
+      VIRTUAL_HOST: outfits-dev
+      VIRTUAL_PORT: 443
+      NGINX_ENVSUBST_OUTPUT_DIR: /etc/nginx
+      HTTPS_METHOD: redirect
+      VIRTUAL_PROTO: https
+    networks:
+      - ${GLOBAL_NETWORK:-kafka}
+    depends_on:
+      keycloak-authorization-server:
+        condition: service_healthy
+#
+  dashboard-dev-proxy:
+#    restart: always
+    hostname: dashboard-dev
+    build:
+      context: .
+      dockerfile: dev-proxy/Dockerfile
+    expose:
+      - 443
+      - 80
+    volumes:
+      - ${CERTS_PATH}:/etc/nginx/certs
+    environment:
+      FRONTEND_ENDPOINT_URL: http://dashboard-development:4200
+      VIRTUAL_HOST: dashboard-dev
+      VIRTUAL_PORT: 443
+      NGINX_ENVSUBST_OUTPUT_DIR: /etc/nginx
+      HTTPS_METHOD: redirect
+      VIRTUAL_PROTO: https
+    networks:
+      - ${GLOBAL_NETWORK:-kafka}
+    depends_on:
+      keycloak-authorization-server:
+        condition: service_healthy

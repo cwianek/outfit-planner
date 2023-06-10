@@ -1,0 +1,8 @@
+version: '3.7'
+
+networks:
+  outfit-planner-system:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${SUBNET:-172.70.0.0/24}

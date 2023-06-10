@@ -1,0 +1,76 @@
+server:
+  port: 8184
+  servlet:
+    context-path: /api
+
+logging:
+  level:
+    com.outfit.planner.system: DEBUG
+    org.apache: DEBUG
+    org.springframework.security: DEBUG
+
+product-service:
+  product-topic-name: product
+  outbox-scheduler-fixed-rate: 10000
+  outbox-scheduler-initial-delay: 10000
+  custom-audience: product-service
+  issuers: ${KEYCLOAK_ADDITIONAL_ISSUERS:http://localhost:8082/auth/realms/outfitplanner-realm}
+#  issuers: http://keycloak-server:8082/auth/realms/outfitplanner-realm
+  #issuers: https://products-dev/auth/realms/outfitplanner-realm,https://dashboard-dev/auth/realms/outfitplanner-realm
+#  issuers: https://products-dev/auth/realms/outfitplanner-realm
+#  issuers: https://products-dev/auth/realms/outfitplanner-realm
+
+spring:
+  jpa:
+    open-in-view: false
+    show-sql: false
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL9Dialect
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/postgres?currentSchema=product&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified}
+    username: ${SPRING_DATASOURCE_USERNAME:admin}
+    password: ${SPRING_DATASOURCE_PASSWORD:admin}
+    driver-class-name: org.postgresql.Driver
+#    separator: ^;
+  sql:
+    init:
+      mode: ALWAYS
+      schema-locations: classpath:init-schema.sql
+#      platform: postgres
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+#          issuer-uri: ${KEYCLOAK_ISSUER_URI:https://products-dev/auth/realms/outfitplanner-realm}
+          issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:8082/auth/realms/outfitplanner-realm}
+          jwk-set-uri: ${KEYCLOAK_JWK_SET_URI:http://localhost:8082/auth/realms/outfitplanner-realm/protocol/openid-connect/certs}
+  devtools:
+    livereload:
+      enabled: false
+    restart:
+      enabled: false
+
+kafka-config:
+  bootstrap-servers: ${KAFKA-CONFIG_BOOTSTRAP-SERVERS:localhost:19092}
+  schema-registry-url-key: schema.registry.url
+  schema-registry-url: ${KAFKA-CONFIG_SCHEMA-REGISTRY-URL:http://localhost:8081}
+  #num-of-partitions: 3
+  num-of-partitions: 1
+  #replication-factor: 3
+  replication-factor: 1
+  topic-names-to-create:
+    - product
+
+kafka-producer-config:
+  key-serializer-class: org.apache.kafka.common.serialization.StringSerializer
+  value-serializer-class: io.confluent.kafka.serializers.KafkaAvroSerializer
+  compression-type: snappy
+  acks: all
+  batch-size: 16384
+  batch-size-boost-factor: 100
+  linger-ms: 5
+  request-timeout-ms: 60000
+  retry-count: 5
+

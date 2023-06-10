@@ -1,0 +1,31 @@
+{
+  "namespace": "com.outfit.planner.system.kafka.product.avro.model",
+  "type": "record",
+  "name": "ProductAvroModel",
+  "fields": [
+      {
+        "name": "messageId",
+        "type": {
+          "type": "string"
+        }
+      },
+    {
+      "name": "id",
+      "type": {
+        "type": "string"
+      }
+    },
+    {
+      "name": "category",
+      "type": {
+        "type": "string"
+      }
+    },
+    {
+      "name": "username",
+      "type": {
+        "type": "string"
+      }
+   }
+  ]
+}

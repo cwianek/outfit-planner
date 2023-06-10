@@ -1,0 +1,31 @@
+version: '3.7'
+
+
+services:
+  nginx-proxy:
+    restart: always
+    image: nginxproxy/nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ${DOCKER_SOCK_PATH}:/tmp/docker.sock:ro
+      - ${CERTS_PATH}:/etc/nginx/certs
+    networks:
+      - ${GLOBAL_NETWORK:-kafka}
+
+  services-proxy:
+    restart: always
+    hostname: services-proxy
+    build:
+      context: .
+      dockerfile: services-proxy/Dockerfile
+    volumes:
+      - ${CERTS_PATH}:/etc/nginx/certs
+    networks:
+      - ${GLOBAL_NETWORK:-kafka}
+    depends_on:
+      keycloak-authorization-server:
+        condition: service_healthy
+
+

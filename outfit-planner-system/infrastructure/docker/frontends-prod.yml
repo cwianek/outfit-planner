@@ -1,0 +1,101 @@
+version: '3.7'
+
+services:
+
+  products-proxy:
+    restart: always
+    hostname: products
+    build:
+      context: ../../../outfit-planner-mf
+#      dockerfile: products-proxy/Dockerfile
+      dockerfile: Dockerfile-build
+      args:
+        APP_NAME: products
+    expose:
+      - 80
+      - 443
+    environment:
+      VIRTUAL_HOST: products
+      VIRTUAL_PORT: 443
+      NGINX_ENVSUBST_OUTPUT_DIR: /etc/nginx
+      HTTPS_METHOD: redirect
+      VIRTUAL_PROTO: https
+    volumes:
+      - ${CERTS_PATH}:/etc/nginx/certs
+#      - frontend-build-products:/usr/share/nginx/html:ro
+#      - /mnt/c/Projekty/outfit-planner/outfit-planner-mf/node_modules:/app/node_modules
+      - /mnt/c/Projekty/outfit-planner/outfit-planner-mf/dist/apps/products:/usr/share/nginx/html
+#      - frontend-build/dist/apps/products:/usr/share/nginx/html
+    networks:
+      - ${GLOBAL_NETWORK:-kafka}
+    depends_on:
+      keycloak-authorization-server:
+        condition: service_healthy
+
+  outfits-proxy:
+    restart: always
+    hostname: outfits
+    build:
+      context: ../../../outfit-planner-mf
+      #      dockerfile: products-proxy/Dockerfile
+      dockerfile: Dockerfile-build
+      args:
+        APP_NAME: outfits
+    expose:
+      - 80
+      - 443
+    environment:
+      VIRTUAL_HOST: outfits
+      VIRTUAL_PORT: 443
+      NGINX_ENVSUBST_OUTPUT_DIR: /etc/nginx
+      HTTPS_METHOD: redirect
+      VIRTUAL_PROTO: https
+    volumes:
+      - ${CERTS_PATH}:/etc/nginx/certs
+#      - /mnt/c/Projekty/outfit-planner/outfit-planner-mf/node_modules:/app/node_modules
+
+    #      - frontend-build-outfits:/usr/share/nginx/html:ro
+
+      - /mnt/c/Projekty/outfit-planner/outfit-planner-mf/dist/apps/outfits:/usr/share/nginx/html
+    networks:
+      - ${GLOBAL_NETWORK:-kafka}
+    depends_on:
+      keycloak-authorization-server:
+        condition: service_healthy
+
+  dashboard-proxy:
+    restart: always
+    hostname: ${DASHBOARD_HOST:-dashboard}
+    build:
+      context: ../../../outfit-planner-mf
+      #      dockerfile: products-proxy/Dockerfile
+      dockerfile: Dockerfile-build
+      args:
+        APP_NAME: dashboard
+    expose:
+      - 80
+      - 443
+    environment:
+      VIRTUAL_HOST: ${DASHBOARD_HOST:-dashboard}
+      VIRTUAL_PORT: 443
+      NGINX_ENVSUBST_OUTPUT_DIR: /etc/nginx
+      HTTPS_METHOD: redirect
+      VIRTUAL_PROTO: https
+    volumes:
+      - ${CERTS_PATH}:/etc/nginx/certs
+#      - /mnt/c/Projekty/outfit-planner/outfit-planner-mf/node_modules:/app/node_modules
+
+    #      - frontend-build-dashboard:/usr/share/nginx/html:ro
+      - /mnt/c/Projekty/outfit-planner/outfit-planner-mf/dist/apps/dashboard:/usr/share/nginx/html
+    networks:
+      - ${GLOBAL_NETWORK:-kafka}
+    depends_on:
+      keycloak-authorization-server:
+        condition: service_healthy
+
+networks:
+  outfit-planner-system:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.50.0.0/24
