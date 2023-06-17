@@ -4,8 +4,6 @@ import com.outfit.planner.system.kafka.product.avro.model.ProductAvroModel;
 import com.outfit.planner.system.product.service.domain.event.ProductCreatedEvent;
 import org.springframework.stereotype.Component;
 
-import java.nio.ByteBuffer;
-
 @Component
 public class ProductMessagingDataMapper {
 

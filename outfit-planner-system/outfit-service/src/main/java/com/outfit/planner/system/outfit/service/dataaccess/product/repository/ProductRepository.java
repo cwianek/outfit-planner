@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface ProductRepository extends MongoRepository<ProductEntity, String> {
 
-//    List<ProductEntity> findAllById(List<String> ids);
     List<ProductEntity> findAllByUsername(String username);
 
 }

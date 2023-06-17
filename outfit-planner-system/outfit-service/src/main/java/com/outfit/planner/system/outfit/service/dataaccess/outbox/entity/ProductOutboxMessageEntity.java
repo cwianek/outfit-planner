@@ -1,5 +1,4 @@
 package com.outfit.planner.system.outfit.service.dataaccess.outbox.entity;//package com.outfitplanner.cloth.service.domain.temp;
-//
 import com.outfit.planner.system.outbox.OutboxStatus;
 import com.outfit.planner.system.outfit.service.dataaccess.product.entity.ProductEntity;
 import lombok.AllArgsConstructor;

@@ -22,12 +22,9 @@ public class ProductOutboxHelper {
     private final ProductMessagningDataMapper productMessagningDataMapper;
     private final ProductOutboxMessageRepository productOutboxMessageRepository;
 
-    private final ProductMessageListener productMessageListener;
-
-    public ProductOutboxHelper(ProductMessagningDataMapper productMessagningDataMapper, ProductOutboxMessageRepository productOutboxMessageRepository, ProductMessageListener productMessageListener) {
+    public ProductOutboxHelper(ProductMessagningDataMapper productMessagningDataMapper, ProductOutboxMessageRepository productOutboxMessageRepository) {
         this.productMessagningDataMapper = productMessagningDataMapper;
         this.productOutboxMessageRepository = productOutboxMessageRepository;
-        this.productMessageListener = productMessageListener;
     }
 
     @Transactional
@@ -42,10 +39,6 @@ public class ProductOutboxHelper {
         ProductOutboxMessageEntity productOutboxMessage = productMessagningDataMapper.productAvroModelToProductOutboxMessageEntity(productAvroModel);
         productOutboxMessage.setOutboxStatus(OutboxStatus.STARTED);
         productOutboxMessageRepository.save(productOutboxMessage);
-
-//        ProductEntity productEntity = productMessagningDataMapper
-//                .productAvroModelToProductModel(productAvroModel);
-//        productMessageListener.productCreated(productEntity);
     }
 
     @Transactional(readOnly = true)

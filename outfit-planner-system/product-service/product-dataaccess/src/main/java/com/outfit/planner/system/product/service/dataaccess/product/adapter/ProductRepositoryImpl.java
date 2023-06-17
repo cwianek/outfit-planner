@@ -24,7 +24,6 @@ public class ProductRepositoryImpl implements ProductRepository {
         this.productDataAccessMapper = productDataAccessMapper;
     }
 
-
     @Override
     public List<Product> getProducts(GetProductsCriteria criteria) {
         return productJpaRepository.findAllByUsername(criteria.getUsername()).stream()

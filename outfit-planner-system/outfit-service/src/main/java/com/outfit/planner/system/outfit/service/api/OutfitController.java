@@ -23,7 +23,6 @@ import java.util.List;
 public class OutfitController {
 
     private final OutfitsService outfitsService;
-
     public OutfitController(OutfitsService outfitsService) {
         this.outfitsService = outfitsService;
     }

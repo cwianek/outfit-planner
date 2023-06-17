@@ -39,7 +39,7 @@ public class ProductCreatedEventKafkaPublisher implements ProductMessagePublishe
     }
 
 
-    public <T> T getOrderEventPayload(String payload, Class<T> outputType) {
+    public <T> T getProductEventPayload(String payload, Class<T> outputType) {
         try {
             return objectMapper.readValue(payload, outputType);
         } catch (JsonProcessingException e) {
@@ -74,11 +74,11 @@ public class ProductCreatedEventKafkaPublisher implements ProductMessagePublishe
     @Override
     public void publish(ProductOutboxMessage productOutboxMessage, BiConsumer<ProductOutboxMessage, OutboxStatus> outboxCallback) {
         ProductCreatedEvent productCreatedEvent =
-                getOrderEventPayload(productOutboxMessage.getPayload(),
+                getProductEventPayload(productOutboxMessage.getPayload(),
                         ProductCreatedEvent.class);
         UUID messageId = productOutboxMessage.getId();
 
-        log.info("Received CustomerCreatedEvent for customer id: {}",
+        log.info("Received ProductCreatedEvent for product id: {}",
                 productCreatedEvent.getProduct().getId());
         try {
             ProductAvroModel productAvroModel = productMessagingDataMapper
@@ -88,10 +88,10 @@ public class ProductCreatedEventKafkaPublisher implements ProductMessagePublishe
                     productAvroModel,
                     getCallback(productServiceConfigData.getProductTopicName(), productAvroModel, productOutboxMessage, outboxCallback));
 
-            log.info("CustomerCreatedEvent sent to kafka for customer id: {}",
+            log.info("ProductCreatedEvent sent to kafka for product id: {}",
                     productAvroModel.getId());
         } catch (Exception e) {
-            log.error("Error while sending CustomerCreatedEvent to kafka for customer id: {}," +
+            log.error("Error while sending ProductCreatedEvent to kafka for product id: {}," +
                     " error: {}", productCreatedEvent.getProduct().getId(), e.getMessage());
         }
     }

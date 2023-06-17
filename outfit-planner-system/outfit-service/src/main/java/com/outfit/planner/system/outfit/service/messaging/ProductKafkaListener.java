@@ -16,13 +16,11 @@ import java.util.List;
 @Component
 public class ProductKafkaListener implements KafkaConsumer<ProductAvroModel> {
 
-
     private final ProductOutboxHelper productOutboxHelper;
 
     public ProductKafkaListener(ProductOutboxHelper productOutboxHelper) {
         this.productOutboxHelper = productOutboxHelper;
     }
-
 
     @Override
     @KafkaListener(id = "${kafka-consumer-config.product-group-id}", topics = "${outfit-service.product-topic-name}")
@@ -30,7 +28,7 @@ public class ProductKafkaListener implements KafkaConsumer<ProductAvroModel> {
                         @Header(KafkaHeaders.RECEIVED_KEY) List<String> keys,
                         @Header(KafkaHeaders.RECEIVED_PARTITION) List<Integer> partitions,
                         @Header(KafkaHeaders.OFFSET) List<Long> offsets) {
-        log.info("{} number of customer create messages received with keys {}, partitions {} and offsets {}",
+        log.info("{} messages received with keys {}, partitions {} and offsets {}",
                 messages.size(),
                 keys.toString(),
                 partitions.toString(),

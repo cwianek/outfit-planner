@@ -30,11 +30,11 @@ public class ProductOutboxHelper {
     public void save(ProductOutboxMessage productOutboxMessage) {
         ProductOutboxMessage message = productOutboxRepository.save(productOutboxMessage);
         if (message == null) {
-            log.error("Could not save OrderPaymentOutboxMessage with outbox id: {}", productOutboxMessage.getId());
-            throw new RuntimeException("Could not save OrderPaymentOutboxMessage with outbox id: " +
+            log.error("Could not save ProductOutboxMessage with outbox id: {}", productOutboxMessage.getId());
+            throw new RuntimeException("Could not save ProductOutboxMessage with outbox id: " +
                     productOutboxMessage.getId());
         }
-        log.info("OrderPaymentOutboxMessage saved with outbox id: {}", productOutboxMessage.getId());
+        log.info("ProductOutboxMessage saved with outbox id: {}", productOutboxMessage.getId());
     }
 
     @Transactional(readOnly = true)
@@ -49,8 +49,6 @@ public class ProductOutboxHelper {
                                          OutboxStatus outboxStatus) {
         save(ProductOutboxMessage.builder()
                 .id(UUID.randomUUID())
-//                .createdAt(paymentEventPayload.getCreatedAt())
-//                .type(ORDER_SAGA_NAME)
                 .payload(createPayload(productCreatedEvent))
                 .outboxStatus(outboxStatus)
                 .build());

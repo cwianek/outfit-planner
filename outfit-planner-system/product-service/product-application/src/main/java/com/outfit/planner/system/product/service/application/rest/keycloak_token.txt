@@ -1,7 +1,0 @@
-curl --location --request POST 'http://localhost:8082/auth/realms/outfitplanner-realm/protocol/openid-connect/token' \
---header 'Content-Type: application/x-www-form-urlencoded' \
---data-urlencode 'username=app_user' \
---data-urlencode 'password=user' \
---data-urlencode 'grant_type=password' \
---data-urlencode 'client_id=product-service' \
---data-urlencode 'client_secret=9e0d419b-2cd5-4557-8982-873a7e83e66e'

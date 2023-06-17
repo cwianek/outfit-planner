@@ -1,7 +1,6 @@
 package com.outfit.planner.system.outfit.service.external.weather;
 
 import com.outfit.planner.system.outfit.service.business.model.Geolocation;
-import com.outfit.planner.system.outfit.service.business.model.ToggleWearOutfitRequest;
 import com.outfit.planner.system.outfit.service.dataaccess.outfithistory.entity.WeatherConditions;
 import com.outfit.planner.system.outfit.service.external.weather.model.WeatherResponse;
 import com.outfit.planner.system.outfit.service.mapper.WeatherMapper;

@@ -34,28 +34,25 @@ public class ProductOutboxScheduler implements OutboxScheduler {
         List<ProductOutboxMessageEntity> outboxMessages = productOutboxHelper.getProductOutboxMessageByOutboxStatus(
                 OutboxStatus.STARTED);
 
-        if (!CollectionUtils.isEmpty(outboxMessages)) {
-            log.info("Received {} OrderPaymentOutboxMessage with ids: {}, sending to message bus!",
-                    outboxMessages.size(),
-                    outboxMessages.stream()
-                            .map(ProductOutboxMessageEntity::getId)
-                            .collect(Collectors.joining(",")));
-
-            outboxMessages.forEach(outboxMessage -> {
-
-                productMessageListener.productCreated(outboxMessage.getPayload());
-
-                updateOutboxStatus(outboxMessage, OutboxStatus.COMPLETED);
-            });
-
-            log.info("{} OrderPaymentOutboxMessage sent to message bus!", outboxMessages.size());
+        if (CollectionUtils.isEmpty(outboxMessages)) {
+            return;
         }
 
+        log.info("Received {} ProductMessage with ids: {}, sending to message bus!",
+                outboxMessages.size(),
+                outboxMessages.stream()
+                        .map(ProductOutboxMessageEntity::getId)
+                        .collect(Collectors.joining(",")));
+
+        outboxMessages.forEach(outboxMessage -> {
+            productMessageListener.productCreated(outboxMessage.getPayload());
+            updateOutboxStatus(outboxMessage, OutboxStatus.COMPLETED);
+        });
     }
 
     private void updateOutboxStatus(ProductOutboxMessageEntity productOutboxMessage, OutboxStatus outboxStatus) {
         productOutboxMessage.setOutboxStatus(outboxStatus);
         productOutboxHelper.save(productOutboxMessage);
-        log.info("OrderPaymentOutboxMessage is updated with outbox status: {}", outboxStatus.name());
+        log.info("ProductOutboxMessage is updated with outbox status: {}", outboxStatus.name());
     }
 }

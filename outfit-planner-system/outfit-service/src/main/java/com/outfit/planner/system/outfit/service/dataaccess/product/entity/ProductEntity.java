@@ -1,5 +1,4 @@
 package com.outfit.planner.system.outfit.service.dataaccess.product.entity;//package com.outfitplanner.cloth.service.domain.temp;
-//
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

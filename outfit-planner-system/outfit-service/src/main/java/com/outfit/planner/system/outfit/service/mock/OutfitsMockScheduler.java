@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import static com.outfit.planner.system.outfit.service.security.Constants.MOCK;
+
 @Slf4j
 @Component
 public class OutfitsMockScheduler {
@@ -33,12 +35,12 @@ public class OutfitsMockScheduler {
     @Transactional
     @Scheduled(fixedRate = 20000)
     public void createMockedOutfits() {
-        List<OutfitEntity> anyOutfits = outfitRepository.findOutfitEntityByUsername("mock");
+        List<OutfitEntity> anyOutfits = outfitRepository.findOutfitEntityByUsername(MOCK);
         if (!anyOutfits.isEmpty()) {
             return;
         }
 
-        Map<String, List<ProductEntity>> productsByCategory = productRepository.findAllByUsername("mock").stream()
+        Map<String, List<ProductEntity>> productsByCategory = productRepository.findAllByUsername(MOCK).stream()
                 .collect(Collectors.groupingBy(ProductEntity::getCategory));
 
         Integer size = getOutfitsSize(productsByCategory);
@@ -70,7 +72,7 @@ public class OutfitsMockScheduler {
 
         CreateOutfitRequest request = new CreateOutfitRequest();
         request.setProductsIds(ids);
-        request.setUsername("mock");
+        request.setUsername(MOCK);
         outfitsService.createOutfit(request);
     }
 }

@@ -22,17 +22,16 @@ public class ProductServiceJwtConverter implements Converter<Jwt, AbstractAuthen
     private static final String DEFAULT_ROLE_PREFIX = "ROLE_";
     private static final String DEFAULT_SCOPE_PREFIX = "SCOPE_";
     private static final String SCOPE_SEPARATOR = " ";
-    private final ProductQueryUserDetailsService productQueryUserDetailsService;
+    private final ProductUserDetailsService productUserDetailsService;
 
-    public ProductServiceJwtConverter(ProductQueryUserDetailsService productQueryUserDetailsService) {
-        this.productQueryUserDetailsService = productQueryUserDetailsService;
+    public ProductServiceJwtConverter(ProductUserDetailsService productUserDetailsService) {
+        this.productUserDetailsService = productUserDetailsService;
     }
 
     @Override
     public AbstractAuthenticationToken convert(Jwt jwt) {
         Collection<GrantedAuthority> authoritiesFromJwt = getAuthoritiesFromJwt(jwt);
-        return Optional.ofNullable(
-                        productQueryUserDetailsService.loadUserByUsername(jwt.getClaimAsString(USERNAME_CLAIM)))
+        return Optional.ofNullable(productUserDetailsService.loadUserByUsername(jwt.getClaimAsString(USERNAME_CLAIM)))
                 .map(userDetails -> {
                     ((ProductServiceUser) userDetails).setAuthorities(authoritiesFromJwt);
                     return new UsernamePasswordAuthenticationToken(userDetails, NA, authoritiesFromJwt);

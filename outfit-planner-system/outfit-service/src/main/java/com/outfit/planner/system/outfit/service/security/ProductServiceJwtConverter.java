@@ -21,20 +21,20 @@ public class ProductServiceJwtConverter implements Converter<Jwt, AbstractAuthen
     private static final String DEFAULT_ROLE_PREFIX = "ROLE_";
     private static final String DEFAULT_SCOPE_PREFIX = "SCOPE_";
     private static final String SCOPE_SEPARATOR = " ";
-    private final ProductQueryUserDetailsService productQueryUserDetailsService;
+    private final OutfitsUserDetailsService outfitsUserDetailsService;
 
-    public ProductServiceJwtConverter(ProductQueryUserDetailsService productQueryUserDetailsService) {
-        this.productQueryUserDetailsService = productQueryUserDetailsService;
+    public ProductServiceJwtConverter(OutfitsUserDetailsService outfitsUserDetailsService) {
+        this.outfitsUserDetailsService = outfitsUserDetailsService;
     }
 
     @Override
     public AbstractAuthenticationToken convert(Jwt jwt) {
         Collection<GrantedAuthority> authoritiesFromJwt = getAuthoritiesFromJwt(jwt);
         return Optional.ofNullable(
-                        productQueryUserDetailsService.loadUserByUsername(jwt.getClaimAsString(USERNAME_CLAIM)))
+                        outfitsUserDetailsService.loadUserByUsername(jwt.getClaimAsString(USERNAME_CLAIM)))
                 .map(userDetails -> {
                     ((OutfitsServiceUser) userDetails).setAuthorities(authoritiesFromJwt);
-                    return new UsernamePasswordAuthenticationToken(userDetails, "N/A", authoritiesFromJwt);
+                    return new UsernamePasswordAuthenticationToken(userDetails, Constants.NA, authoritiesFromJwt);
                 })
                 .orElseThrow(() -> new BadCredentialsException("User could not be found!"));
     }

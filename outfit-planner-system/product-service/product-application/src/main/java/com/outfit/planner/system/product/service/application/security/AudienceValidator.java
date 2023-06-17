@@ -18,7 +18,6 @@ public class AudienceValidator implements OAuth2TokenValidator<Jwt> {
         this.productServiceConfigData = productServiceConfigData;
     }
 
-
     @Override
     public OAuth2TokenValidatorResult validate(Jwt jwt) {
         if (jwt.getAudience().contains(productServiceConfigData.getCustomAudience())) {

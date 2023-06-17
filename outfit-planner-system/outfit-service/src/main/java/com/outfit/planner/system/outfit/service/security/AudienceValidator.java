@@ -11,8 +11,6 @@ import org.springframework.stereotype.Component;
 @Qualifier("outfit-service-audience-validator")
 public class AudienceValidator implements OAuth2TokenValidator<Jwt> {
 
-
-    @Override
     public OAuth2TokenValidatorResult validate(Jwt jwt) {
         if (jwt.getAudience().contains("outfit-service")) {
             return OAuth2TokenValidatorResult.success();

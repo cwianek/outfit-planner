@@ -7,6 +7,6 @@ import java.time.ZonedDateTime;
 
 @Data
 public class ProductCreatedEvent {
-    Product product;
-    ZonedDateTime createdAt;
+    private Product product;
+    private ZonedDateTime createdAt;
 }

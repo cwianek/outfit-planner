@@ -60,10 +60,10 @@ public class OutfitServiceImpl implements OutfitsService {
     public List<OutfitDto> predictOutfits(PredictOutfitsRequest request) {
         List<OutfitEntity> outfits = outfitRepository.findAllByUsername(request.getUsername());
         List<String> wornToday = getOutfitsIdsWornToday(outfits);
-        List<OutfitDto> outfitDtos = outfitDataMapper.outfitsResultToOutfitDTO(outfits, wornToday);
-        predictionService.appendPredictions(outfitDtos, request.getGeolocation());
+        List<OutfitDto> outfitDTOs = outfitDataMapper.outfitsResultToOutfitDTO(outfits, wornToday);
+        predictionService.appendPredictions(outfitDTOs, request.getGeolocation());
 
-        return outfitDtos;
+        return outfitDTOs;
     }
 
     private List<String> getOutfitsIdsWornToday(List<OutfitEntity> outfitEntities) {

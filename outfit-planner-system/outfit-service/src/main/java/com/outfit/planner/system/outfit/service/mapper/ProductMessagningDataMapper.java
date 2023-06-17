@@ -5,8 +5,6 @@ import com.outfit.planner.system.outfit.service.dataaccess.outbox.entity.Product
 import com.outfit.planner.system.outfit.service.dataaccess.product.entity.ProductEntity;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
 @Component
 public class ProductMessagningDataMapper {
 
