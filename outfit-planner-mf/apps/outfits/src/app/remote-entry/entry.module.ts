@@ -10,7 +10,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {KEYCLOAK_GUARD_CONFIG, KeycloakGuard, MockInterceptor} from "@outfit-planner-mf/shared/auth";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
-import {SharedComponentsModule} from "@outfit-planner-mf/shared/components";
+import {CommonComponentsModule, SharedComponentsModule} from "@outfit-planner-mf/shared/components";
 import {CarouselModule} from "primeng/carousel";
 import {ButtonModule} from "primeng/button";
 import {MenuModule} from "primeng/menu";
@@ -24,19 +24,19 @@ import {OutfitsCarouselComponent} from "../outfits-carousel/outfits-carousel.com
     OutfitsCarouselContainerComponent,
     OutfitsCarouselComponent
   ],
-  imports: [CommonModule,
-    RouterModule.forChild(remoteRoutes),
-    MatCardModule,
-    KeycloakAngularModule,
-    MatIconModule,
-    MatButtonModule,
-    SharedComponentsModule,
-    HttpClientModule,
-    CarouselModule,
-    ButtonModule,
-    MenuModule,
-    ToastModule
-  ],
+    imports: [CommonModule,
+        RouterModule.forChild(remoteRoutes),
+        MatCardModule,
+        KeycloakAngularModule,
+        MatIconModule,
+        MatButtonModule,
+        SharedComponentsModule,
+        HttpClientModule,
+        CarouselModule,
+        ButtonModule,
+        MenuModule,
+        ToastModule, CommonComponentsModule
+    ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

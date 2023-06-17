@@ -12,7 +12,7 @@ import {
   ToggleWearOutfitRequest
 } from '@outfit-planner-mf/shared/components';
 import {NgbCarousel, NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
-import {map, switchMap} from "rxjs";
+import {filter, first, map, Observable, switchMap} from "rxjs";
 import {MenuItem} from "primeng/api";
 import {UserService} from "@outfit-planner-mf/shared/auth";
 
@@ -75,12 +75,20 @@ export class OutfitsCarouselComponent implements OnChanges {
 
   toggleSelection(outfit: Outfit) {
     outfit.wornToday = !outfit.wornToday
-    this.locationService.getLocation().pipe(
-      map((geolocation) => this.createRequest(geolocation, outfit.id)),
-      switchMap((request) => this.outfitService.toggleWear(request))
+    this.userService.isUserLoggedIn$.pipe(
+      first(),
+      filter((isLogged) => isLogged),
+      switchMap(() => this.toggleWear(outfit))
     ).subscribe((worn) => {
       outfit.wornToday = worn;
-    });
+    })
+  }
+
+  private toggleWear = (outfit: Outfit): Observable<boolean> => {
+    return this.locationService.getLocation().pipe(
+      map((geolocation) => this.createRequest(geolocation, outfit.id)),
+      switchMap((request) => this.outfitService.toggleWear(request))
+    );
   }
 
   private createRequest = (geolocation: Geolocation, id: string): ToggleWearOutfitRequest => {

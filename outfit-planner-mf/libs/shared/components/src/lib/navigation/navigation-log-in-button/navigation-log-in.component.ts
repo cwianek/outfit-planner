@@ -12,7 +12,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./navigation-log-in.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class NavigationLogInComponent implements AfterViewInit {
+export class NavigationLogInComponent {
 
   @ViewChild('loginTooltip') loginTooltip: NgbTooltip | null = null;
 
@@ -46,30 +46,6 @@ export class NavigationLogInComponent implements AfterViewInit {
     ]
 
     return isLoggedIn ? loggedInItems : notLoggedInItems
-  }
-
-  ngAfterViewInit(): void {
-    this.triggerTooltip();
-  }
-
-  triggerTooltip() {
-    this.isLoggedIn$
-      .pipe(first())
-      .subscribe((isLoggedIn) => {
-        if (isLoggedIn) {
-          this.closeTooltip();
-          return
-        }
-        this.loginTooltip?.isOpen() ? this.closeTooltip() : this.openTooltip();
-      })
-  }
-
-  private openTooltip() {
-    return this.loginTooltip?.open();
-  }
-
-  private closeTooltip() {
-    return this.loginTooltip?.close();
   }
 
 }

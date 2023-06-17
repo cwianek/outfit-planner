@@ -8,7 +8,8 @@
 
   &__header {
     font-size: $header-font-size;
-    color: $secondary-color;;
+    color: $secondary-color;
+    padding: 0 $standard-padding-3x $standard-padding-3x $standard-padding-3x;
   }
 
   &__action-button {
@@ -16,11 +17,11 @@
     z-index: 1;
     position: absolute;
     right: 0;
-    color: #64748B !important;
+    color: $secondary-color !important;
   }
 
   &__match-probability {
-    color: #64748B;
+    color: $secondary-color;
     font-size: 18px;
   }
 

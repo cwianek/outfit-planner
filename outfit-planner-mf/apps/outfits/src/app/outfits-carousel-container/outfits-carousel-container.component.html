@@ -1,6 +1,19 @@
-<ng-container *ngIf="outfits$ | async as outfits">
-  <outfit-planner-mf-outfits-carousel
-    (newOutfitCreation)="openOutfitCreatorModal()"
-    [outfits]="outfits">
-  </outfit-planner-mf-outfits-carousel>
-</ng-container>
+<div class="outfits-carousel-container">
+
+  <div class="outfits-carousel-container__message">
+    <outfit-planner-mf-message-card
+      *ngIf="!(isLoggedIn$ | async)"
+      [severity]="'info'"
+      [detail]="messageText"
+      [id]="'outfits-carousel-container-message-1'">
+    </outfit-planner-mf-message-card>
+  </div>
+
+  <ng-container *ngIf="outfits$ | async as outfits">
+    <outfit-planner-mf-outfits-carousel
+      (newOutfitCreation)="openOutfitCreatorModal()"
+      [outfits]="outfits">
+    </outfit-planner-mf-outfits-carousel>
+  </ng-container>
+
+</div>

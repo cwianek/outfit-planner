@@ -1,0 +1,29 @@
+<div class="instruction-timeline">
+  <div class="row col-12 col-sm-10 offset-sm-1 offset-md-3 col-md-6">
+    <p-timeline
+      [value]="events"
+      [align]="timelineAlign"
+      styleClass="customized-timeline">
+
+      <ng-template pTemplate="marker" let-event>
+        <span class="instruction-timeline__timeline-number shadow-sm">
+          <span>{{event.number}}</span>
+        </span>
+      </ng-template>
+
+      <ng-template
+        pTemplate="content"
+        let-event>
+        <div class="shadow-sm m-3 p-3">
+          <div class="instruction-timeline__card-title">
+            {{event.status}}
+          </div>
+          <p class="instruction-timeline__description">
+            {{event.description}}
+          </p>
+        </div>
+      </ng-template>
+
+    </p-timeline>
+  </div>
+</div>

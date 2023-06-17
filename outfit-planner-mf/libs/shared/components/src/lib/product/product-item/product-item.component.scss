@@ -30,7 +30,7 @@
           @if $breakpoint == 'xs' {
             height: calc($height * $xs-screen-rate);
           } @else if $breakpoint == 'sm' {
-            height: calc(#{$height} * $sm-screen-rate);
+            height: calc($height * $sm-screen-rate);
           }
         }
       }

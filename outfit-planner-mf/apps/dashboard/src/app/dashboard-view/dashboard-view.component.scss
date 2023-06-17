@@ -1,0 +1,26 @@
+@import "libs/shared/styles/variables";
+
+.dashboard-view{
+
+  display: flex;
+  flex-direction: column;
+
+  &__header{
+    background-color: $primary-color;
+    color: white;
+    font-size: $header-font-size;
+    padding: $standard-padding-2x;
+    margin: $standard-padding-3x;
+    border-radius: 10px;
+  }
+
+  &__sub-header{
+    font-size: $subheader-font-size;
+    color: $secondary-color;
+    padding: $standard-padding-2x;
+    margin-bottom: $standard-padding;
+  }
+
+
+
+}

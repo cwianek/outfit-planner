@@ -1,7 +1,14 @@
-<section class="p-4 pb-4 products-list"
+<section class="products-list"
          *ngIf="(viewModel | async) as vm">
-  <div class="products-list__container flex-row container-fluid d-flex">
 
+  <outfit-planner-mf-message-card
+    *ngIf="!vm.isLoggedIn"
+    [severity]="'info'"
+    [detail]="messageText"
+    [id]="'product-list-message-1'">
+  </outfit-planner-mf-message-card>
+
+  <div class="products-list__container flex-row container-fluid d-flex">
     <div>
       <outfit-planner-mf-product-categories-list
         [orientation]="categoriesOrientation"

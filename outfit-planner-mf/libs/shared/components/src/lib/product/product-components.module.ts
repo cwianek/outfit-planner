@@ -17,25 +17,29 @@ import {MatCardModule} from "@angular/material/card";
 import {ProductItemComponent} from "./product-item/product-item.component";
 import {ProductModalComponent} from "./product-modal/product-modal.component";
 import {ProductsListComponent} from "./products-list/products-list.component";
+import {MessagesModule} from "primeng/messages";
+import {CommonComponentsModule} from "../common";
 
 @NgModule({
-  imports: [
-    ButtonModule,
-    MatIconModule,
-    RouterLink,
-    RouterLinkActive,
-    MenuModule,
-    CommonModule,
-    NgbTooltip,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    MatDialogModule,
-    MatButtonModule,
-    MatInputModule,
-    MatOptionModule,
-    MatSelectModule,
-    MatCardModule
-  ],
+    imports: [
+        ButtonModule,
+        MatIconModule,
+        RouterLink,
+        RouterLinkActive,
+        MenuModule,
+        CommonModule,
+        NgbTooltip,
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatDialogModule,
+        MatButtonModule,
+        MatInputModule,
+        MatOptionModule,
+        MatSelectModule,
+        MatCardModule,
+        MessagesModule,
+        CommonComponentsModule
+    ],
   declarations: [
     ProductCategoriesListComponent,
     ProductItemComponent,

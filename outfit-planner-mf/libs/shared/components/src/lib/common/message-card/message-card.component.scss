@@ -1,0 +1,28 @@
+@import "libs/shared/styles/variables";
+
+.message-card {
+
+  .p-message {
+    font-size: $small-font-size;
+    margin: 0 $standard-padding-2x $standard-padding-3x $standard-padding-2x;
+
+    & .p-message-wrapper {
+      padding: $standard-padding-2x $standard-padding-2x;
+    }
+
+    & .p-message-icon {
+      display: none;
+    }
+  }
+
+  @media screen and (min-width: $sm-min-width) {
+    .p-message {
+      font-size: $normal-font-size;
+      margin: 0 0 $standard-padding-3x 0;
+
+      & .p-message-icon {
+        display: block;
+      }
+    }
+  }
+}

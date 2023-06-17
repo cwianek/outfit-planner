@@ -18,7 +18,7 @@ export class NavigationBarComponent {
       link: ['./']
     },
     {
-      label: 'Products',
+      label: 'Clothes',
       icon: 'fa-tags',
       link: 'products'
     },

@@ -1,10 +1,12 @@
+@import "libs/shared/styles/variables";
+
 .product-categories {
 
   &__tab-button {
     text-transform: lowercase;
     cursor: pointer;
     display: inline-block;
-    padding: 10px 20px;
+    padding: $standard-padding $standard-padding-2x;
     border: none;
     color: #333;
     position: relative;
@@ -24,14 +26,14 @@
       left: 0;
       width: 4px;
       height: 100%;
-      background-color: #ff0000;
+      background-color: $primary-color;
     }
   }
 
   &--vertical {
     flex-direction: row;
     flex-wrap: wrap;
-    padding-bottom: 10px;
+    padding-bottom: $standard-padding-3x;
 
     .tab-button--active::after {
       content: "";
@@ -40,7 +42,7 @@
       left: 0;
       width: 100%;
       height: 4px;
-      background-color: #ff0000;
+      background-color: $primary-color;
     }
 
     .categories {

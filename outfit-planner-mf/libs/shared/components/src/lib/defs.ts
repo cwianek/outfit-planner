@@ -45,3 +45,7 @@ export enum ProductCategory{
   Sweatshirt = "SWEATSHIRT",
   Socks = "SOCKS"
 }
+
+export enum ScreenResolutions {
+  Large = 992
+}

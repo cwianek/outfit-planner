@@ -2,13 +2,24 @@
 
 .products-list{
 
+  padding: $standard-padding-3x 0;
+
   &__item{
     align-self: center;
   }
 
-  @media screen and (max-width: $lg-min-width) {
+  &__container {
+    flex-direction: column !important;
+  }
+
+  @media screen and (min-width: $sm-min-width) {
+    padding: $standard-padding-3x;
+  }
+
+  @media screen and (min-width: $lg-min-width) {
     &__container {
-      flex-direction: column !important;
+      flex-direction: row !important;
     }
   }
+
 }

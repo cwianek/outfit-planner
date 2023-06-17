@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppComponent} from './app.component';
-import {NxWelcomeComponent} from './nx-welcome.component';
 import {RouterModule} from '@angular/router';
 import {appRoutes} from './app.routes';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
@@ -18,22 +17,35 @@ import {NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
 import {NavigationBarComponent} from "./navigation-bar/navigation-bar.component";
 import {NavigationComponentsModule} from "@outfit-planner-mf/shared/components";
 import {ProgressSpinnerModule} from "primeng/progressspinner";
+import {DashboardViewComponent} from "./dashboard-view/dashboard-view.component";
+import {CardModule} from "primeng/card";
+import {TimelineModule} from "primeng/timeline";
+import {SkeletonModule} from "primeng/skeleton";
+import {InstructionTimelineComponent} from "./instruction-timeline/instruction-timeline.component";
 @NgModule({
-  declarations: [AppComponent, NxWelcomeComponent, NavigationBarComponent],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    RouterModule.forRoot(appRoutes, {initialNavigation: 'enabledBlocking'}),
-    MatIconModule,
-    MatButtonModule,
-    ButtonModule,
-    SidebarModule,
-    KeycloakAngularModule,
-    MenuModule,
-    NgbTooltip,
-    NavigationComponentsModule,
-    ProgressSpinnerModule
+  declarations: [
+    AppComponent,
+    NavigationBarComponent,
+    DashboardViewComponent,
+    InstructionTimelineComponent
   ],
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        RouterModule.forRoot(appRoutes, {initialNavigation: 'enabledBlocking'}),
+        MatIconModule,
+        MatButtonModule,
+        ButtonModule,
+        SidebarModule,
+        KeycloakAngularModule,
+        MenuModule,
+        NgbTooltip,
+        NavigationComponentsModule,
+        ProgressSpinnerModule,
+        CardModule,
+        TimelineModule,
+        SkeletonModule,
+    ],
   providers: [
     provideAnimations(),
     {

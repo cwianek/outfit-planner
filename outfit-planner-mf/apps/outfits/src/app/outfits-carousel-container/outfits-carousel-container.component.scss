@@ -1,0 +1,17 @@
+@import "libs/shared/styles/variables";
+
+.outfits-carousel-container {
+
+  display: flex;
+  flex-direction: column;
+  padding-top: $standard-padding-3x;
+
+  @media screen and (min-width: $sm-min-width) {
+    &__message {
+      .message-card {
+        margin: 0 $standard-padding-3x;
+      }
+    }
+  }
+
+}

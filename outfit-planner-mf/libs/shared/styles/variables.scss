@@ -1,8 +1,15 @@
-$standard-padding: 10px;
-$header-font-size: 24px;
-$primary-color: #ff4081;
+$standard-padding: 8px;
+$standard-padding-2x: $standard-padding * 2;
+$standard-padding-3x: $standard-padding * 3;
+$standard-padding-4x: $standard-padding * 4;
+$header-font-size: 1.5rem;
+$subheader-font-size: 1.2rem;
+$primary-color: darken(#ff4081, 10%);
 $secondary-color: #64748B;
+$xxl-min-width: 1400px;
 $xl-min-width: 1200px;
 $lg-min-width: 992px;
 $md-min-width: 768px;
 $sm-min-width: 576px;
+$normal-font-size: 1rem;
+$small-font-size: 0.75rem;

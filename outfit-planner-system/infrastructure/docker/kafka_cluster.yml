@@ -89,10 +89,3 @@ services:
 #      - ${GLOBAL_NETWORK:-kafka}
 #    volumes:
 #      - "${VOLUME_PATH}/kafka/broker-3:/var/lib/kafka/data"
-
-#  kafkacat-consumer:
-#    image: confluentinc/cp-kafkacat:latest
-#    networks:
-#      - ${GLOBAL_NETWORK:-kafka}
-##    entrypoint: bash
-#    command: kafkacat -C -b kafka-broker-1:9092 -t customer

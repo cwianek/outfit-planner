@@ -1,11 +1,14 @@
-import {AfterViewInit, ChangeDetectorRef, Component} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {
-  CreateOutfitRequest, Geolocation,
+  CreateOutfitRequest,
+  Geolocation,
   LocationService,
-  Outfit, OutfitCreatorComponent,
+  Outfit,
+  OutfitCreatorComponent,
   OutfitsService,
   PredictOutfitsRequest,
-  Product, ProductsService
+  Product,
+  ProductsService
 } from "@outfit-planner-mf/shared/components";
 
 import {filter, first, Observable, of, switchMap} from "rxjs";
@@ -17,10 +20,15 @@ import {UserService} from "@outfit-planner-mf/shared/auth";
   selector: 'outfit-planner-mf-outfits-carousel-container',
   templateUrl: './outfits-carousel-container.component.html',
   styleUrls: ['./outfits-carousel-container.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
-export class OutfitsCarouselContainerComponent implements AfterViewInit {
+export class OutfitsCarouselContainerComponent implements OnInit {
 
   outfits$: Observable<Outfit[]> = new Observable<Outfit[]>();
+
+  isLoggedIn$: Observable<boolean> = this.userService.isUserLoggedIn$;
+
+  messageText = 'These are sample outfits, log in to add your own.'
 
   constructor(
     private outfitsService: OutfitsService,
@@ -32,7 +40,7 @@ export class OutfitsCarouselContainerComponent implements AfterViewInit {
     private userService: UserService) {
   }
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     this.outfits$ = this.getLocation().pipe(
       switchMap((geolocation) => {
         const request: PredictOutfitsRequest = {

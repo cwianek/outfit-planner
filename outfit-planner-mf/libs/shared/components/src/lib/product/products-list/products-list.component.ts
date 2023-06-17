@@ -1,20 +1,32 @@
-import {Component, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewEncapsulation
+} from '@angular/core';
 import {BehaviorSubject, combineLatest, map, Observable,} from "rxjs";
-import {GroupedProducts, Product, ProductCategory} from "../../defs";
+import {GroupedProducts, Product, ProductCategory, ScreenResolutions} from "../../defs";
 import {UserService} from "@outfit-planner-mf/shared/auth";
 import {CategoriesOrientation} from "../defs";
+import {Message} from "primeng/api";
 
 
 @Component({
   selector: 'outfit-planner-mf-products-list',
   templateUrl: './products-list.component.html',
   styleUrls: ['./products-list.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ProductsListComponent implements OnChanges, OnInit {
 
   @HostListener('window:resize', [])
   onWindowResize() {
-    this.categoriesOrientation = window.innerWidth > 992 ? CategoriesOrientation.Horizontal : CategoriesOrientation.Vertical
+    this.categoriesOrientation = window.innerWidth > ScreenResolutions.Large ? CategoriesOrientation.Horizontal : CategoriesOrientation.Vertical
   }
 
   viewModel: Observable<{
@@ -36,15 +48,18 @@ export class ProductsListComponent implements OnChanges, OnInit {
 
   activeCategory: string = Object.values(ProductCategory)[0];
 
+  messageText = 'These are sample clothes, log in to add your own.';
+
   constructor(private userService: UserService) {
     this.groupedProducts$ = this.products$.pipe(
       map((products) => products || []),
       map(this.groupProducts)
     )
 
-    this.viewModel = combineLatest([this.groupedProducts$, this.isLoggedIn]).pipe(map(([groupedProducts, isLoggedIn]) => {
-      return {isLoggedIn, groupedProducts }
-    }))
+    this.viewModel = combineLatest([this.groupedProducts$, this.isLoggedIn])
+      .pipe(map(([groupedProducts, isLoggedIn]) => {
+        return {isLoggedIn, groupedProducts}
+      }))
   }
 
   ngOnInit(): void {

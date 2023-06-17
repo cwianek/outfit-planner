@@ -1,0 +1,32 @@
+@import "libs/shared/styles/variables";
+
+.instruction-timeline {
+
+  &__description {
+    padding-top: $standard-padding-2x;
+    text-align: justify;
+  }
+
+  &__timeline-number {
+    background-color: $secondary-color;
+    color: white;
+    padding: $standard-padding $standard-padding-2x;
+    border-radius: $standard-padding-3x;
+  }
+
+  &__card-title{
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    word-break: break-word;
+  }
+
+  .p-timeline-event {
+    padding-left: $standard-padding;
+  }
+
+  .p-timeline-event-opposite {
+    display: none;
+  }
+
+}
