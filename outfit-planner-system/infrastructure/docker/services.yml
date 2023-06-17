@@ -3,15 +3,8 @@ version: '3.7'
 volumes:
   postgres_data:
     driver: local
-  postgres_db_data:
+  products_service_postgres_data:
     driver: local
-#  mono-node-modules: null
-#  certs:
-#    driver: local
-#    driver_opts:
-#      type: "nfs"
-#      o: "addr=host.docker.internal,rw,nolock,hard,nointr,nfsvers=3"
-#      device: ":C/Projekty/outfit-planner/docker/volumes"
 
 services:
   product-service:
@@ -20,12 +13,6 @@ services:
       - "5005:5005"
       - "8184:8184"
       - "5432:5432"
-#    build:
-#      dockerfile: ./product-service/Dockerfile
-#      context: .
-#      args:
-#        GROUP_ID: ${GROUP_ID}
-#        SERVICE_VERSION: ${SERVICE_VERSION:-latest}
     environment:
       - "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Xms128m -Xmx256m"
       - "LOGGING_LEVEL_COM_MICROSERVICES_DEMO=info"
@@ -34,7 +21,7 @@ services:
       - "KAFKA-CONFIG_BOOTSTRAP-SERVERS=kafka-broker-1:9092"#, kafka-broker-2:9092, kafka-broker-3:9092"
       - "KAFKA-CONFIG_SCHEMA-REGISTRY-URL=http://schema-registry:8081"
       - "TWITTER-TO-KAFKA-SERVICE_ENABLE-MOCK-TWEETS=true"
-      - "SPRING_DATASOURCE_URL=jdbc:postgresql://postgres_db:5432/postgres?currentSchema=product&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified"
+      - "SPRING_DATASOURCE_URL=jdbc:postgresql://products_service_postgres_db:5432/postgres?currentSchema=product&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified"
       - "SPRING_DATASOURCE_USERNAME=admin"
       - "SPRING_DATASOURCE_PASSWORD=admin"
       - "SERVICE_BINDING_ROOT=/bindings"
@@ -60,12 +47,6 @@ services:
       - "8185:8185"
       - "5435:5432"
       - "5006:5005"
-    #    build:
-#      dockerfile: ./outfit-service/Dockerfile
-#      context: .
-#      args:
-#        GROUP_ID: ${GROUP_ID}
-#        SERVICE_VERSION: ${SERVICE_VERSION:-latest}
     environment:
       - "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Xms128m -Xmx256m"
       - "LOGGING_LEVEL_COM_MICROSERVICES_DEMO=info"
@@ -89,7 +70,6 @@ services:
   mongodb-outfit-service:
     image: mongo:5.0
     hostname: mongodb-outfit-service
-#    restart: always
     ports:
       - "27021:27017"
     volumes:
@@ -111,13 +91,13 @@ services:
     networks:
       - ${GLOBAL_NETWORK:-kafka}
 
-  postgres_db:
+  products_service_postgres_db:
     image: postgres
-    hostname: postgres_db
+    hostname: products_service_postgres_db
     ports:
       - "5434:5432"
     volumes:
-      - postgres_db_data:/var/lib/postgresql/data
+      - products_service_postgres_data:/var/lib/postgresql/data
     environment:
       - "POSTGRES_DB=postgres"
       - "POSTGRES_USER=admin"
@@ -137,12 +117,7 @@ services:
       - "KEYCLOAK_PASSWORD=admin"
       - "KEYCLOAK_LOGLEVEL=DEBUG"
       - "PROXY_ADDRESS_FORWARDING=true"
-#      - "KEYCLOAK_FRONTEND_URL=http://localhost/auth"
-#      - "KEYCLOAK_ADMIN=admin"
-#      - "KEYCLOAK_ADMIN_PASSWORD=admin"
       - "JAVA_OPTS=-Djboss.http.port=8082"
-#      - "KC_HTTPS_CERTIFICATE_FILE=/opt/keycloak/conf/keycloak-server.crt.pem"
-#      - "KC_HTTPS_CERTIFICATE_KEY_FILE=/opt/keycloak/conf/keycloak-server.key.pem"
       - "DB_VENDOR=POSTGRES"
       - "DB_ADDR=postgres"
       - "DB_DATABASE=keycloak"
@@ -158,10 +133,6 @@ services:
       interval: 20s
       timeout: 5s
       retries: 10
-#    volumes:
-#      - /mnt/volume/certs/keycloak-server.crt.pem:/opt/keycloak/conf/keycloak-server.crt.pem
-#      - /mnt/volume/certs/keycloak-server.key.pem:/opt/keycloak/conf/keycloak-server.key.pem
-#    entrypoint: /opt/keycloak/bin/kc.sh -v start-dev
 
   prediction-service:
     hostname: prediction-service

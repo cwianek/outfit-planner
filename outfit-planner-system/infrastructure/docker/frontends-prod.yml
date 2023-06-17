@@ -7,7 +7,6 @@ services:
     hostname: products
     build:
       context: ../../../outfit-planner-mf
-#      dockerfile: products-proxy/Dockerfile
       dockerfile: Dockerfile-build
       args:
         APP_NAME: products
@@ -22,10 +21,6 @@ services:
       VIRTUAL_PROTO: https
     volumes:
       - ${CERTS_PATH}:/etc/nginx/certs
-#      - frontend-build-products:/usr/share/nginx/html:ro
-#      - /mnt/c/Projekty/outfit-planner/outfit-planner-mf/node_modules:/app/node_modules
-      - /mnt/c/Projekty/outfit-planner/outfit-planner-mf/dist/apps/products:/usr/share/nginx/html
-#      - frontend-build/dist/apps/products:/usr/share/nginx/html
     networks:
       - ${GLOBAL_NETWORK:-kafka}
     depends_on:
@@ -37,7 +32,6 @@ services:
     hostname: outfits
     build:
       context: ../../../outfit-planner-mf
-      #      dockerfile: products-proxy/Dockerfile
       dockerfile: Dockerfile-build
       args:
         APP_NAME: outfits
@@ -52,11 +46,6 @@ services:
       VIRTUAL_PROTO: https
     volumes:
       - ${CERTS_PATH}:/etc/nginx/certs
-#      - /mnt/c/Projekty/outfit-planner/outfit-planner-mf/node_modules:/app/node_modules
-
-    #      - frontend-build-outfits:/usr/share/nginx/html:ro
-
-      - /mnt/c/Projekty/outfit-planner/outfit-planner-mf/dist/apps/outfits:/usr/share/nginx/html
     networks:
       - ${GLOBAL_NETWORK:-kafka}
     depends_on:
@@ -68,7 +57,6 @@ services:
     hostname: ${DASHBOARD_HOST:-dashboard}
     build:
       context: ../../../outfit-planner-mf
-      #      dockerfile: products-proxy/Dockerfile
       dockerfile: Dockerfile-build
       args:
         APP_NAME: dashboard
@@ -83,10 +71,6 @@ services:
       VIRTUAL_PROTO: https
     volumes:
       - ${CERTS_PATH}:/etc/nginx/certs
-#      - /mnt/c/Projekty/outfit-planner/outfit-planner-mf/node_modules:/app/node_modules
-
-    #      - frontend-build-dashboard:/usr/share/nginx/html:ro
-      - /mnt/c/Projekty/outfit-planner/outfit-planner-mf/dist/apps/dashboard:/usr/share/nginx/html
     networks:
       - ${GLOBAL_NETWORK:-kafka}
     depends_on:

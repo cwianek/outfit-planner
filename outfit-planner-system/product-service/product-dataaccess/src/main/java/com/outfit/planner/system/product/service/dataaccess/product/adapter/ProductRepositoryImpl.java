@@ -3,9 +3,9 @@ package com.outfit.planner.system.product.service.dataaccess.product.adapter;
 import com.outfit.planner.system.product.service.dataaccess.product.entity.ProductEntity;
 import com.outfit.planner.system.product.service.dataaccess.product.mapper.ProductDataAccessMapper;
 import com.outfit.planner.system.product.service.dataaccess.product.repository.ProductJpaRepository;
-import com.outfit.planner.system.product.service.domain.GetProductsCriteria;
+import com.outfit.planner.system.domain.dto.create.GetProductsCriteria;
 import com.outfit.planner.system.product.service.domain.entity.Product;
-import com.outfit.planner.system.domain.repository.ProductRepository;
+import com.outfit.planner.system.domain.ports.output.repository.ProductRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

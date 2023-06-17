@@ -15,10 +15,6 @@ product-service:
   outbox-scheduler-initial-delay: 10000
   custom-audience: product-service
   issuers: ${KEYCLOAK_ADDITIONAL_ISSUERS:http://localhost:8082/auth/realms/outfitplanner-realm}
-#  issuers: http://keycloak-server:8082/auth/realms/outfitplanner-realm
-  #issuers: https://products-dev/auth/realms/outfitplanner-realm,https://dashboard-dev/auth/realms/outfitplanner-realm
-#  issuers: https://products-dev/auth/realms/outfitplanner-realm
-#  issuers: https://products-dev/auth/realms/outfitplanner-realm
 
 spring:
   jpa:
@@ -33,17 +29,14 @@ spring:
     username: ${SPRING_DATASOURCE_USERNAME:admin}
     password: ${SPRING_DATASOURCE_PASSWORD:admin}
     driver-class-name: org.postgresql.Driver
-#    separator: ^;
   sql:
     init:
       mode: ALWAYS
       schema-locations: classpath:init-schema.sql
-#      platform: postgres
   security:
     oauth2:
       resourceserver:
         jwt:
-#          issuer-uri: ${KEYCLOAK_ISSUER_URI:https://products-dev/auth/realms/outfitplanner-realm}
           issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:8082/auth/realms/outfitplanner-realm}
           jwk-set-uri: ${KEYCLOAK_JWK_SET_URI:http://localhost:8082/auth/realms/outfitplanner-realm/protocol/openid-connect/certs}
   devtools:
@@ -56,10 +49,8 @@ kafka-config:
   bootstrap-servers: ${KAFKA-CONFIG_BOOTSTRAP-SERVERS:localhost:19092}
   schema-registry-url-key: schema.registry.url
   schema-registry-url: ${KAFKA-CONFIG_SCHEMA-REGISTRY-URL:http://localhost:8081}
-  #num-of-partitions: 3
-  num-of-partitions: 1
-  #replication-factor: 3
-  replication-factor: 1
+  num-of-partitions: 1 #3
+  replication-factor: 1 #3
   topic-names-to-create:
     - product
 

@@ -3,7 +3,7 @@ package com.outfit.planner.system.product.service.application.rest;
 
 import com.outfit.planner.system.domain.dto.create.ProductDto;
 import com.outfit.planner.system.domain.ports.input.service.ProductApplicationService;
-import com.outfit.planner.system.product.service.domain.GetProductsCriteria;
+import com.outfit.planner.system.domain.dto.create.GetProductsCriteria;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Base64;
 import java.util.List;
 
+import static com.outfit.planner.system.product.service.application.Constants.MOCK;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -31,7 +32,7 @@ public class MockProductController {
     @GetMapping
     public ResponseEntity<List<ProductDto>> getProducts() {
         GetProductsCriteria criteria = GetProductsCriteria.builder()
-                .username("mock")
+                .username(MOCK)
                 .build();
         List<ProductDto> products = productApplicationService.getProducts(criteria);
         products.forEach(product -> product.add(getImageLink(product)));
@@ -44,7 +45,7 @@ public class MockProductController {
             produces = MediaType.IMAGE_JPEG_VALUE
     )
     public ResponseEntity<byte[]> getImage(@PathVariable("id") String id) {
-        byte[] image = productApplicationService.getImage(id, "mock");
+        byte[] image = productApplicationService.getImage(id, MOCK);
         byte[] decoded = Base64.getDecoder().decode(image);
 
         return ResponseEntity.ok()

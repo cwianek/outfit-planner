@@ -39,10 +39,21 @@
     margin: 0 50px 50px 50px;
   }
 
+  &__match-percent {
+    font-weight: 700;
+  }
+
   @media screen and (max-width: $md-min-width) {
 
     &__wrapper {
       margin: 0 5px 5px 5px;
+    }
+
+    &__worn-button{
+      .p-button{
+        height: 2.5rem !important;
+        width: 2.5rem !important;
+      }
     }
 
     .p-carousel-prev {

@@ -1,6 +1,6 @@
-package com.outfit.planner.system.domain.repository;
+package com.outfit.planner.system.domain.ports.output.repository;
 
-import com.outfit.planner.system.product.service.domain.GetProductsCriteria;
+import com.outfit.planner.system.domain.dto.create.GetProductsCriteria;
 import com.outfit.planner.system.product.service.domain.entity.Product;
 
 import java.util.List;

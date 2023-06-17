@@ -16,10 +16,12 @@
   $screen-breakpoints: (
     'xs': 0px,
     'sm': $sm-min-width,
+    'xxl': $xxl-min-width,
   );
 
-  $xs-screen-rate: 0.7;
-  $sm-screen-rate: 1;
+  $xs-screen-rate: 0.5;
+  $sm-screen-rate: 0.7;
+  $xxl-screen-rate: 1;
 
   @each $breakpoint, $min-width in $screen-breakpoints {
     @media screen and (min-width: $min-width) {
@@ -31,6 +33,8 @@
             height: calc($height * $xs-screen-rate);
           } @else if $breakpoint == 'sm' {
             height: calc($height * $sm-screen-rate);
+          } @else if $breakpoint == 'sm' {
+            height: calc($height * $xxl-screen-rate);
           }
         }
       }

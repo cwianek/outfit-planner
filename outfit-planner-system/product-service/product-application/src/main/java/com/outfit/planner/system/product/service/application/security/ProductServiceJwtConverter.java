@@ -11,7 +11,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.outfit.planner.system.product.service.application.security.Constants.NA;
+import static com.outfit.planner.system.product.service.application.Constants.NA;
 
 public class ProductServiceJwtConverter implements Converter<Jwt, AbstractAuthenticationToken> {
 

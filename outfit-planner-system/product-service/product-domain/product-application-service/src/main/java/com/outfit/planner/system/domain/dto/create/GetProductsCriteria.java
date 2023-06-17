@@ -1,4 +1,4 @@
-package com.outfit.planner.system.product.service.domain;
+package com.outfit.planner.system.domain.dto.create;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

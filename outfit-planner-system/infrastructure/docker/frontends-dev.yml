@@ -11,7 +11,6 @@ services:
 
   products-app:
     hostname: products-development
-    #    command: nx run products:serve:development
     ports:
       - "4201:4201"
     build:
@@ -21,15 +20,13 @@ services:
       APP_NAME: products
     volumes:
       - frontend-app:/app
-#      - shared-node-modules:/app/node_modules
     networks:
       - outfit-planner-system
 #
   outfits-app:
     hostname: outfits-development
-    #    command: nx run products:serve:development
-#    ports:
-#      - "4202:4202"
+    ports:
+      - "4202:4202"
     build:
       context: ../../../outfit-planner-mf
       dockerfile: Dockerfile-serve
@@ -37,17 +34,11 @@ services:
       APP_NAME: outfits
     volumes:
       - frontend-app:/app
-
-#      - mono-node-modules:/app/node_modules
     networks:
       - ${GLOBAL_NETWORK:-kafka}
 #
   dashboard-app:
     hostname: dashboard-development
-#    ports:
-##      - "4200:4200"
-##      - "4208:4201"
-##      - "4209:4202"
     build:
       context: ../../../outfit-planner-mf
       dockerfile: Dockerfile-serve
@@ -55,13 +46,11 @@ services:
       APP_NAME: dashboard
     volumes:
       - frontend-app:/app
-
-#      - mono-node-modules:/app/node_modules
     networks:
       - ${GLOBAL_NETWORK:-kafka}
 
   products-dev-proxy:
-#    restart: always
+    restart: always
     hostname: products-dev
     build:
       context: .
@@ -90,7 +79,7 @@ services:
       retries: 25
 #
   outfits-dev-proxy:
-#    restart: always
+    restart: always
     hostname: outfits-dev
     build:
       context: .
@@ -114,7 +103,7 @@ services:
         condition: service_healthy
 #
   dashboard-dev-proxy:
-#    restart: always
+    restart: always
     hostname: dashboard-dev
     build:
       context: .

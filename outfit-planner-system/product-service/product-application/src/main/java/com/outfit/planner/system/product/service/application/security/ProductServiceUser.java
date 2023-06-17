@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-import static com.outfit.planner.system.product.service.application.security.Constants.*;
+import static com.outfit.planner.system.product.service.application.Constants.*;
 
 @Builder
 @Getter

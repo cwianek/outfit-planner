@@ -5,7 +5,7 @@ import com.outfit.planner.system.domain.dto.create.CreateProductRequest;
 import com.outfit.planner.system.domain.dto.create.ProductDto;
 import com.outfit.planner.system.domain.ports.input.service.ProductApplicationService;
 import com.outfit.planner.system.product.service.application.security.ProductServiceUser;
-import com.outfit.planner.system.product.service.domain.GetProductsCriteria;
+import com.outfit.planner.system.domain.dto.create.GetProductsCriteria;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
