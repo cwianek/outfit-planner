@@ -126,7 +126,6 @@ export class OutfitsCarouselContainerComponent implements AfterViewInit, OnDestr
     this.outfitsService.addOutfit(request)
       .pipe(
         takeUntil(this.componentDestroyed$),
-        tap(() => console.log("fetching outfits niggas")),
         map(() => true)
       )
       .subscribe(this.fetchOutfitsEvent$);

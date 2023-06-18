@@ -125,10 +125,13 @@ services:
       - "DB_SCHEMA=public"
       - "DB_PASSWORD=keycloak"
       - "KEYCLOAK_IMPORT=/tmp/outfit-planner-config.json"
+      - "KC_HTTPS_CERTIFICATE_FILE=/opt/keycloak/conf/${DASHBOARD_HOST}.crt"
+      - "KC_HTTPS_CERTIFICATE_KEY_FILE=/opt/keycloak/conf/${DASHBOARD_HOST}.key"
     depends_on:
       - postgres_keycloak
     volumes:
       - "${OUTFIT_PLANNER_SYSTEM_PATH}/infrastructure/docker/realm-export.json:/tmp/outfit-planner-config.json"
+      - "${CERTS_PATH}:/opt/keycloak/conf/"
     networks:
       - ${GLOBAL_NETWORK}
     healthcheck:
