@@ -30,10 +30,11 @@ public class ProductMockService {
 
     @PostConstruct
     public void createMocks() {
-        if (areMocksAlreadyCreated()) return;
+        if (areMocksAlreadyCreated()) {
+            return;
+        }
 
         String folderPath = "mock/products";
-
         try {
             iterateResourceFolders(folderPath);
         } catch (IOException | URISyntaxException e) {

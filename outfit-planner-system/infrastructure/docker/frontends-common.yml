@@ -11,6 +11,7 @@ services:
     volumes:
       - ${DOCKER_SOCK_PATH}:/tmp/docker.sock:ro
       - ${CERTS_PATH}:/etc/nginx/certs
+      - ${OUTFIT_PLANNER_SYSTEM_PATH}/infrastructure/docker/proxy.conf:/etc/nginx/proxy.conf
     networks:
       - ${GLOBAL_NETWORK}
 

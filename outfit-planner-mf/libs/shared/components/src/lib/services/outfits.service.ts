@@ -1,13 +1,21 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable, shareReplay, tap} from "rxjs";
-import {Cache, InvalidateCache, SharedCacheService} from "./shared-cache.service";
-import {CreateOutfitRequest, Outfit, PredictOutfitsRequest, ToggleWearOutfitRequest} from "../defs";
+import {Observable} from "rxjs";
+import {
+  Cache,
+  InvalidateCache
+} from "./shared-cache.service";
+import {
+  CreateOutfitRequest,
+  Outfit,
+  PredictOutfitsRequest,
+  ToggleWearOutfitRequest
+} from "../defs";
 
 @Injectable({
   providedIn: 'root'
 })
-export class OutfitsService{
+export class OutfitsService {
 
   constructor(private httpClient: HttpClient) {
   }

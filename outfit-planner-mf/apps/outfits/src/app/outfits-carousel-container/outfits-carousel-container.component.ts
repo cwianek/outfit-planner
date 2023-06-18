@@ -1,4 +1,10 @@
-import {ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component, OnDestroy,
+  OnInit,
+  ViewEncapsulation
+} from '@angular/core';
 import {
   CreateOutfitRequest,
   Geolocation,
@@ -11,7 +17,16 @@ import {
   ProductsService
 } from "@outfit-planner-mf/shared/components";
 
-import {filter, first, Observable, of, switchMap} from "rxjs";
+import {
+  concatMap,
+  filter,
+  first, map,
+  Observable,
+  of,
+  Subject,
+  switchMap,
+  takeUntil, tap
+} from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
 import {Router} from "@angular/router";
 import {UserService} from "@outfit-planner-mf/shared/auth";
@@ -22,13 +37,17 @@ import {UserService} from "@outfit-planner-mf/shared/auth";
   styleUrls: ['./outfits-carousel-container.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class OutfitsCarouselContainerComponent implements OnInit {
+export class OutfitsCarouselContainerComponent implements AfterViewInit, OnDestroy {
 
   outfits$: Observable<Outfit[]> = new Observable<Outfit[]>();
 
   isLoggedIn$: Observable<boolean> = this.userService.isUserLoggedIn$;
 
   messageText = 'These are sample outfits, log in to add your own.'
+
+  fetchOutfitsEvent$: Subject<boolean> = new Subject<boolean>();
+
+  componentDestroyed$: Subject<void> = new Subject<void>();
 
   constructor(
     private outfitsService: OutfitsService,
@@ -38,17 +57,22 @@ export class OutfitsCarouselContainerComponent implements OnInit {
     private dialog: MatDialog,
     private productsService: ProductsService,
     private userService: UserService) {
+
+    this.outfits$ = this.fetchOutfitsEvent$
+      .pipe(
+        takeUntil(this.componentDestroyed$),
+        switchMap(this.getLocation),
+        switchMap((geolocation) => {
+          const request: PredictOutfitsRequest = {
+            geolocation
+          }
+          return this.outfitsService.predictOutfits(request)
+        })
+      )
   }
 
-  ngOnInit(): void {
-    this.outfits$ = this.getLocation().pipe(
-      switchMap((geolocation) => {
-        const request: PredictOutfitsRequest = {
-          geolocation
-        }
-        return this.outfitsService.predictOutfits(request)
-      })
-    )
+  ngAfterViewInit(): void {
+    this.fetchOutfitsEvent$.next(true);
   }
 
   openOutfitCreatorModal = (): void => {
@@ -100,7 +124,17 @@ export class OutfitsCarouselContainerComponent implements OnInit {
       productsIds: outfit.products.map((product) => product.id)
     }
     this.outfitsService.addOutfit(request)
-      .subscribe();
+      .pipe(
+        takeUntil(this.componentDestroyed$),
+        tap(() => console.log("fetching outfits niggas")),
+        map(() => true)
+      )
+      .subscribe(this.fetchOutfitsEvent$);
   }
+
+  ngOnDestroy(): void {
+    this.componentDestroyed$.next();
+  }
+
 
 }

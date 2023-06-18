@@ -1,4 +1,10 @@
-import {Component, EventEmitter, Input, OnInit, Output,} from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {ProductCategory} from "../../defs";
 import {CategoriesOrientation} from "../defs";
 

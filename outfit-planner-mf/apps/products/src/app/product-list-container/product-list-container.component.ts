@@ -5,10 +5,11 @@ import {
   ProductModalComponent,
   ProductsService
 } from "@outfit-planner-mf/shared/components";
-import {Observable, Subscription} from "rxjs";
+import {
+  Subject,
+  takeUntil} from "rxjs";
 import {MatDialog} from '@angular/material/dialog';
-import {UserService} from "@outfit-planner-mf/shared/auth";
-import {ProductAddedResult, ProductModalData} from "../../../../../libs/shared/components/src/lib/product/defs";
+import {ProductAddedResult, ProductModalData} from "@outfit-planner-mf/shared/components";
 
 @Component({
   selector: 'outfit-planner-mf-product-list-container',
@@ -17,14 +18,22 @@ import {ProductAddedResult, ProductModalData} from "../../../../../libs/shared/c
 })
 export class ProductListContainerComponent implements OnInit, OnDestroy {
 
-  productCategories: string[] = [ProductCategory.Tshirt, ProductCategory.Jacket, ProductCategory.Sweatshirt, ProductCategory.Trousers, ProductCategory.Shoes, ProductCategory.Socks]
+  productCategories: string[] = [
+    ProductCategory.Tshirt,
+    ProductCategory.Jacket,
+    ProductCategory.Sweatshirt,
+    ProductCategory.Trousers,
+    ProductCategory.Shoes,
+    ProductCategory.Socks
+  ]
 
   products: Product[] = [];
 
-  genericSub: Subscription = new Subscription();
+  componentDestroyed$: Subject<void> = new Subject<void>();
 
-  constructor(private productsService: ProductsService, private dialog: MatDialog, private userService: UserService) {
-  }
+  constructor(private productsService: ProductsService,
+              private dialog: MatDialog,
+  ) {}
 
   openDialog(category: string): void {
     const modalData: ProductModalData = {
@@ -39,7 +48,7 @@ export class ProductListContainerComponent implements OnInit, OnDestroy {
 
 
     dialogRef.afterClosed().subscribe((result: ProductAddedResult | null) => {
-      if(!result){
+      if (!result) {
         return;
       }
       this.productAdded(result);
@@ -47,25 +56,23 @@ export class ProductListContainerComponent implements OnInit, OnDestroy {
   }
 
   productAdded(product: ProductAddedResult) {
-    const sub = this.productsService.addProduct(product).subscribe(product => {
+    this.productsService.addProduct(product).pipe(
+      takeUntil(this.componentDestroyed$)
+    ).subscribe(product => {
       this.products = [...this.products, product]
     });
-    this.genericSub.add(sub);
   }
 
   ngOnInit(): void {
-    const sub = this.productsService.getProducts().subscribe(products => {
+    this.productsService.getProducts().pipe(
+      takeUntil(this.componentDestroyed$)
+    ).subscribe(products => {
       this.products = [...products];
     })
-    this.genericSub.add(sub);
   }
 
   ngOnDestroy(): void {
-    this.genericSub.unsubscribe();
-  }
-
-  fetchImage = (product: Product): Observable<any> => {
-    return this.productsService.getImage(product.id);
+    this.componentDestroyed$.next();
   }
 
 }

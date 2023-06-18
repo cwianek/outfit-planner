@@ -3,6 +3,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 import {AppComponent} from './app.component';
 import {provideAnimations} from "@angular/platform-browser/animations";
+import {KEYCLOAK_GUARD_CONFIG} from "@outfit-planner-mf/shared/auth";
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,7 +23,14 @@ import {provideAnimations} from "@angular/platform-browser/animations";
     ),
   ],
   providers: [
-    provideAnimations()
+    provideAnimations(),
+    {
+      provide: KEYCLOAK_GUARD_CONFIG,
+      useValue: {
+        clientId: 'product-service'
+      },
+
+    },
   ],
   bootstrap: [AppComponent],
   exports: [],

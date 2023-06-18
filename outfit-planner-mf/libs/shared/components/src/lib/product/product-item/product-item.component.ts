@@ -1,4 +1,11 @@
-import {AfterViewInit, Component, ElementRef, Input, ViewChild, ViewEncapsulation} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import {ProductsService} from "../../services/products.service";
 
 @Component({

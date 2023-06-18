@@ -1,6 +1,10 @@
 import {
-  AfterViewInit,
-  Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
@@ -11,8 +15,14 @@ import {
   OutfitsService,
   ToggleWearOutfitRequest
 } from '@outfit-planner-mf/shared/components';
-import {NgbCarousel, NgbTooltip} from "@ng-bootstrap/ng-bootstrap";
-import {filter, first, map, Observable, switchMap} from "rxjs";
+import {NgbCarousel} from "@ng-bootstrap/ng-bootstrap";
+import {
+  filter,
+  first,
+  map,
+  Observable,
+  switchMap
+} from "rxjs";
 import {MenuItem} from "primeng/api";
 import {UserService} from "@outfit-planner-mf/shared/auth";
 
