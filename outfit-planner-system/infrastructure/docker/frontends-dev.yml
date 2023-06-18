@@ -35,7 +35,7 @@ services:
     volumes:
       - frontend-app:/app
     networks:
-      - ${GLOBAL_NETWORK:-kafka}
+      - ${GLOBAL_NETWORK}
 #
   dashboard-app:
     hostname: dashboard-development
@@ -47,7 +47,7 @@ services:
     volumes:
       - frontend-app:/app
     networks:
-      - ${GLOBAL_NETWORK:-kafka}
+      - ${GLOBAL_NETWORK}
 
   products-dev-proxy:
     restart: always
@@ -68,7 +68,7 @@ services:
       HTTPS_METHOD: redirect
       VIRTUAL_PROTO: https
     networks:
-      - ${GLOBAL_NETWORK:-kafka}
+      - ${GLOBAL_NETWORK}
     depends_on:
       keycloak-authorization-server:
         condition: service_healthy
@@ -97,7 +97,7 @@ services:
       HTTPS_METHOD: redirect
       VIRTUAL_PROTO: https
     networks:
-      - ${GLOBAL_NETWORK:-kafka}
+      - ${GLOBAL_NETWORK}
     depends_on:
       keycloak-authorization-server:
         condition: service_healthy
@@ -121,7 +121,7 @@ services:
       HTTPS_METHOD: redirect
       VIRTUAL_PROTO: https
     networks:
-      - ${GLOBAL_NETWORK:-kafka}
+      - ${GLOBAL_NETWORK}
     depends_on:
       keycloak-authorization-server:
         condition: service_healthy

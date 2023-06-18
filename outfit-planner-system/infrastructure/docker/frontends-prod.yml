@@ -22,7 +22,7 @@ services:
     volumes:
       - ${CERTS_PATH}:/etc/nginx/certs
     networks:
-      - ${GLOBAL_NETWORK:-kafka}
+      - ${GLOBAL_NETWORK}
     depends_on:
       keycloak-authorization-server:
         condition: service_healthy
@@ -47,7 +47,7 @@ services:
     volumes:
       - ${CERTS_PATH}:/etc/nginx/certs
     networks:
-      - ${GLOBAL_NETWORK:-kafka}
+      - ${GLOBAL_NETWORK}
     depends_on:
       keycloak-authorization-server:
         condition: service_healthy
@@ -72,7 +72,7 @@ services:
     volumes:
       - ${CERTS_PATH}:/etc/nginx/certs
     networks:
-      - ${GLOBAL_NETWORK:-kafka}
+      - ${GLOBAL_NETWORK}
     depends_on:
       keycloak-authorization-server:
         condition: service_healthy

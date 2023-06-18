@@ -1,7 +1,7 @@
 version: '3.7'
 
 volumes:
-  postgres_data:
+  postgres_keycloak_data:
     driver: local
   products_service_postgres_data:
     driver: local
@@ -33,7 +33,7 @@ services:
       keycloak-authorization-server:
         condition: service_healthy
     networks:
-      - ${GLOBAL_NETWORK:-kafka}
+      - ${GLOBAL_NETWORK}
     healthcheck:
       test: "bash -c 'printf \"GET / HTTP/1.1\n\n\" > /dev/tcp/127.0.0.1/8080; exit $$?;'"
       interval: 20s
@@ -65,7 +65,7 @@ services:
       keycloak-authorization-server:
         condition: service_healthy
     networks:
-      - ${GLOBAL_NETWORK:-kafka}
+      - ${GLOBAL_NETWORK}
 
   mongodb-outfit-service:
     image: mongo:5.0
@@ -75,21 +75,21 @@ services:
     volumes:
       - "${VOLUME_PATH}/outfit-service:/data/db"
     networks:
-      - ${GLOBAL_NETWORK:-kafka}
+      - ${GLOBAL_NETWORK}
 
-  postgres:
+  postgres_keycloak:
     image: postgres
-    hostname: postgres
+    hostname: postgres_keycloak
     ports:
       - "5439:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_keycloak_data:/var/lib/postgresql/data
     environment:
       - "POSTGRES_DB=keycloak"
       - "POSTGRES_USER=keycloak"
       - "POSTGRES_PASSWORD=keycloak"
     networks:
-      - ${GLOBAL_NETWORK:-kafka}
+      - ${GLOBAL_NETWORK}
 
   products_service_postgres_db:
     image: postgres
@@ -104,7 +104,7 @@ services:
       - "POSTGRES_PASSWORD=admin"
       - "JDBC_DRIVER_CLASS=org.postgresql.Driver"
     networks:
-      - ${GLOBAL_NETWORK:-kafka}
+      - ${GLOBAL_NETWORK}
 
   keycloak-authorization-server:
     image: quay.io/keycloak/keycloak:${KEYCLOAK_VERSION:-latest}
@@ -119,15 +119,18 @@ services:
       - "PROXY_ADDRESS_FORWARDING=true"
       - "JAVA_OPTS=-Djboss.http.port=8082"
       - "DB_VENDOR=POSTGRES"
-      - "DB_ADDR=postgres"
+      - "DB_ADDR=postgres_keycloak"
       - "DB_DATABASE=keycloak"
       - "DB_USER=keycloak"
       - "DB_SCHEMA=public"
       - "DB_PASSWORD=keycloak"
+      - "KEYCLOAK_IMPORT=/tmp/outfit-planner-config.json"
     depends_on:
-      - postgres
+      - postgres_keycloak
+    volumes:
+      - "${OUTFIT_PLANNER_SYSTEM_PATH}/infrastructure/docker/realm-export.json:/tmp/outfit-planner-config.json"
     networks:
-      - ${GLOBAL_NETWORK:-kafka}
+      - ${GLOBAL_NETWORK}
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8082/auth/realms/master", "--fail" ]
       interval: 20s
@@ -142,5 +145,5 @@ services:
     ports:
       - "2006:2006"
     networks:
-      - ${GLOBAL_NETWORK:-kafka}
+      - ${GLOBAL_NETWORK}
 
