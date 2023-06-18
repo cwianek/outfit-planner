@@ -1,7 +1,16 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import {Message} from "primeng/api";
 import {MessageCardService} from "../../services/message-card.service";
 import {Messages} from "primeng/messages";
+import {Subject, takeUntil} from "rxjs";
 
 @Component({
   selector: 'outfit-planner-mf-message-card',
@@ -9,7 +18,7 @@ import {Messages} from "primeng/messages";
   styleUrls: ['./message-card.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class MessageCardComponent implements OnInit, AfterViewInit {
+export class MessageCardComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('pMessages') messagesRef: Messages | null = null;
 
   @Input() severity = ''
@@ -19,6 +28,8 @@ export class MessageCardComponent implements OnInit, AfterViewInit {
   @Input() id = ''
 
   messages: Message[] = []
+
+  componentDestroyed$: Subject<void> = new Subject<void>();
 
   constructor(private messageCardService: MessageCardService) {
   }
@@ -32,9 +43,16 @@ export class MessageCardComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.messagesRef?.valueChange.subscribe((messages: Message[]) => {
+    this.messagesRef?.valueChange.pipe(
+      takeUntil(this.componentDestroyed$),
+    ).subscribe((messages: Message[]) => {
       this.messageCardService.setClosed(this.id);
     })
   }
+
+  ngOnDestroy(): void {
+    this.componentDestroyed$.next();
+  }
+
 }
 
