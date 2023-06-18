@@ -2,13 +2,6 @@
 
 @media screen and (min-width: $lg-min-width) {
   .navigation-bar__content, main {
-    max-width: 768px;
-    margin: 0 auto;
-  }
-}
-
-@media screen and (min-width: $xl-min-width) {
-  .navigation-bar__content, main {
     max-width: 992px;
     margin: 0 auto;
   }

@@ -12,6 +12,7 @@
     padding: $standard-padding-2x;
     margin: $standard-padding-3x;
     border-radius: 10px;
+    flex-grow: 1;
   }
 
   &__sub-header{
@@ -21,6 +22,10 @@
     margin-bottom: $standard-padding;
   }
 
-
+  @media screen and (min-width: $md-min-width) {
+    &__header{
+      max-width: 70%;
+    }
+  }
 
 }
