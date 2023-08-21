@@ -18,6 +18,7 @@ fi
 echo "hashes are different - installing certs"
 ./stop.sh
 sudo cp /etc/letsencrypt/live/outfitplanner.cloud/fullchain.pem /home/debian/certs/outfitplanner.cloud.crt
+sudo cp /etc/letsencrypt/live/outfitplanner.cloud/privkey.pem /home/debian/certs/outfitplanner.cloud.key
 sudo cp /etc/letsencrypt/live/outfitplanner.cloud/fullchain.pem /home/debian/certs/pems/fullchain.pem
 mvn install -f /home/debian/outfit-planner/outfit-planner-system/pom.xml
 ./run.sh
