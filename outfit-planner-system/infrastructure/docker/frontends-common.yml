@@ -15,18 +15,6 @@ services:
     networks:
       - ${GLOBAL_NETWORK}
 
-  services-proxy:
-    restart: always
-    hostname: services-proxy
-    build:
-      context: .
-      dockerfile: services-proxy/Dockerfile
-    volumes:
-      - ${CERTS_PATH}:/etc/nginx/certs
-    networks:
-      - ${GLOBAL_NETWORK}
-    depends_on:
-      keycloak-authorization-server:
-        condition: service_healthy
+
 
 

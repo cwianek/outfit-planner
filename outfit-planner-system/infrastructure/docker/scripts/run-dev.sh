@@ -1,0 +1,1 @@
+docker-compose -f ../common.yml -f ../kafka_cluster.yml -f ../services.yml -f ../frontends-common.yml -f ../frontends-dev.yml -p outfit-planner-dev --env-file ../.env up --remove-orphans -d --build

@@ -18,10 +18,17 @@ services:
       dockerfile: Dockerfile-serve
     environment:
       APP_NAME: products
+      VIRTUAL_HOST: products-dev
+      VIRTUAL_PORT: 4201
+#      HTTPS_METHOD: redirect
+#      VIRTUAL_PROTO: https
     volumes:
       - frontend-app:/app
     networks:
       - outfit-planner-system
+    expose:
+#      - 80
+      - 4201
 #
   outfits-app:
     hostname: outfits-development
@@ -32,10 +39,17 @@ services:
       dockerfile: Dockerfile-serve
     environment:
       APP_NAME: outfits
+      VIRTUAL_HOST: outfits-dev
+      VIRTUAL_PORT: 4202
+#      HTTPS_METHOD: redirect
+#      VIRTUAL_PROTO: https
     volumes:
       - frontend-app:/app
     networks:
       - ${GLOBAL_NETWORK}
+    expose:
+#      - 80
+      - 4202
 #
   dashboard-app:
     hostname: dashboard-development
@@ -44,84 +58,13 @@ services:
       dockerfile: Dockerfile-serve
     environment:
       APP_NAME: dashboard
+      VIRTUAL_HOST: dashboard-dev
+      VIRTUAL_PORT: 4200
+      VIRTUAL_PATH: /
     volumes:
       - frontend-app:/app
     networks:
       - ${GLOBAL_NETWORK}
-
-  products-dev-proxy:
-    restart: always
-    hostname: products-dev
-    build:
-      context: .
-      dockerfile: dev-proxy/Dockerfile
     expose:
-      - 443
-      - 80
-    volumes:
-      - ${CERTS_PATH}:/etc/nginx/certs
-    environment:
-      FRONTEND_ENDPOINT_URL: http://products-development:4201
-      VIRTUAL_HOST: products-dev
-      VIRTUAL_PORT: 443
-      NGINX_ENVSUBST_OUTPUT_DIR: /etc/nginx
-      HTTPS_METHOD: redirect
-      VIRTUAL_PROTO: https
-    networks:
-      - ${GLOBAL_NETWORK}
-    depends_on:
-      keycloak-authorization-server:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "curl", "-f", "https://localhost/healthcheck", "--fail", "--insecure"]
-      interval: 20s
-      timeout: 5s
-      retries: 25
-#
-  outfits-dev-proxy:
-    restart: always
-    hostname: outfits-dev
-    build:
-      context: .
-      dockerfile: dev-proxy/Dockerfile
-    expose:
-      - 443
-      - 80
-    volumes:
-      - ${CERTS_PATH}:/etc/nginx/certs
-    environment:
-      FRONTEND_ENDPOINT_URL: http://outfits-development:4202
-      VIRTUAL_HOST: outfits-dev
-      VIRTUAL_PORT: 443
-      NGINX_ENVSUBST_OUTPUT_DIR: /etc/nginx
-      HTTPS_METHOD: redirect
-      VIRTUAL_PROTO: https
-    networks:
-      - ${GLOBAL_NETWORK}
-    depends_on:
-      keycloak-authorization-server:
-        condition: service_healthy
-#
-  dashboard-dev-proxy:
-    restart: always
-    hostname: dashboard-dev
-    build:
-      context: .
-      dockerfile: dev-proxy/Dockerfile
-    expose:
-      - 443
-      - 80
-    volumes:
-      - ${CERTS_PATH}:/etc/nginx/certs
-    environment:
-      FRONTEND_ENDPOINT_URL: http://dashboard-development:4200
-      VIRTUAL_HOST: dashboard-dev
-      VIRTUAL_PORT: 443
-      NGINX_ENVSUBST_OUTPUT_DIR: /etc/nginx
-      HTTPS_METHOD: redirect
-      VIRTUAL_PROTO: https
-    networks:
-      - ${GLOBAL_NETWORK}
-    depends_on:
-      keycloak-authorization-server:
-        condition: service_healthy
+#      - 80
+      - 4200

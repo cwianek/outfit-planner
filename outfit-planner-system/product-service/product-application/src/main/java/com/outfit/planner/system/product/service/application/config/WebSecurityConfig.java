@@ -4,6 +4,7 @@ import com.outfit.planner.system.product.service.application.security.ProductUse
 import com.outfit.planner.system.product.service.application.security.ProductServiceJwtConverter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
@@ -15,7 +16,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
 import org.springframework.security.oauth2.core.OAuth2TokenValidator;
 import org.springframework.security.oauth2.jwt.*;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationProvider;
 import org.springframework.security.oauth2.server.resource.authentication.JwtIssuerAuthenticationManagerResolver;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -27,25 +27,21 @@ import java.util.Map;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
 
+    private final OAuth2ResourceServerProperties oAuth2ResourceServerProperties;
     private final ProductUserDetailsService productUserDetailsService;
-
-    @Value("${product-service.issuers}")
-    private List<String> issuers;
 
     Map<String, AuthenticationManager> authenticationManagers = new HashMap<>();
 
     JwtIssuerAuthenticationManagerResolver authenticationManagerResolver =
             new JwtIssuerAuthenticationManagerResolver(authenticationManagers::get);
 
-    public WebSecurityConfig(ProductUserDetailsService productUserDetailsService) {
+    public WebSecurityConfig(OAuth2ResourceServerProperties oAuth2ResourceServerProperties, ProductUserDetailsService productUserDetailsService) {
+        this.oAuth2ResourceServerProperties = oAuth2ResourceServerProperties;
         this.productUserDetailsService = productUserDetailsService;
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, @Qualifier("product-service-audience-validator")
-    OAuth2TokenValidator<Jwt> audienceValidator) throws Exception {
-        issuers.forEach(i -> addManager(authenticationManagers, i, audienceValidator));
-
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -59,23 +55,26 @@ public class WebSecurityConfig {
                 .anyRequest()
                 .fullyAuthenticated()
                 .and()
-                .oauth2ResourceServer(oath -> oath.authenticationManagerResolver(this.authenticationManagerResolver));
+                .oauth2ResourceServer()
+                .jwt()
+                .jwtAuthenticationConverter(productQueryJwtConverter());
         return http.build();
     }
 
-    public void addManager(Map<String, AuthenticationManager> authenticationManagers, String issuer, OAuth2TokenValidator<Jwt> audienceValidator) {
-        JwtDecoder jwtDecoder = jwtDecoder(audienceValidator, issuer);
+    @Bean
+    JwtDecoder jwtDecoder(@Qualifier("product-service-audience-validator")
+                          OAuth2TokenValidator<Jwt> audienceValidator) {
 
-        JwtAuthenticationProvider authenticationProvider = new JwtAuthenticationProvider(jwtDecoder);
-        authenticationProvider.setJwtAuthenticationConverter(productQueryJwtConverter());
-        authenticationManagers.put(issuer, authenticationProvider::authenticate);
-    }
+        NimbusJwtDecoder jwtDecoder = (NimbusJwtDecoder) JwtDecoders.fromOidcIssuerLocation(
+                oAuth2ResourceServerProperties.getJwt().getIssuerUri());
+        OAuth2TokenValidator<Jwt> withIssuer =
+                JwtValidators.createDefaultWithIssuer(
+                        oAuth2ResourceServerProperties.getJwt().getIssuerUri());
+        OAuth2TokenValidator<Jwt> withAudience =
+                new DelegatingOAuth2TokenValidator<>(withIssuer, audienceValidator);
 
-    JwtDecoder jwtDecoder(OAuth2TokenValidator<Jwt> audienceValidator, String issuerUri) {
-        NimbusJwtDecoder jwtDecoder = JwtDecoders.fromOidcIssuerLocation(issuerUri);
-        OAuth2TokenValidator<Jwt> withIssuer = JwtValidators.createDefaultWithIssuer(issuerUri);
-        OAuth2TokenValidator<Jwt> withAudience = new DelegatingOAuth2TokenValidator<>(withIssuer, audienceValidator);
         jwtDecoder.setJwtValidator(withAudience);
+
         return jwtDecoder;
     }
 

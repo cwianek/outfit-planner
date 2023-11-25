@@ -66,6 +66,7 @@ services:
     environment:
       VIRTUAL_HOST: ${DASHBOARD_HOST:-dashboard}
       VIRTUAL_PORT: 443
+      VIRTUAL_PATH: /
       NGINX_ENVSUBST_OUTPUT_DIR: /etc/nginx
       HTTPS_METHOD: redirect
       VIRTUAL_PROTO: https
@@ -77,9 +78,9 @@ services:
       keycloak-authorization-server:
         condition: service_healthy
 
-networks:
-  outfit-planner-system:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.50.0.0/24
+#networks:
+#  outfit-planner-system:
+#    driver: bridge
+#    ipam:
+#      config:
+#        - subnet: 172.50.0.0/24

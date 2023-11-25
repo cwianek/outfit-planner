@@ -851,7 +851,7 @@
         "http://localhost:8184/product-service/login/oauth2/keycloak"
       ],
       "webOrigins": [
-        "+"
+        "*"
       ],
       "notBefore": 0,
       "bearerOnly": false,

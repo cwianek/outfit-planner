@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prediction-service-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: prediction-service
+  template:
+    metadata:
+      labels:
+        app: prediction-service
+    spec:
+      containers:
+        - name: prediction-service-container
+          image: rzodkiewkowypotwor/prediction-service:0.0.1
+          ports:
+            - containerPort: 2006

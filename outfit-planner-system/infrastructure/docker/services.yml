@@ -5,6 +5,8 @@ volumes:
     driver: local
   products_service_postgres_data:
     driver: local
+  keycloak_data:
+    driver: local
 
 services:
   product-service:
@@ -26,19 +28,24 @@ services:
       - "SPRING_DATASOURCE_PASSWORD=admin"
       - "SERVICE_BINDING_ROOT=/bindings"
       - "SERVER_PORT=8184"
-      - "KEYCLOAK_ISSUER_URI=http://keycloak-server:8082/auth/realms/outfitplanner-realm"
-      - "KEYCLOAK_ADDITIONAL_ISSUERS=${PRODUCTS_ISSUERS}"
-      - "KEYCLOAK_JWK_SET_URI=http://keycloak-server:8082/auth/realms/outfitplanner-realm/protocol/openid-connect/certs"
+      - "KEYCLOAK_ISSUER_URI=https://keycloak-server:8443/realms/outfitplanner-realm"
+#      - "KEYCLOAK_ADDITIONAL_ISSUERS=${PRODUCTS_ISSUERS}"
+      - "KEYCLOAK_JWK_SET_URI=http://keycloak-server:8443/realms/outfitplanner-realm/protocol/openid-connect/certs"
+      - VIRTUAL_HOST=${DASHBOARD_HOST}
+      - VIRTUAL_PATH=/api/products
+      - VIRTUAL_PORT=8184
     depends_on:
       keycloak-authorization-server:
         condition: service_healthy
     networks:
       - ${GLOBAL_NETWORK}
     healthcheck:
-      test: "bash -c 'printf \"GET / HTTP/1.1\n\n\" > /dev/tcp/127.0.0.1/8080; exit $$?;'"
+      test: "bash -c 'printf \"GET / HTTP/1.1\n\n\" > /dev/tcp/127.0.0.1/8184; exit $$?;'"
       interval: 20s
       timeout: 5s
       retries: 25
+    expose:
+      - 8184
 
 
   outfit-service:
@@ -58,14 +65,21 @@ services:
       - "MONGO_PORT=27017"
       - "SPRING_DATASOURCE_PASSWORD=admin"
       - "SERVER_PORT=8185"
-      - "KEYCLOAK_ISSUER_URI=http://keycloak-server:8082/auth/realms/outfitplanner-realm"
-      - "KEYCLOAK_ADDITIONAL_ISSUERS=${OUTFITS_ISSUERS}"
-      - "KEYCLOAK_JWK_SET_URI=http://keycloak-server:8082/auth/realms/outfitplanner-realm/protocol/openid-connect/certs"
+      - "KEYCLOAK_ISSUER_URI=https://keycloak-server/realms/outfitplanner-realm"
+#      - "KEYCLOAK_ADDITIONAL_ISSUERS=${OUTFITS_ISSUERS}"
+      - "KEYCLOAK_JWK_SET_URI=https://keycloak-server/realms/outfitplanner-realm/protocol/openid-connect/certs"
+      - VIRTUAL_HOST=${DASHBOARD_HOST}
+      - VIRTUAL_PATH=/api/outfits
+      - VIRTUAL_PORT=8185
     depends_on:
       keycloak-authorization-server:
         condition: service_healthy
     networks:
       - ${GLOBAL_NETWORK}
+    expose:
+      - 8185
+#    extra_hosts:
+#      - "keycloak-server:172.70.0.1"
 
   mongodb-outfit-service:
     image: mongo:5.0
@@ -110,13 +124,16 @@ services:
     image: quay.io/keycloak/keycloak:${KEYCLOAK_VERSION:-latest}
     hostname: keycloak-server
     ports:
-      - "8443:8443"
-      - "8082:8082"
+      - "8443:443"
+#      - "8082:8082"
+    build:
+      context: ./keycloak
+      dockerfile: Dockerfile
     environment:
-      - "KEYCLOAK_USER=admin"
-      - "KEYCLOAK_PASSWORD=admin"
+      #      - "KEYCLOAK_USER=admin"
+      #      - "KEYCLOAK_PASSWORD=admin"
       - "KEYCLOAK_LOGLEVEL=DEBUG"
-      - "PROXY_ADDRESS_FORWARDING=true"
+#      - "PROXY_ADDRESS_FORWARDING=true"
       - "JAVA_OPTS=-Djboss.http.port=8082"
       - "DB_VENDOR=POSTGRES"
       - "DB_ADDR=postgres_keycloak"
@@ -125,20 +142,34 @@ services:
       - "DB_SCHEMA=public"
       - "DB_PASSWORD=keycloak"
       - "KEYCLOAK_IMPORT=/tmp/outfit-planner-config.json"
-      - "KC_HTTPS_CERTIFICATE_FILE=/opt/keycloak/conf/${DASHBOARD_HOST}.crt"
-      - "KC_HTTPS_CERTIFICATE_KEY_FILE=/opt/keycloak/conf/${DASHBOARD_HOST}.key"
+      - "KC_HTTPS_CERTIFICATE_FILE=/opt/keycloak/conf/keycloak-server.crt"
+      - "KC_HTTPS_CERTIFICATE_KEY_FILE=/opt/keycloak/conf/keycloak-server.key"
+      # new
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_HEALTH_ENABLED=true
+      - KC_HOSTNAME_URL=https://keycloak-server/
+      - KC_HOSTNAME_ADMIN_URL=https://keycloak-server/
+      - VIRTUAL_HOST=keycloak-server
+      - VIRTUAL_PORT=443
+      - VIRTUAL_PROTO=https
+#      - KC_HOSTNAME_ADMIN_URL=https://keycloak-server:8443/
     depends_on:
       - postgres_keycloak
     volumes:
-      - "${OUTFIT_PLANNER_SYSTEM_PATH}/infrastructure/docker/realm-export.json:/tmp/outfit-planner-config.json"
+      - "${OUTFIT_PLANNER_SYSTEM_PATH}/infrastructure/docker/realm-export.json:/opt/keycloak/data/import/outfit-planner-config.json"
       - "${CERTS_PATH}:/opt/keycloak/conf/"
+      - "keycloak_data:/opt/jboss/keycloak/standalone/data"
     networks:
       - ${GLOBAL_NETWORK}
+    command: ['start-dev',  '--import-realm', '--http-port 8082', '--https-port 443']
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8082/auth/realms/master", "--fail" ]
-      interval: 20s
+      test: [ "CMD", "curl", "--head", "-fsS", "http://localhost:8082/health/ready" ]
+      interval: 10s
       timeout: 5s
       retries: 10
+    expose:
+      - 443
 
   prediction-service:
     hostname: prediction-service

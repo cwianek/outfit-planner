@@ -57,7 +57,7 @@ export class KeycloakGuard implements CanActivate {
 
     this.keycloakInitialization = from(this.keycloak.init({
       config: {
-        url: '/auth',
+        url: 'https://keycloak-server',
         realm: 'outfitplanner-realm',
         clientId: this.keycloakConfig.clientId
       },

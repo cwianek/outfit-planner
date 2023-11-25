@@ -18,7 +18,7 @@
     }
   },
   "/auth/*": {
-    "target": "http://products:4201/auth",
+    "target": "https://keycloak-server-proxy/auth",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug",
