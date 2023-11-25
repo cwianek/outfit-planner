@@ -1,0 +1,32 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    paths:
+      - 'outfit-planner-system/infrastructure/docker/keycloak/.version'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Read version from file
+        id: version
+        run: echo "::set-output name=version::$(cat outfit-planner-system/infrastructure/docker/keycloak/.version)"
+
+      - name: Build and push Docker image
+        run: |
+          docker build -t rzodkiewkowypotwor/keycloak-server:${{ steps.version.outputs.version }} -f outfit-planner-system/infrastructure/docker/keycloak/Dockerfile outfit-planner-system/infrastructure/docker/keycloak/.
+          docker push rzodkiewkowypotwor/keycloak-server:${{ steps.version.outputs.version }}

@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak-server-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak-server
+  template:
+    metadata:
+      labels:
+        app: keycloak-server
+    spec:
+      containers:
+        - name: keycloak-server-container
+          image: rzodkiewkowypotwor/keycloak-server:0.0.1
+          ports:
+            - containerPort: 8443
