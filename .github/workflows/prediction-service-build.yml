@@ -2,6 +2,8 @@ name: Build and Push Docker Image
 
 on:
   push:
+    paths:
+      - 'outfit-planner-system/prediction-service/.version'
 
 jobs:
   build:
@@ -20,7 +22,11 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Read version from file
+        id: version
+        run: echo "::set-output name=version::$(cat outfit-planner-system/prediction-service/.version)"
+
       - name: Build and push Docker image
         run: |
-          docker build -t rzodkiewkowypotwor/prediction-service:latest -f outfit-planner-system/prediction-service/Dockerfile outfit-planner-system/prediction-service/.
-          docker push rzodkiewkowypotwor/prediction-service:latest
+          docker build -t rzodkiewkowypotwor/prediction-service:${{ steps.version.outputs.version }} -f outfit-planner-system/prediction-service/Dockerfile outfit-planner-system/prediction-service/.
+          docker push rzodkiewkowypotwor/prediction-service:${{ steps.version.outputs.version }}
