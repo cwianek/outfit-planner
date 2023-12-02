@@ -59,4 +59,4 @@ jobs:
       - name: Push Docker image
         run: |
           # Replace this with your Docker push command
-          docker push com.outfit.planner.system/outfit-service:1.0-SNAPSHOT
+          docker push rzodkiewkowypotwor/outfit-service:1.0-SNAPSHOT
