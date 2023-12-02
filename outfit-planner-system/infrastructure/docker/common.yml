@@ -5,4 +5,4 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: ${SUBNET:-172.70.0.0/24}
+        - subnet: ${SUBNET:-172.80.0.0/24}

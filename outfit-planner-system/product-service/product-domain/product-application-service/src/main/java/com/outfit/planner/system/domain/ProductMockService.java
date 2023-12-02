@@ -5,9 +5,9 @@ import com.outfit.planner.system.domain.ports.input.service.ProductApplicationSe
 import com.outfit.planner.system.domain.ports.output.repository.ProductRepository;
 import com.outfit.planner.system.domain.dto.create.GetProductsCriteria;
 import com.outfit.planner.system.product.service.domain.entity.Product;
+import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;

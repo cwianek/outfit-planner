@@ -51,7 +51,7 @@ public class WebSecurityConfig {
                 .cors()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/products/mock**/**").permitAll()
+                .requestMatchers("/products/mock**/**").permitAll()
                 .anyRequest()
                 .fullyAuthenticated()
                 .and()

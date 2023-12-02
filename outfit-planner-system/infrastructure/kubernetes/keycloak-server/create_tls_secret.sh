@@ -1,0 +1,1 @@
+kubectl create secret tls keycloak-tls --cert=\\wsl.localhost\Ubuntu-20.04\mnt\volume\certs\keycloak-server.crt --key=\\wsl.localhost\Ubuntu-20.04\mnt\volume\certs\keycloak-server.key

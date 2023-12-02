@@ -14,7 +14,3 @@ services:
       - ${OUTFIT_PLANNER_SYSTEM_PATH}/infrastructure/docker/proxy.conf:/etc/nginx/proxy.conf
     networks:
       - ${GLOBAL_NETWORK}
-
-
-
-

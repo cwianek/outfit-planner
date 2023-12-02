@@ -11,6 +11,8 @@ import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import java.io.Serializable;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.BiConsumer;
 
 @Slf4j
 @Component
@@ -26,8 +28,14 @@ public class KafkaProducerImpl<K extends Serializable, V extends SpecificRecordB
     public void send(String topicName, K key, V message, ListenableFutureCallback<SendResult<K, V>> callback) {
         log.info("Sending message={} to topic={}", message, topicName);
         try {
-            ListenableFuture<SendResult<K, V>> kafkaResultFuture = kafkaTemplate.send(topicName, key, message);
-            kafkaResultFuture.addCallback(callback);
+            CompletableFuture<SendResult<K, V>> kafkaResultFuture = kafkaTemplate.send(topicName, key, message);
+            kafkaResultFuture.whenComplete((result, u) -> {
+                if (u != null) {
+                    callback.onFailure(u);
+                } else {
+                    callback.onSuccess(result);
+                }
+            });
         } catch (KafkaException e) {
             log.error("Error on kafka producer with key: {}, message: {} and exception: {}", key, message,
                     e.getMessage());

@@ -12,8 +12,8 @@
     <artifactId>product-container</artifactId>
 
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -44,44 +44,46 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <image>
-                        <env>
-                            <BP_DEBUG>=true</BP_DEBUG>
-                        </env>
-                        <name>${project.groupId}/product.service:${project.version}</name>
-                    </image>
+<!--            <plugin>-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--                <configuration>-->
+<!--                    <image>-->
+<!--                        <env>-->
+<!--                            <BP_DEBUG>=true</BP_DEBUG>-->
+<!--                        </env>-->
+<!--                        <name>${project.groupId}/product.service:${project.version}</name>-->
+<!--                    </image>-->
 
-                    <docker>
-                        <host>${env.DOCKER_SOCK_PATH}</host>
-                        <!--                        <host>tcp://127.0.0.1:2375</host>-->
-                        <tlsVerify>false</tlsVerify>
-                        <!--                        <bindHostToBuilder>true</bindHostToBuilder>-->
-                    </docker>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>build-image</goal>
-                        </goals>
-                        <configuration>
-                            <image>
-                                <builder>paketobuildpacks/builder:base</builder>
-                                <env>
-                                    <BP_DEBUG>=true</BP_DEBUG>
-                                </env>
-                            <bindings>
-                                <binding>${env.CERTS_PATH}/pems:/platform/bindings/ca-certificates</binding>
-                            </bindings>
-                            </image>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+<!--                    <docker>-->
+<!--&lt;!&ndash;                        <host>${docker.sock.path.default}</host>&ndash;&gt;-->
+
+<!--                        <host>${env.DOCKER_SOCK_PATH}</host>-->
+<!--                        &lt;!&ndash;                        <host>tcp://127.0.0.1:2375</host>&ndash;&gt;-->
+<!--                        <tlsVerify>false</tlsVerify>-->
+<!--                        &lt;!&ndash;                        <bindHostToBuilder>true</bindHostToBuilder>&ndash;&gt;-->
+<!--                    </docker>-->
+<!--                </configuration>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <phase>install</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>build-image</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <image>-->
+<!--                                <builder>paketobuildpacks/builder:base</builder>-->
+<!--                                <env>-->
+<!--                                    <BP_DEBUG>=true</BP_DEBUG>-->
+<!--                                </env>-->
+<!--&lt;!&ndash;                            <bindings>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <binding>${env.CERTS_PATH}/pems:/platform/bindings/ca-certificates</binding>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </bindings>&ndash;&gt;-->
+<!--                            </image>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
 
             <plugin>
                 <groupId>org.zeroturnaround</groupId>

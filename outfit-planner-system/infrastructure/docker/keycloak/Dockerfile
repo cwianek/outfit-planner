@@ -6,3 +6,4 @@ RUN dnf install --installroot /mnt/rootfs curl --releasever 9 --setopt install_w
 
 FROM quay.io/keycloak/keycloak
 COPY --from=ubi-micro-build /mnt/rootfs /
+COPY realm-export.json /opt/keycloak/data/import/outfit-planner-config.json

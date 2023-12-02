@@ -17,7 +17,7 @@
     <parent>
         <artifactId>spring-boot-starter-parent</artifactId>
         <groupId>org.springframework.boot</groupId>
-        <version>2.7.5</version>
+        <version>3.2.0</version>
         <relativePath/>
     </parent>
 
@@ -25,11 +25,13 @@
     <properties>
         <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
         <mockito.version>4.8.1</mockito.version>
-        <spring-kafka.version>2.9.2</spring-kafka.version>
+        <spring-kafka.version>3.1.0</spring-kafka.version>
         <kafka-avro-serializer.version>7.2.1</kafka-avro-serializer.version>
         <avro.version>1.11.1</avro.version>
-        <spring.version>2.7.5</spring.version>
+        <spring.version>3.2.0</spring.version>
         <javacv-platform.version>1.5.8</javacv-platform.version>
+        <docker.sock.path.default>/var/run/docker.sock</docker.sock.path.default>
+        <version.maven.war.plugin>3.4.0</version.maven.war.plugin>
     </properties>
 
     <dependencyManagement>
@@ -106,6 +108,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-logging</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-classic</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
@@ -124,7 +132,16 @@
 
     <profiles>
         <profile>
-            <id>prod</id>
+            <id>local-docker</id>
+            <activation>
+                <property>
+                    <name>env.DOCKER_SOCK_PATH</name>
+                </property>
+            </activation>
+            <properties>
+                <!-- Override only if necessary -->
+                <docker.sock.path.default>${env.DOCKER_SOCK_PATH}</docker.sock.path.default>
+            </properties>
         </profile>
     </profiles>
 

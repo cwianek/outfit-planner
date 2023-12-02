@@ -48,38 +48,80 @@ services:
       - 8184
 
 
+#  outfit-service:
+#    image: ${GROUP_ID}/outfit.service:${SERVICE_VERSION:-latest}
+#    ports:
+#      - "8185:8185"
+#      - "5435:5432"
+#      - "5006:5005"
+#    environment:
+#      - "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Xms128m -Xmx256m"
+#      - "LOGGING_LEVEL_COM_MICROSERVICES_DEMO=info"
+#      - "LOGGING_LEVEL_ROOT=info"
+#      - "KAFKA-CONFIG_TOPIC-NAME=product"
+#      - "KAFKA-CONFIG_BOOTSTRAP-SERVERS=kafka-broker-1:9092"#, kafka-broker-2:9092, kafka-broker-3:9092"
+#      - "KAFKA-CONFIG_SCHEMA-REGISTRY-URL=http://schema-registry:8081"
+#      - "MONGO_HOST=mongodb-outfit-service"
+#      - "MONGO_PORT=27017"
+#      - "SPRING_DATASOURCE_PASSWORD=admin"
+#      - "SERVER_PORT=8185"
+#      - "KEYCLOAK_ISSUER_URI=https://keycloak-server/realms/outfitplanner-realm"
+##      - "KEYCLOAK_ADDITIONAL_ISSUERS=${OUTFITS_ISSUERS}"
+#      - "KEYCLOAK_JWK_SET_URI=https://keycloak-server/realms/outfitplanner-realm/protocol/openid-connect/certs"
+#      - VIRTUAL_HOST=${DASHBOARD_HOST}
+#      - VIRTUAL_PATH=/api/outfits
+#      - VIRTUAL_PORT=8185
+#    depends_on:
+#      keycloak-authorization-server:
+#        condition: service_healthy
+#    networks:
+#      - ${GLOBAL_NETWORK}
+#    expose:
+#      - 8185
+##    extra_hosts:
+##      - "keycloak-server:172.70.0.1"
+
   outfit-service:
-    image: ${GROUP_ID}/outfit.service:${SERVICE_VERSION:-latest}
-    ports:
-      - "8185:8185"
-      - "5435:5432"
-      - "5006:5005"
-    environment:
-      - "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Xms128m -Xmx256m"
-      - "LOGGING_LEVEL_COM_MICROSERVICES_DEMO=info"
-      - "LOGGING_LEVEL_ROOT=info"
-      - "KAFKA-CONFIG_TOPIC-NAME=product"
-      - "KAFKA-CONFIG_BOOTSTRAP-SERVERS=kafka-broker-1:9092"#, kafka-broker-2:9092, kafka-broker-3:9092"
-      - "KAFKA-CONFIG_SCHEMA-REGISTRY-URL=http://schema-registry:8081"
-      - "MONGO_HOST=mongodb-outfit-service"
-      - "MONGO_PORT=27017"
-      - "SPRING_DATASOURCE_PASSWORD=admin"
-      - "SERVER_PORT=8185"
-      - "KEYCLOAK_ISSUER_URI=https://keycloak-server/realms/outfitplanner-realm"
-#      - "KEYCLOAK_ADDITIONAL_ISSUERS=${OUTFITS_ISSUERS}"
-      - "KEYCLOAK_JWK_SET_URI=https://keycloak-server/realms/outfitplanner-realm/protocol/openid-connect/certs"
-      - VIRTUAL_HOST=${DASHBOARD_HOST}
-      - VIRTUAL_PATH=/api/outfits
-      - VIRTUAL_PORT=8185
-    depends_on:
-      keycloak-authorization-server:
-        condition: service_healthy
-    networks:
-      - ${GLOBAL_NETWORK}
-    expose:
-      - 8185
-#    extra_hosts:
-#      - "keycloak-server:172.70.0.1"
+#      image: ${GROUP_ID}/outfit.service:${SERVICE_VERSION:-latest}
+      build:
+        context: ./outfit-service
+        dockerfile: Dockerfile
+      ports:
+        - "8185:8185"
+        - "9990:9990"
+        - "5435:5432"
+        - "5006:5005"
+      environment:
+        - "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Xms128m -Xmx256m"
+        - "LOGGING_LEVEL_COM_MICROSERVICES_DEMO=info"
+        - "LOGGING_LEVEL_ROOT=info"
+        - "KAFKA-CONFIG_TOPIC-NAME=product"
+        - "KAFKA-CONFIG_BOOTSTRAP-SERVERS=kafka-broker-1:9092"#, kafka-broker-2:9092, kafka-broker-3:9092"
+        - "KAFKA-CONFIG_SCHEMA-REGISTRY-URL=http://schema-registry:8081"
+        - "MONGO_HOST=mongodb-outfit-service"
+        - "MONGO_PORT=27017"
+        - "SPRING_DATASOURCE_PASSWORD=admin"
+        - "SERVER_PORT=8185"
+        - "KEYCLOAK_ISSUER_URI=https://keycloak-server/realms/outfitplanner-realm"
+  #      - "KEYCLOAK_ADDITIONAL_ISSUERS=${OUTFITS_ISSUERS}"
+        - "KEYCLOAK_JWK_SET_URI=https://keycloak-server/realms/outfitplanner-realm/protocol/openid-connect/certs"
+        - VIRTUAL_HOST=${DASHBOARD_HOST}
+        - VIRTUAL_PATH=/api/outfits
+        - VIRTUAL_PORT=8185
+        - WILDFLY_MANAGEMENT_USER=admin
+        - WILDFLY_MANAGEMENT_PASSWORD=admin
+#      depends_on:
+#        keycloak-authorization-server:
+#          condition: service_healthy
+      volumes:
+        - "${CERTS_PATH}/pems:/app/certificates"
+      networks:
+        - ${GLOBAL_NETWORK}
+      expose:
+        - 8185
+  #    extra_hosts:
+  #      - "keycloak-server:172.70.0.1"
+
 
   mongodb-outfit-service:
     image: mongo:5.0
@@ -121,7 +163,7 @@ services:
       - ${GLOBAL_NETWORK}
 
   keycloak-authorization-server:
-    image: quay.io/keycloak/keycloak:${KEYCLOAK_VERSION:-latest}
+#    image: quay.io/keycloak/keycloak:${KEYCLOAK_VERSION:-latest}
     hostname: keycloak-server
     ports:
       - "8443:443"
@@ -157,9 +199,7 @@ services:
     depends_on:
       - postgres_keycloak
     volumes:
-      - "${OUTFIT_PLANNER_SYSTEM_PATH}/infrastructure/docker/realm-export.json:/opt/keycloak/data/import/outfit-planner-config.json"
       - "${CERTS_PATH}:/opt/keycloak/conf/"
-      - "keycloak_data:/opt/jboss/keycloak/standalone/data"
     networks:
       - ${GLOBAL_NETWORK}
     command: ['start-dev',  '--import-realm', '--http-port 8082', '--https-port 443']
