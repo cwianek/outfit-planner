@@ -1,0 +1,46 @@
+app:
+  name: outfit-service
+  replicaCount: 1
+  container:
+    image: rzodkiewkowypotwor/outfit-service:1.0.8-SNAPSHOT
+    port: 8185
+    env:
+    - key: JAVA_OPTS
+      value: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Xms128m -Xmx256m"
+    - key: LOGGING_LEVEL_COM_MICROSERVICES_DEMO
+      value: info
+    - key: LOGGING_LEVEL_ROOT
+      value: info
+    - key: KAFKA-CONFIG_TOPIC-NAME
+      value: product
+    - key: KAFKA-CONFIG_BOOTSTRAP-SERVERS
+      value: "kafka-broker-1:9092"  # Add other brokers if needed
+    - key: KAFKA-CONFIG_SCHEMA-REGISTRY-URL
+      value: http://schema-registry:8081
+    - key: MONGO_HOST
+      value: outfits-mongodb
+    - key: MONGO_PORT
+      value: "27017"
+    - key: SPRING_DATASOURCE_PASSWORD
+      value: admin
+    - key: SERVER_PORT
+      value: "8185"
+    - key: KEYCLOAK_ISSUER_URI
+      value: http://keycloak-server/realms/outfitplanner-realm
+    - key: KEYCLOAK_JWK_SET_URI
+      value: http://keycloak-server/realms/outfitplanner-realm/protocol/openid-connect/certs
+    - key: WILDFLY_MANAGEMENT_USER
+      value: admin
+    - key: WILDFLY_MANAGEMENT_PASSWORD
+      value: admin
+  initContainer:
+      name: init-wait-keycloak
+      image: busybox
+      command: [ 'sh', '-c', 'until nslookup keycloak-server.default.svc.cluster.local && nslookup outfits-mongodb.default.svc.cluster.local; do echo waiting for keycloak-server; sleep 2; done; sleep 30' ]
+  service:
+    port: 8185
+    type: LoadBalancer
+  volume:
+    secret: true
+    volumeName: keycloak-certs
+    mountPath: /app/certificates

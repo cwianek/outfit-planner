@@ -1,0 +1,12 @@
+{{- if .Values.app.config.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.app.config.name }}
+{{/*  labels:*/}}
+{{/*    group: {{ .Values.app.group }}*/}}
+data:
+{{- range .Values.app.config.data }}
+  {{ .key }}: {{ .value }}
+{{- end}}
+{{- end}}

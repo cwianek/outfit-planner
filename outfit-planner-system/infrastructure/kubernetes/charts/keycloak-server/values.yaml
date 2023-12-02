@@ -1,0 +1,41 @@
+replicaCount: 1
+keycloakserver:
+  name: keycloak-server
+  #  group: db
+  container:
+    image: rzodkiewkowypotwor/keycloak-server:0.0.2
+    args: [ "start-dev", "--import-realm", "--http-port", "8080", "--https-port", "443" ]
+    port: 8080
+  service:
+    type: LoadBalancer
+    port: 80
+  #  volume:
+  #    name: postgres-storage
+  #    kind: PersistentVolumeClaim
+  #    mountPath: /var/lib/postgresql/data
+  #    pvc:
+  #      name: postgres-persistent-volume-claim
+  #      accessMode: ReadWriteOnce
+  #      storage: 4Gi
+  config:
+    name: keycloak-server-config
+  data:
+    KEYCLOAK_LOGLEVEL: DEBUG
+    JAVA_OPTS: "-Djboss.http.port=8082"
+    DB_VENDOR: POSTGRES
+    DB_ADDR: postgres_keycloak
+    DB_DATABASE: keycloak
+    DB_USER: keycloak
+    DB_SCHEMA: public
+    DB_PASSWORD: keycloak
+    KEYCLOAK_IMPORT: /tmp/outfit-planner-config.json
+    KC_HTTPS_CERTIFICATE_FILE: /opt/keycloak/conf/keycloak-server.crt
+    KC_HTTPS_CERTIFICATE_KEY_FILE: /opt/keycloak/conf/keycloak-server.key
+    KEYCLOAK_ADMIN: admin
+    KEYCLOAK_ADMIN_PASSWORD: admin
+    KC_HEALTH_ENABLED: "true"
+    KC_HOSTNAME: keycloak-server
+    VIRTUAL_HOST: keycloak-server
+    VIRTUAL_PORT: "443"
+    VIRTUAL_PROTO: https
+    KC_PROXY: edge

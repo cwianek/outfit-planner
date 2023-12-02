@@ -1,0 +1,16 @@
+app:
+  name: postgres-keycloak
+  replicaCount: 1
+  container:
+    image: postgres
+    port: 5432
+    env:
+      - key: POSTGRES_DB
+        value: keycloak
+      - key: POSTGRES_USER
+        value: keycloak
+      - key: POSTGRES_PASSWORD
+        value: keycloak
+  service:
+    port: 5439
+    type: LoadBalancer

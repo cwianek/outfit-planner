@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.app.name }}
+  labels:
+    app: {{ .Values.app.name }}
+spec:
+  replicas: {{ .Values.app.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.app.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.name }}
+    spec:
+      {{- if .Values.app.volume.enabled }}
+      volumes:
+        - name: {{ .Values.app.volume.volumeName }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.app.volume.pvc.name }}
+      {{- end }}
+      {{- if .Values.app.volume.secret }}
+      volumes:
+        - name: {{ .Values.app.volume.volumeName }}
+          secret:
+            secretName: {{ .Values.app.volume.volumeName }}
+      {{- end }}
+      {{- if .Values.app.initContainer }}
+      initContainers:
+        - name: {{ .Values.app.initContainer.name }}
+          image: {{ .Values.app.initContainer.image }}
+          command: {{- range .Values.app.initContainer.command }}
+            - {{.}}
+          {{- end }}
+          {{- if .Values.app.initContainer.volumeName }}
+          volumeMounts:
+            - name: {{ .Values.app.initContainer.volumeName }}
+              mountPath: {{ .Values.app.initContainer.mountPath }}
+          {{- end }}
+      {{- end }}
+      containers:
+        - name: {{ .Values.app.name }}
+          image: {{ .Values.app.container.image }}
+          {{- if .Values.app.container.args }}
+          args: {{- range .Values.app.container.args }}
+            - {{.}}
+          {{- end }}
+          {{- end }}
+          ports:
+            - containerPort: {{ .Values.app.container.port }}
+          {{- if .Values.app.container.env }}
+          env:
+            {{- range .Values.app.container.env }}
+            - name: {{ .key }}
+              value: {{ quote .value }}
+            {{- end }}
+          {{- end }}
+          envFrom:
+            {{- range .Values.app.container.config }}
+            - configMapRef:
+                name: {{ .name }}
+            {{- end }}
+          {{- if .Values.app.volume.volumeName }}
+          volumeMounts:
+            - name: {{ .Values.app.volume.volumeName }}
+              mountPath: {{ .Values.app.volume.mountPath }}
+          {{- end }}
+          imagePullPolicy: Always
+      {{- if .Values.app.disableServiceLinks }}
+      enableServiceLinks: false
+      {{- end }}

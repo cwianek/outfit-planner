@@ -1,0 +1,55 @@
+architecture: standalone
+nameOverride: outfits-mongodb
+auth:
+  rootUser: root
+  rootPassword: root
+  enabled: true
+  usernames:
+    - admin
+  passwords:
+    - admin
+  databases:
+    - outfit-service
+service:
+  nameOverride: outfits-mongodb
+  type: LoadBalancer
+
+#mongo:
+#  name: outfits-mongodb
+#mongo:
+#  name: outfits-mongodb
+#  replicaCount: 3
+#  container:
+#    image: mongo:5.0
+#    port: 27017
+#    env:
+#      - key: name
+#        value: value
+#    volumeName: outfits-mongodb-data
+#    mountPath: /data/db
+#  service:
+#    port: 27017
+#    type: LoadBalancer
+#  #  persistence:
+#  #    name: outfits-mongodb
+#  #    enabled: true
+#  #    existingClaim: ""
+#  #    accessMode: ReadWriteOnce
+#  #    size: 1Gi
+#  #    volumeName: mongodb-data
+#  #    mountPath: /data/db
+#  #
+#  volume:
+#    enabled: true
+#    kind: PersistentVolumeClaim
+#    mountPath: /data/db
+#    volumeName: outfits-mongodb-data
+#    pvc:
+#      name: outfits-mongo-persistent-volume-claim
+#      accessMode: ReadWriteOnce
+#      storage: 1Gi
+##  volumes:
+##    - name: dashboard-certs
+##      secret:
+##        name: dashboard-certs
+##      mountPath: /etc/nginx/certs

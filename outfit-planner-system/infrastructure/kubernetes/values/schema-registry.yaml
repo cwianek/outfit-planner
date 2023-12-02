@@ -1,0 +1,40 @@
+app:
+  name: schema-registry
+  replicaCount: 1
+  container:
+    image: confluentinc/cp-schema-registry:7.2.1
+    port: 8081
+    env:
+      - key: SCHEMA_REGISTRY_HOST_NAME
+        value: schema-registry
+      - key: SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL
+        value: zookeeper:2181
+      - key: SCHEMA_REGISTRY_LISTENERS
+        value: http://0.0.0.0:8081
+      - key: SCHEMA_REGISTRY_DEBUG
+        value: true
+      - key: SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS
+        value: PLAINTEXT://kafka-broker-1:9092,LISTENER_LOCAL://localhost:19092
+      - key: k
+        value: a
+#      - key: ZOOKEEPER_CLIENT_PORT
+#        value: 2181
+  initContainer:
+    name: schema-registry-init-wait-for-zookeeper
+    image: busybox
+    command:
+      - 'sh'
+      - '-c'
+      - >
+        until nslookup zookeeper.default.svc.cluster.local && nslookup kafka-broker-1.default.svc.cluster.local;
+        do echo "Waiting for zookeeper and kafka-broker-1"; sleep 2;
+        done;
+  service:
+    port: 8081
+    type: LoadBalancer
+  disableServiceLinks: true
+#  volumes:
+#    - name: dashboard-certs
+#      secret:
+#        name: dashboard-certs
+#      mountPath: /etc/nginx/certs

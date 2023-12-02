@@ -1,0 +1,4 @@
+tlssecret:
+  secretName: dashboard-tls
+  certFilePath: "files/dashboard.crt"
+  keyFilePath: "files/dashboard.key"

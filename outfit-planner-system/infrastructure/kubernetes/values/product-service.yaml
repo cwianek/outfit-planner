@@ -1,0 +1,46 @@
+app:
+  name: product-service
+  replicaCount: 1
+  container:
+    image: rzodkiewkowypotwor/product-service:1.0.4-SNAPSHOT
+    port: 8184
+    env:
+      - key: JAVA_OPTS
+        value: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Xms128m -Xmx256m"
+      - key: LOGGING_LEVEL_COM_MICROSERVICES_DEMO
+        value: info
+      - key: LOGGING_LEVEL_ROOT
+        value: info
+      - key: KAFKA-CONFIG_TOPIC-NAME
+        value: product
+      - key: KAFKA-CONFIG_BOOTSTRAP-SERVERS
+        value: "kafka-broker-1:9092"
+      - key: KAFKA-CONFIG_SCHEMA-REGISTRY-URL
+        value: http://schema-registry:8081
+      - key: TWITTER-TO-KAFKA-SERVICE_ENABLE-MOCK-TWEETS
+        value: "true"
+      - key: SPRING_DATASOURCE_URL
+        value: "jdbc:postgresql://products-postgres:5432/postgres?currentSchema=product&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified"
+      - key: SPRING_DATASOURCE_USERNAME
+        value: admin
+      - key: SPRING_DATASOURCE_PASSWORD
+        value: admin
+      - key: KEYCLOAK_ISSUER_URI
+        value: http://keycloak-server/realms/outfitplanner-realm
+      - key: KEYCLOAK_JWK_SET_URI
+        value: http://keycloak-server/realms/outfitplanner-realm/protocol/openid-connect/certs
+      - key: SERVICE_BINDING_ROOT
+        value: /bindings
+      - key: SERVER_PORT
+        value: "8184"
+  initContainer:
+      name: init-wait-keycloak
+      image: busybox
+      command: [ 'sh', '-c', 'until nslookup keycloak-server.default.svc.cluster.local; do echo waiting for keycloak-server; sleep 2; done; sleep 30' ]
+  service:
+    port: 8184
+    type: LoadBalancer
+  volume:
+    secret: true
+    volumeName: keycloak-certs
+    mountPath: /app/certificates

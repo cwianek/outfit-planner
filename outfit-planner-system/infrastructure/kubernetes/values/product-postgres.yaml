@@ -1,0 +1,18 @@
+app:
+  name: products-postgres
+  replicaCount: 1
+  container:
+    image: postgres
+    port: 5432
+    env:
+      - key: POSTGRES_DB
+        value: postgres
+      - key: POSTGRES_USER
+        value: admin
+      - key: POSTGRES_PASSWORD
+        value: admin
+      - key: JDBC_DRIVER_CLASS
+        value: org.postgresql.Driver
+  service:
+    port: 5432
+    type: LoadBalancer

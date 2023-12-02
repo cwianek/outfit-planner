@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
 import org.springframework.security.oauth2.core.OAuth2TokenValidator;
+import org.springframework.security.oauth2.core.OAuth2TokenValidatorResult;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -59,11 +60,16 @@ public class WebSecurityConfig {
 
         NimbusJwtDecoder jwtDecoder = (NimbusJwtDecoder) JwtDecoders.fromOidcIssuerLocation(
                 oAuth2ResourceServerProperties.getJwt().getIssuerUri());
+
+        OAuth2TokenValidator<Jwt> skipIssuerValidation =
+                jwt -> OAuth2TokenValidatorResult.success();
+
         OAuth2TokenValidator<Jwt> withIssuer =
                 JwtValidators.createDefaultWithIssuer(
                         oAuth2ResourceServerProperties.getJwt().getIssuerUri());
+
         OAuth2TokenValidator<Jwt> withAudience =
-                new DelegatingOAuth2TokenValidator<>(withIssuer, audienceValidator);
+                new DelegatingOAuth2TokenValidator<>(skipIssuerValidation, audienceValidator);
 
         jwtDecoder.setJwtValidator(withAudience);
 

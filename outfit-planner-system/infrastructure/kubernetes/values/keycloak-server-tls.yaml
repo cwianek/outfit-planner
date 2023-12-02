@@ -1,0 +1,4 @@
+tlssecret:
+  secretName: keycloak-tls
+  certFilePath: "files/keycloak-server.crt"
+  keyFilePath: "files/keycloak-server.key"

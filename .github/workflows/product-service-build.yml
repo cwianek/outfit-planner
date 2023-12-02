@@ -1,10 +1,10 @@
-name: Build and push outfit-service to Docker Hub
+name: Build and push product-service to Docker Hub
 
 on:
   push:
     paths:
-      - 'outfit-planner-system/outfit-service/**'
-      - '.github/workflows/outfit-service-build.yml'
+      - 'outfit-planner-system/product-service/**'
+      - '.github/workflows/product-service-build.yml'
 
 jobs:
   build:
@@ -27,11 +27,12 @@ jobs:
           cd $GITHUB_WORKSPACE/outfit-planner-system
           # Replace this with your build command
           mvn install -Dmaven.test.skip=true -Dfile.path=${FILE_PATH}
-          cp outfit-service/target/*.war artifact.war
+          cp product-service/product-container/target/*.war artifact.war
 
       - name: List artifacts before upload
         run: |
           ls -R
+
 
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
@@ -39,7 +40,6 @@ jobs:
           name: outfit-planner-wars
           path: |
             outfit-planner-system/artifact.war
-
 
   docker:
     runs-on: ubuntu-latest
@@ -64,7 +64,7 @@ jobs:
         run: |
           set -x
           # Replace this with your Docker build command
-          docker build -t rzodkiewkowypotwor/outfit-service:1.0.8-SNAPSHOT -f outfit-planner-system/infrastructure/docker/backend-service/Dockerfile outfit-planner-system/infrastructure/docker/backend-service/.
+          docker build -t rzodkiewkowypotwor/product-service:1.0.4-SNAPSHOT -f outfit-planner-system/infrastructure/docker/backend-service/Dockerfile outfit-planner-system/infrastructure/docker/backend-service/.
           set +x
 
       - name: Login to Docker Hub
@@ -76,4 +76,4 @@ jobs:
       - name: Push Docker image
         run: |
           # Replace this with your Docker push command
-          docker push rzodkiewkowypotwor/outfit-service:1.0.8-SNAPSHOT
+          docker push rzodkiewkowypotwor/product-service:1.0.4-SNAPSHOT

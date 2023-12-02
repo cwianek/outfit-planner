@@ -1,0 +1,12 @@
+{{- if .Values.app.volume.enabled }}
+apiVersion: v1
+kind: {{ .Values.app.volume.kind }}
+metadata:
+  name: {{ .Values.app.volume.pvc.name }}
+spec:
+  accessModes:
+    - {{ .Values.app.volume.pvc.accessMode }}
+  resources:
+    requests:
+      storage: {{ .Values.app.volume.pvc.storage }}
+{{- end }}

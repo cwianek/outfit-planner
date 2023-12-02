@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.keycloakserver.name }}
+  labels:
+    app: {{ .Values.keycloakserver.name }}
+{{/*    group: {{ .Values.keycloakserver.group }}*/}}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.keycloakserver.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.keycloakserver.name }}
+{{/*        group: {{ .Values.keycloakserver.group }}*/}}
+    spec:
+{{/*      volumes:*/}}
+{{/*        - name: {{ .Values.keycloakserver.volume.name }}*/}}
+{{/*          persistentVolumeClaim:*/}}
+{{/*            claimName: {{ .Values.keycloakserver.volume.pvc.name }}*/}}
+      containers:
+        - name: {{ .Values.keycloakserver.name }}
+          image: {{ .Values.keycloakserver.container.image }}
+          args: {{ .Values.keycloakserver.container.args }}
+          ports:
+            - containerPort: {{ .Values.keycloakserver.container.port }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.keycloakserver.config.name }}
+{{/*          volumeMounts:*/}}
+{{/*            - name: {{ .Values.keycloakserver.volume.name }}*/}}
+{{/*              mountPath: {{ .Values.keycloakserver.volume.mountPath }}*/}}

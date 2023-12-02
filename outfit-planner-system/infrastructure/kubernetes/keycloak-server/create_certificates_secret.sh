@@ -1,1 +1,0 @@
-kubectl create secret generic keycloak-certs --from-file=keycloak-server.crt=\\wsl.localhost\Ubuntu-20.04\mnt\volume\certs\keycloak-server.crt --from-file=keycloak-server.key=\\wsl.localhost\Ubuntu-20.04\mnt\volume\certs\keycloak-server.key

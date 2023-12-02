@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.keycloakserver.config.name }}
+  labels:
+    group: {{ .Values.keycloakserver.group }}
+data:
+{{- range .Values.keycloakserver.config.data }}
+  {{ .key }}: {{ .value }}
+{{- end}}

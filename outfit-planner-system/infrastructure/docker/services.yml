@@ -114,7 +114,7 @@ services:
 #        keycloak-authorization-server:
 #          condition: service_healthy
       volumes:
-        - "${CERTS_PATH}/pems:/app/certificates"
+        - "${CERTS_PATH}:/app/certificates"
       networks:
         - ${GLOBAL_NETWORK}
       expose:

@@ -1,0 +1,22 @@
+app:
+  name: zookeeper
+  replicaCount: 1
+  container:
+    image: confluentinc/cp-zookeeper:7.2.1
+    port: 2181
+    env:
+      - key: ZOOKEEPER_SERVER_ID
+        value: "1"
+      - key: ZOOKEEPER_CLIENT_PORT
+        value: "2181"
+      - key: ZOOKEEPER_TICK_TIME
+        value: "2000"
+      - key: ZOOKEEPER_INIT_LIMIT
+        value: "5"
+      - key: ZOOKEEPER_SYNC_LIMIT
+        value: "2"
+      - key: ZOOKEEPER_SERVERS
+        value: "zookeeper:2888:3888"
+  service:
+    port: 2181
+    type: LoadBalancer

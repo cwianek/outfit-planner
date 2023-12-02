@@ -25,6 +25,8 @@ spring:
       host: ${MONGO_HOST:localhost}
       port: ${MONGO_PORT:27017}
       database: outfit-service
+      username: ${MONGO_USERNAME:admin}
+      password: ${MONGO_PASSWORD:admin}
   security:
     oauth2:
       resourceserver:

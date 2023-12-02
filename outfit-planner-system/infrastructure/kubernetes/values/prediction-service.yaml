@@ -1,0 +1,11 @@
+app:
+  name: prediction-service
+  container:
+    image: rzodkiewkowypotwor/prediction-service:0.0.1
+    port: 2006
+    env:
+      - key: empty
+        value: empty
+  service:
+    port: 2006
+    type: LoadBalancer

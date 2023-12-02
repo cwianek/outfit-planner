@@ -5,5 +5,6 @@ RUN dnf install --installroot /mnt/rootfs curl --releasever 9 --setopt install_w
     rpm --root /mnt/rootfs -e --nodeps setup
 
 FROM quay.io/keycloak/keycloak
+RUN mkdir -p /opt/keycloak/data/import
 COPY --from=ubi-micro-build /mnt/rootfs /
 COPY realm-export.json /opt/keycloak/data/import/outfit-planner-config.json

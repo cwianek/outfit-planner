@@ -1,0 +1,4 @@
+tlssecret:
+  secretName: outfits-tls
+  certFilePath: "files/outfits.crt"
+  keyFilePath: "files/outfits.key"

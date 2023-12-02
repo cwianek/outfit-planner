@@ -1,0 +1,15 @@
+app:
+  name: outfits
+  replicaCount: 1
+  container:
+    image: rzodkiewkowypotwor/outfits-frontend:1.0.1-SNAPSHOT
+    port: 80
+    env:
+      - key: VIRTUAL_HOST
+        value: outfits
+      - key: NGINX_ENVSUBST_OUTPUT_DIR
+        value: /etc/nginx
+  service:
+    port: 80
+    externalName: outfits-dns
+    type: ClusterIP

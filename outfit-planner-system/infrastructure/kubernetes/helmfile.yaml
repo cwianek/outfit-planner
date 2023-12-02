@@ -1,0 +1,146 @@
+repositories:
+  - name: stable
+    url: https://charts.helm.sh/stable
+  - name: ingress-nginx
+    url: https://kubernetes.github.io/ingress-nginx
+  - name: bitnami
+    url: https://charts.bitnami.com/bitnami
+
+releases:
+  #  - name: community-operator-crds
+  #    namespace: default
+  #    chart: mongodb/community-operator-crds
+  #    version: 0.9.0
+  #
+#  - name: community-operator
+##    namespace: default
+#    chart: mongodb/community-operator
+#    version: 0.8.3
+
+
+  - name: dashboard-tls
+    chart: ./charts/secrets
+    values:
+      - ./values/dashboard-tls.yaml
+
+  - name: outfits-tls
+    chart: ./charts/secrets
+    values:
+      - ./values/outfits-tls.yaml
+
+  - name: products-tls
+    chart: ./charts/secrets
+    values:
+      - ./values/products-tls.yaml
+
+  - name: keycloak-tls
+    chart: ./charts/secrets
+    values:
+      - ./values/keycloak-server-tls.yaml
+
+  - name: keycloak-certs
+    chart: ./charts/secrets
+    values:
+      - ./values/keycloak-certs.yaml
+
+  - name: prediction-service
+    chart: ./charts/app
+    values:
+      - ./values/prediction-service.yaml
+
+  - name: ingress-nginx
+    #    namespace: ingress-nginx
+    chart: ingress-nginx/ingress-nginx
+    version: 4.8.4
+
+  - name: product-postgres
+    chart: ./charts/app
+    values:
+      - ./values/product-postgres.yaml
+
+  - name: outfits-service
+    chart: ./charts/app
+    values:
+      - ./values/outfits-service.yaml
+
+  - name: product-service
+    chart: ./charts/app
+    values:
+      - ./values/product-service.yaml
+
+  - name: dashboard
+    chart: ./charts/app
+    values:
+      - ./values/dashboard.yaml
+
+  - name: outfits
+    chart: ./charts/app
+    values:
+      - ./values/outfits.yaml
+
+  - name: products
+    chart: ./charts/app
+    values:
+      - ./values/products.yaml
+
+  - name: schema-registry
+    chart: ./charts/app
+    values:
+      - ./values/schema-registry.yaml
+
+  - name: zookeeper
+    chart: ./charts/app
+    values:
+      - ./values/zookeeper.yaml
+
+  - name: kafka-broker
+    chart: ./charts/app
+    values:
+      - ./values/kafka-broker.yaml
+
+  - name: keycloak-postgres
+    chart: ./charts/app
+    values:
+      - ./values/keycloak-postgres.yaml
+
+  - name: keycloak-server
+    chart: ./charts/app
+    values:
+      - ./values/keycloak-server.yaml
+
+  - name: my-mongodb-release
+    namespace: default
+    chart: bitnami/mongodb
+    version: 14.4.2  # Specify the version you want to use
+    values:
+      - ./values/outfits-mongodb.yaml
+
+  #  - name: mongo
+#    chart: ./charts/mongo
+#    values:
+#      - ./values/outfits-mongodb.yaml
+
+  - name: ingress-controller
+    chart: ./charts/ingress
+    set:
+      - name: ingressClassResource.default
+        value: "true"
+    values:
+      - ./values/ingress.yaml
+
+#hooks:
+#  - events: [ "presync" ]
+#    command: |
+#      helm install community-operator mongodb/community-operator
+#hooks:
+#  # Create CRDs separately in helmfile presync hooks
+#  - events: [ "presync" ]
+#    command: "/bin/sh"
+#    args: [ "-c", "kubectl get crd prometheuses.monitoring.coreos.com >/dev/null 2>&1 || \
+#             { helm pull stable/prometheus-operator --version {{`{{ .Release.Version }}`}} && tar -Oxzf prometheus-operator-{{`{{ .Release.Version }}`}}.tgz prometheus-operator/crds/crd-prometheus.yaml | kubectl apply -f -; }" ]
+#  # This hoook installs the alertmanagers.monitoring.coreos.com CustomResourceDefinition if needed
+#  - events: [ "presync" ]
+#    command: "/bin/sh"
+#    args: [ "-c", "kubectl get crd alertmanagers.monitoring.coreos.com >/dev/null 2>&1 || \
+#             { helm pull stable/prometheus-operator --version {{`{{ .Release.Version }}`}} && tar -Oxzf prometheus-operator-{{`{{ .Release.Version }}`}}.tgz prometheus-operator/crds/crd-alertmanager.yaml | kubectl apply -f -; }" ]
+#  # This hoook installs the prometheusrules.monitoring.coreos.com CustomResourceDefinition if needed

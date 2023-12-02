@@ -1,0 +1,4 @@
+tlssecret:
+  secretName: products-tls
+  certFilePath: "files/products.crt"
+  keyFilePath: "files/products.key"

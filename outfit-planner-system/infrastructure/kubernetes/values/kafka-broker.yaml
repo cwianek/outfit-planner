@@ -1,0 +1,28 @@
+app:
+  name: kafka-broker-1
+  replicaCount: 1
+  container:
+    image: confluentinc/cp-kafka:7.2.1
+    port: 9092
+    env:
+      - key: KAFKA_BROKER_ID
+        value: "1"
+      - key: KAFKA_ZOOKEEPER_CONNECT
+        value: zookeeper:2181
+      - key: KAFKA_ADVERTISED_LISTENERS
+        value: PLAINTEXT://kafka-broker-1:9092,LISTENER_LOCAL://localhost:19092
+      - key: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
+        value: PLAINTEXT:PLAINTEXT,LISTENER_LOCAL:PLAINTEXT
+      - key: KAFKA_INTER_BROKER_LISTENER_NAME
+        value: PLAINTEXT
+      - key: KAFKA_COMPRESSION_TYPE
+        value: producer
+      - key: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+        value: "1"
+  initContainer:
+    name: init-wait-for-zookeeper
+    image: busybox
+    command: [ 'sh', '-c', 'until nslookup zookeeper.default.svc.cluster.local; do echo waiting for zookeeper; sleep 2; done;' ]
+  service:
+    port: 9092
+    type: LoadBalancer

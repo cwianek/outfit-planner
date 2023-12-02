@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
 import org.springframework.security.oauth2.core.OAuth2TokenValidator;
+import org.springframework.security.oauth2.core.OAuth2TokenValidatorResult;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.security.oauth2.server.resource.authentication.JwtIssuerAuthenticationManagerResolver;
 import org.springframework.security.web.SecurityFilterChain;
@@ -29,11 +30,6 @@ public class WebSecurityConfig {
 
     private final OAuth2ResourceServerProperties oAuth2ResourceServerProperties;
     private final ProductUserDetailsService productUserDetailsService;
-
-    Map<String, AuthenticationManager> authenticationManagers = new HashMap<>();
-
-    JwtIssuerAuthenticationManagerResolver authenticationManagerResolver =
-            new JwtIssuerAuthenticationManagerResolver(authenticationManagers::get);
 
     public WebSecurityConfig(OAuth2ResourceServerProperties oAuth2ResourceServerProperties, ProductUserDetailsService productUserDetailsService) {
         this.oAuth2ResourceServerProperties = oAuth2ResourceServerProperties;
@@ -67,11 +63,15 @@ public class WebSecurityConfig {
 
         NimbusJwtDecoder jwtDecoder = (NimbusJwtDecoder) JwtDecoders.fromOidcIssuerLocation(
                 oAuth2ResourceServerProperties.getJwt().getIssuerUri());
+
+        OAuth2TokenValidator<Jwt> skipIssuerValidation =
+                jwt -> OAuth2TokenValidatorResult.success();
+
         OAuth2TokenValidator<Jwt> withIssuer =
                 JwtValidators.createDefaultWithIssuer(
                         oAuth2ResourceServerProperties.getJwt().getIssuerUri());
         OAuth2TokenValidator<Jwt> withAudience =
-                new DelegatingOAuth2TokenValidator<>(withIssuer, audienceValidator);
+                new DelegatingOAuth2TokenValidator<>(skipIssuerValidation, audienceValidator);
 
         jwtDecoder.setJwtValidator(withAudience);
 

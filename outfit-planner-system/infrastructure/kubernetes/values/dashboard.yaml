@@ -1,0 +1,23 @@
+app:
+  name: dashboard
+  replicaCount: 1
+  container:
+    image: rzodkiewkowypotwor/dashboard-frontend:1.0.9-SNAPSHOT
+    port: 80
+    env:
+      - key: VIRTUAL_HOST
+        value: dashboard
+      - key: NGINX_ENVSUBST_OUTPUT_DIR
+        value: /etc/nginx
+      - key: OUTFITS_HOST
+        value: http://outfits
+      - key: PRODUCTS_HOST
+        value: http://products
+  service:
+    port: 8099
+    type: LoadBalancer
+#  volumes:
+#    - name: dashboard-certs
+#      secret:
+#        name: dashboard-certs
+#      mountPath: /etc/nginx/certs
