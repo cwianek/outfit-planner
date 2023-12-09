@@ -7,16 +7,6 @@ repositories:
     url: https://charts.bitnami.com/bitnami
 
 releases:
-  #  - name: community-operator-crds
-  #    namespace: default
-  #    chart: mongodb/community-operator-crds
-  #    version: 0.9.0
-  #
-#  - name: community-operator
-##    namespace: default
-#    chart: mongodb/community-operator
-#    version: 0.8.3
-
 
   - name: dashboard-tls
     chart: ./charts/secrets
@@ -49,7 +39,6 @@ releases:
       - ./values/prediction-service.yaml
 
   - name: ingress-nginx
-    #    namespace: ingress-nginx
     chart: ingress-nginx/ingress-nginx
     version: 4.8.4
 
@@ -111,14 +100,9 @@ releases:
   - name: my-mongodb-release
     namespace: default
     chart: bitnami/mongodb
-    version: 14.4.2  # Specify the version you want to use
+    version: 14.4.2
     values:
       - ./values/outfits-mongodb.yaml
-
-  #  - name: mongo
-#    chart: ./charts/mongo
-#    values:
-#      - ./values/outfits-mongodb.yaml
 
   - name: ingress-controller
     chart: ./charts/ingress
@@ -127,20 +111,3 @@ releases:
         value: "true"
     values:
       - ./values/ingress.yaml
-
-#hooks:
-#  - events: [ "presync" ]
-#    command: |
-#      helm install community-operator mongodb/community-operator
-#hooks:
-#  # Create CRDs separately in helmfile presync hooks
-#  - events: [ "presync" ]
-#    command: "/bin/sh"
-#    args: [ "-c", "kubectl get crd prometheuses.monitoring.coreos.com >/dev/null 2>&1 || \
-#             { helm pull stable/prometheus-operator --version {{`{{ .Release.Version }}`}} && tar -Oxzf prometheus-operator-{{`{{ .Release.Version }}`}}.tgz prometheus-operator/crds/crd-prometheus.yaml | kubectl apply -f -; }" ]
-#  # This hoook installs the alertmanagers.monitoring.coreos.com CustomResourceDefinition if needed
-#  - events: [ "presync" ]
-#    command: "/bin/sh"
-#    args: [ "-c", "kubectl get crd alertmanagers.monitoring.coreos.com >/dev/null 2>&1 || \
-#             { helm pull stable/prometheus-operator --version {{`{{ .Release.Version }}`}} && tar -Oxzf prometheus-operator-{{`{{ .Release.Version }}`}}.tgz prometheus-operator/crds/crd-alertmanager.yaml | kubectl apply -f -; }" ]
-#  # This hoook installs the prometheusrules.monitoring.coreos.com CustomResourceDefinition if needed
