@@ -2,13 +2,17 @@ app:
   name: outfits
   replicaCount: 1
   container:
-    image: rzodkiewkowypotwor/outfits-frontend:1.0.1-SNAPSHOT
+    image: rzodkiewkowypotwor/outfits-frontend:1.0.2-SNAPSHOT
     port: 80
     env:
-      - key: VIRTUAL_HOST
-        value: outfits
+#      - key: VIRTUAL_HOST
+#        value: outfits
       - key: NGINX_ENVSUBST_OUTPUT_DIR
         value: /etc/nginx
+      - key: OUTFITS_HOST
+        value: http://outfits.outfitplanner.com
+      - key: PRODUCTS_HOST
+        value: http://products.outfitplanner.com
   service:
     port: 80
     externalName: outfits-dns

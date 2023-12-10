@@ -5,14 +5,14 @@ app:
     image: rzodkiewkowypotwor/dashboard-frontend:1.0.9-SNAPSHOT
     port: 80
     env:
-      - key: VIRTUAL_HOST
-        value: dashboard
+#      - key: VIRTUAL_HOST
+#        value: dashboard
       - key: NGINX_ENVSUBST_OUTPUT_DIR
         value: /etc/nginx
       - key: OUTFITS_HOST
-        value: http://outfits
+        value: http://outfits.outfitplanner.com
       - key: PRODUCTS_HOST
-        value: http://products
+        value: http://products.outfitplanner.com
   service:
     port: 8099
     type: LoadBalancer

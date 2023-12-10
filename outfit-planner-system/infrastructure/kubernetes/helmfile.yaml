@@ -8,30 +8,15 @@ repositories:
 
 releases:
 
-  - name: dashboard-tls
+  - name: outfitplanner-tls
     chart: ./charts/secrets
     values:
-      - ./values/dashboard-tls.yaml
+      - ./values/outfitplanner-tls.yaml
 
-  - name: outfits-tls
+  - name: outfitplanner-certs
     chart: ./charts/secrets
     values:
-      - ./values/outfits-tls.yaml
-
-  - name: products-tls
-    chart: ./charts/secrets
-    values:
-      - ./values/products-tls.yaml
-
-  - name: keycloak-tls
-    chart: ./charts/secrets
-    values:
-      - ./values/keycloak-server-tls.yaml
-
-  - name: keycloak-certs
-    chart: ./charts/secrets
-    values:
-      - ./values/keycloak-certs.yaml
+      - ./values/outfitplanner-certs.yaml
 
   - name: prediction-service
     chart: ./charts/app

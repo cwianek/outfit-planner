@@ -36,11 +36,11 @@ app:
   initContainer:
       name: init-wait-keycloak
       image: busybox
-      command: [ 'sh', '-c', 'until nslookup keycloak-server.default.svc.cluster.local && nslookup outfits-mongodb.default.svc.cluster.local; do echo waiting for keycloak-server; sleep 2; done; sleep 30' ]
+      command: [ 'sh', '-c', 'until nslookup keycloak-server.default.svc.cluster.local && nslookup outfits-mongodb.default.svc.cluster.local; do echo waiting for keycloak-server; sleep 2; done; sleep 40' ]
   service:
     port: 8185
     type: LoadBalancer
   volume:
     secret: true
-    volumeName: keycloak-certs
+    volumeName: outfitplanner-certs
     mountPath: /app/certificates

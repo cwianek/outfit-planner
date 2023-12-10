@@ -1,61 +1,40 @@
 ingress:
   name: outfit-planner-ingress
   tls:
-    - host: keycloak-server
-      secretName: keycloak-tls
-    - host: dashboard
-      secretName: dashboard-tls
-    - host: outfits
-      secretName: outfits-tls
-    - host: products
-      secretName: products-tls
+    - host: "*.outfitplanner.com"
+      secretName: outfitplanner-tls
   rules:
-    - host: dashboard
+    - host: "dashboard.outfitplanner.com"
       paths:
-        - path: /api/outfits
+        - path: /remote/outfits
           backend:
             service:
-              name: outfit-service
-              port: 8185
-    - host: dashboard
-      paths:
+              name: outfits
+              port: 80
+        - path: /remote/products
+          backend:
+            service:
+              name: products
+              port: 80
         - path: /api/products
           backend:
             service:
               name: product-service
               port: 8184
-    - host: dashboard
-      paths:
+        - path: /api/outfits
+          backend:
+            service:
+              name: outfit-service
+              port: 8185
         - path: /
           backend:
             service:
               name: dashboard
               port: 8099
-    - host: outfits
-      paths:
-        - path: /
-          backend:
-            service:
-              name: outfits
-              port: 80
-    - host: keycloak-server
+    - host: "keycloak-server.outfitplanner.com"
       paths:
         - path: /
           backend:
             service:
               name: keycloak-server
               port: 80
-    - host: products
-      paths:
-        - path: /
-          backend:
-            service:
-              name: products
-              port: 80
-#    - host: dashboard
-#      paths:
-#        - path: /predict
-#          backend:
-#            service:
-#              name: prediction-service
-#              port: 2006

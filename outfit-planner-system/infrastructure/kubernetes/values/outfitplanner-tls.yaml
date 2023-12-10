@@ -1,0 +1,4 @@
+tlssecret:
+  secretName: outfitplanner-tls
+  certFilePath: "files/outfitplanner.com.crt"
+  keyFilePath: "files/outfitplanner.com.key"

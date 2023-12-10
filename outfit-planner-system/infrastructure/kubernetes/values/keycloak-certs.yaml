@@ -1,3 +1,0 @@
-secretName: keycloak-certs
-certFileName: keycloak-server.crt
-keyFileName: keycloak-server.key

@@ -5,14 +5,14 @@ app:
     image: rzodkiewkowypotwor/products-frontend:1.0.1-SNAPSHOT
     port: 80
     env:
-      - key: VIRTUAL_HOST
-        value: products
+#      - key: VIRTUAL_HOST
+#        value: products
       - key: NGINX_ENVSUBST_OUTPUT_DIR
         value: /etc/nginx
       - key: OUTFITS_HOST
-        value: http://outfits
+        value: http://outfits.outfitplanner.com
       - key: PRODUCTS_HOST
-        value: http://products
+        value: http://products.outfitplanner.com
   service:
     port: 80
     type: ClusterIP
