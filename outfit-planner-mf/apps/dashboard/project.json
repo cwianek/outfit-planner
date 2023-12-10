@@ -81,7 +81,7 @@
       "defaultConfiguration": "development",
       "options": {
         "port": 4200,
-        "publicHost": "http://dashboard-dev",
+        "publicHost": "http://dashboard.outfitplanner.com",
         "skipRemotes": ["products","outfits"]
       }
     },

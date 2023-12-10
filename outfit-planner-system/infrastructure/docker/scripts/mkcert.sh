@@ -1,1 +1,1 @@
-mkcert -key-file dashboard.key -cert-file dashboard.crt dashboard
+mkcert -key-file dashboard.key -cert-file dashboard.crt dashboard '*.dashboard.com'

@@ -41,6 +41,7 @@ releases:
   - name: ingress-nginx
     chart: ingress-nginx/ingress-nginx
     version: 4.8.4
+    wait: true
 
   - name: product-postgres
     chart: ./charts/app

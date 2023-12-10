@@ -83,7 +83,7 @@
       "defaultConfiguration": "development",
       "options": {
         "port": 4202,
-        "publicHost": "http://outfits-dev"
+        "publicHost": "http://outfits.outfitplanner.com"
       }
     },
     "extract-i18n": {

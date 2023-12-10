@@ -10,11 +10,14 @@ volumes:
 
 services:
   product-service:
-    image: ${GROUP_ID}/product.service:${SERVICE_VERSION:-latest}
+    build:
+      context: ./backend-service
+      dockerfile: Dockerfile
     ports:
-      - "5005:5005"
+      - "5008:5005"
       - "8184:8184"
       - "5432:5432"
+      - "10190:9990"
     environment:
       - "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Xms128m -Xmx256m"
       - "LOGGING_LEVEL_COM_MICROSERVICES_DEMO=info"
@@ -28,12 +31,16 @@ services:
       - "SPRING_DATASOURCE_PASSWORD=admin"
       - "SERVICE_BINDING_ROOT=/bindings"
       - "SERVER_PORT=8184"
-      - "KEYCLOAK_ISSUER_URI=https://keycloak-server:8443/realms/outfitplanner-realm"
+      - "KEYCLOAK_ISSUER_URI=https://keycloak-server/realms/outfitplanner-realm"
 #      - "KEYCLOAK_ADDITIONAL_ISSUERS=${PRODUCTS_ISSUERS}"
-      - "KEYCLOAK_JWK_SET_URI=http://keycloak-server:8443/realms/outfitplanner-realm/protocol/openid-connect/certs"
+      - "KEYCLOAK_JWK_SET_URI=https://keycloak-server/realms/outfitplanner-realm/protocol/openid-connect/certs"
       - VIRTUAL_HOST=${DASHBOARD_HOST}
       - VIRTUAL_PATH=/api/products
       - VIRTUAL_PORT=8184
+      - WILDFLY_MANAGEMENT_USER=admin
+      - WILDFLY_MANAGEMENT_PASSWORD=admin
+    volumes:
+      - "${CERTS_PATH}:/app/certificates"
     depends_on:
       keycloak-authorization-server:
         condition: service_healthy
@@ -84,7 +91,7 @@ services:
   outfit-service:
 #      image: ${GROUP_ID}/outfit.service:${SERVICE_VERSION:-latest}
       build:
-        context: ./outfit-service
+        context: ./backend-service
         dockerfile: Dockerfile
       ports:
         - "8185:8185"
@@ -184,15 +191,15 @@ services:
       - "DB_SCHEMA=public"
       - "DB_PASSWORD=keycloak"
       - "KEYCLOAK_IMPORT=/tmp/outfit-planner-config.json"
-      - "KC_HTTPS_CERTIFICATE_FILE=/opt/keycloak/conf/keycloak-server.crt"
-      - "KC_HTTPS_CERTIFICATE_KEY_FILE=/opt/keycloak/conf/keycloak-server.key"
+      - "KC_HTTPS_CERTIFICATE_FILE=/opt/keycloak/conf/outfitplanner.com.crt"
+      - "KC_HTTPS_CERTIFICATE_KEY_FILE=/opt/keycloak/conf/outfitplanner.com.key"
       # new
       - KEYCLOAK_ADMIN=admin
       - KEYCLOAK_ADMIN_PASSWORD=admin
       - KC_HEALTH_ENABLED=true
-      - KC_HOSTNAME_URL=https://keycloak-server/
-      - KC_HOSTNAME_ADMIN_URL=https://keycloak-server/
-      - VIRTUAL_HOST=keycloak-server
+      - KC_HOSTNAME_URL=https://keycloak-server.outfitplanner.com/
+      - KC_HOSTNAME_ADMIN_URL=https://keycloak-server.outfitplanner.com/
+      - VIRTUAL_HOST=keycloak-server.outfitplanner.com
       - VIRTUAL_PORT=443
       - VIRTUAL_PROTO=https
 #      - KC_HOSTNAME_ADMIN_URL=https://keycloak-server:8443/

@@ -4,8 +4,6 @@ import com.outfit.planner.system.kafka.product.avro.model.ProductAvroModel;
 import com.outfit.planner.system.outbox.OutboxStatus;
 import com.outfit.planner.system.outfit.service.dataaccess.outbox.entity.ProductOutboxMessageEntity;
 import com.outfit.planner.system.outfit.service.dataaccess.outbox.repository.ProductOutboxMessageRepository;
-import com.outfit.planner.system.outfit.service.dataaccess.product.entity.ProductEntity;
-import com.outfit.planner.system.outfit.service.listener.ProductMessageListener;
 import com.outfit.planner.system.outfit.service.mapper.ProductMessagningDataMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -13,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Component
 @Slf4j

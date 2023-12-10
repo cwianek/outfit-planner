@@ -18,7 +18,7 @@ services:
       dockerfile: Dockerfile-serve
     environment:
       APP_NAME: products
-      VIRTUAL_HOST: products-dev
+      VIRTUAL_HOST: products.outfitplanner.com
       VIRTUAL_PORT: 4201
 #      HTTPS_METHOD: redirect
 #      VIRTUAL_PROTO: https
@@ -39,7 +39,7 @@ services:
       dockerfile: Dockerfile-serve
     environment:
       APP_NAME: outfits
-      VIRTUAL_HOST: outfits-dev
+      VIRTUAL_HOST: outfits.outfitplanner.com
       VIRTUAL_PORT: 4202
 #      HTTPS_METHOD: redirect
 #      VIRTUAL_PROTO: https
@@ -58,9 +58,11 @@ services:
       dockerfile: Dockerfile-serve
     environment:
       APP_NAME: dashboard
-      VIRTUAL_HOST: dashboard-dev
+      VIRTUAL_HOST: ${DASHBOARD_HOST}
       VIRTUAL_PORT: 4200
       VIRTUAL_PATH: /
+      OUTFITS_HOST: https://outfits.outfitplanner.com
+      PRODUCTS_HOST: https://products.outfitplanner.com
     volumes:
       - frontend-app:/app
     networks:
