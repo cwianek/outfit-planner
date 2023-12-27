@@ -26,7 +26,7 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t rzodkiewkowypotwor/dashboard-frontend:1.0.9-SNAPSHOT \
+          docker build -t rzodkiewkowypotwor/dashboard-frontend:1.0.10-SNAPSHOT \
           --build-arg APP_NAME=dashboard \
           -f outfit-planner-mf/Dockerfile-build outfit-planner-mf/.
-          docker push rzodkiewkowypotwor/dashboard-frontend:1.0.9-SNAPSHOT
+          docker push rzodkiewkowypotwor/dashboard-frontend:1.0.10-SNAPSHOT
