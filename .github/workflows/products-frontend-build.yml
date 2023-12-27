@@ -3,7 +3,7 @@ name: Build and push products-frontend docker image
 on:
   push:
     paths:
-      - 'outfit-planner-system/outfit-planner-mf/outfits/**'
+      - 'outfit-planner-system/outfit-planner-mf/products/**'
       - '.github/workflows/products-frontend-build.yml'
 
 jobs:
@@ -26,7 +26,7 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t rzodkiewkowypotwor/products-frontend:1.0.1-SNAPSHOT \
+          docker build -t rzodkiewkowypotwor/products-frontend:1.0.2-SNAPSHOT \
           --build-arg APP_NAME=products \
           -f outfit-planner-mf/Dockerfile-build outfit-planner-mf/.
-          docker push rzodkiewkowypotwor/products-frontend:1.0.1-SNAPSHOT
+          docker push rzodkiewkowypotwor/products-frontend:1.0.2-SNAPSHOT
