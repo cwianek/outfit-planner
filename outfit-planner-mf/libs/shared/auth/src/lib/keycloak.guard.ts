@@ -58,7 +58,7 @@ export class KeycloakGuard implements CanActivate {
     // const mainDomain = currentHostname.split('.').slice(1).join('.');
     this.keycloakInitialization = from(this.keycloak.init({
       config: {
-        url: `/auth`,
+        url: process.env["KEYCLOAK_URL"],
         realm: 'outfitplanner-realm',
         clientId: this.keycloakConfig.clientId
       },
