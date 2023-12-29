@@ -53,7 +53,7 @@ public class ProductMockService {
 
     public void iterateResourceFolders(String folderPath) throws IOException {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        String searchPath = "classpath*:" + folderPath + "/**/*";
+        String searchPath = "classpath*:" + folderPath + "/**/*.{jpg,jpeg}";
 
         Resource[] resources = resolver.getResources(searchPath);
 
