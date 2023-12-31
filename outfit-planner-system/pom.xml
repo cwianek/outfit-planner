@@ -92,6 +92,11 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
+                <groupId>com.outfit.planner.system</groupId>
+                <artifactId>security</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.bytedeco</groupId>
                 <artifactId>javacv-platform</artifactId>
                 <version>${javacv-platform.version}</version>

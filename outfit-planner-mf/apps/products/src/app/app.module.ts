@@ -4,6 +4,7 @@ import {RouterModule} from '@angular/router';
 import {AppComponent} from './app.component';
 import {provideAnimations} from "@angular/platform-browser/animations";
 import {KEYCLOAK_GUARD_CONFIG} from "@outfit-planner-mf/shared/auth";
+import {NavigationComponentsModule} from "@outfit-planner-mf/shared/components";
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,6 +22,7 @@ import {KEYCLOAK_GUARD_CONFIG} from "@outfit-planner-mf/shared/auth";
       ],
       {initialNavigation: 'enabledNonBlocking'}
     ),
+    NavigationComponentsModule,
   ],
   providers: [
     provideAnimations(),

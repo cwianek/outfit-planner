@@ -2,7 +2,7 @@ app:
   name: outfits
   replicaCount: 1
   container:
-    image: rzodkiewkowypotwor/outfits-frontend:1.0.2-SNAPSHOT
+    image: rzodkiewkowypotwor/outfits-frontend:1.0.3-SNAPSHOT
     port: 80
     env:
 #      - key: VIRTUAL_HOST

@@ -20,14 +20,12 @@ services:
       APP_NAME: products
       VIRTUAL_HOST: products.outfitplanner.com
       VIRTUAL_PORT: 4201
-#      HTTPS_METHOD: redirect
-#      VIRTUAL_PROTO: https
+      VIRTUAL_PATH: /
     volumes:
       - frontend-app:/app
     networks:
       - outfit-planner-system
     expose:
-#      - 80
       - 4201
 #
   outfits-app:
@@ -41,16 +39,14 @@ services:
       APP_NAME: outfits
       VIRTUAL_HOST: outfits.outfitplanner.com
       VIRTUAL_PORT: 4202
-#      HTTPS_METHOD: redirect
-#      VIRTUAL_PROTO: https
+      VIRTUAL_PATH: /
     volumes:
       - frontend-app:/app
     networks:
       - ${GLOBAL_NETWORK}
     expose:
-#      - 80
       - 4202
-#
+
   dashboard-app:
     hostname: dashboard-development
     build:
@@ -68,5 +64,4 @@ services:
     networks:
       - ${GLOBAL_NETWORK}
     expose:
-#      - 80
       - 4200

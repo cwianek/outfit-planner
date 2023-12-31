@@ -2,7 +2,7 @@ app:
   name: products
   replicaCount: 1
   container:
-    image: rzodkiewkowypotwor/products-frontend:1.0.1-SNAPSHOT
+    image: rzodkiewkowypotwor/products-frontend:1.0.3-SNAPSHOT
     port: 80
     env:
 #      - key: VIRTUAL_HOST

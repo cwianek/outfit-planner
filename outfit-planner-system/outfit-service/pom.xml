@@ -58,15 +58,14 @@
             <artifactId>outbox</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.outfit.planner.system</groupId>
+            <artifactId>security</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
         </dependency>
 
-
-        <!--        <dependency>-->
-<!--            <groupId>com.food.ordering.system</groupId>-->
-<!--            <artifactId>kafka-consumer</artifactId>-->
-<!--        </dependency>-->
     </dependencies>
 
     <build>
@@ -91,46 +90,5 @@
             </plugin>
         </plugins>
     </build>
-
-<!--    <build>-->
-<!--        <plugins>-->
-<!--            <plugin>-->
-<!--                <groupId>org.springframework.boot</groupId>-->
-<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
-<!--                <configuration>-->
-<!--                    <image>-->
-<!--                        <name>${project.groupId}/outfit.service:${project.version}</name>-->
-<!--                    </image>-->
-
-<!--                    <docker>-->
-<!--                        <host>${docker.sock.path.default}</host>-->
-<!--                        <tlsVerify>false</tlsVerify>-->
-<!--                    </docker>-->
-<!--                </configuration>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <phase>install</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>build-image</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <image>-->
-<!--                                <builder>paketobuildpacks/builder:base</builder>-->
-<!--&lt;!&ndash;                                <env>&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <BP_CA_CERTIFICATES>/mnt/volume/certs</BP_CA_CERTIFICATES>&ndash;&gt;-->
-<!--&lt;!&ndash;                                </env>&ndash;&gt;-->
-<!--                                <env>-->
-<!--                                    <BP_DEBUG>=true</BP_DEBUG>-->
-<!--                                </env>-->
-<!--                                <bindings>-->
-<!--                                    <binding>${env.CERTS_PATH}/pems:/platform/bindings/ca-certificates</binding>-->
-<!--                                </bindings>-->
-<!--                            </image>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
-<!--        </plugins>-->
-<!--    </build>-->
 
 </project>

@@ -2,7 +2,7 @@ app:
   name: product-service
   replicaCount: 1
   container:
-    image: rzodkiewkowypotwor/product-service:1.0.4-SNAPSHOT
+    image: rzodkiewkowypotwor/product-service:1.0.5-SNAPSHOT
     port: 8184
     env:
       - key: JAVA_OPTS
@@ -36,11 +36,7 @@ app:
   initContainer:
       name: init-wait-keycloak
       image: busybox
-      command: [ 'sh', '-c', 'until nslookup keycloak-server.default.svc.cluster.local; do echo waiting for keycloak-server; sleep 2; done; sleep 40' ]
+      command: [ 'sh', '-c', 'until nslookup keycloak-server.default.svc.cluster.local && wget -q -O /dev/null http://keycloak-server.default.svc.cluster.local/realms/outfitplanner-realm; do echo "Waiting for keycloak-server to be ready..."; sleep 2; done;' ]
   service:
     port: 8184
     type: LoadBalancer
-  volume:
-    secret: true
-    volumeName: outfitplanner-certs
-    mountPath: /app/certificates

@@ -3,7 +3,6 @@ package com.outfit.planner.system.outfit.service.config;
 import com.outfit.planner.system.outfit.service.security.OutfitsUserDetailsService;
 import com.outfit.planner.system.outfit.service.security.ProductServiceJwtConverter;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,12 +13,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
 import org.springframework.security.oauth2.core.OAuth2TokenValidator;
-import org.springframework.security.oauth2.core.OAuth2TokenValidatorResult;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import java.util.List;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -55,21 +52,11 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    JwtDecoder jwtDecoder(@Qualifier("outfit-service-audience-validator")
-                          OAuth2TokenValidator<Jwt> audienceValidator) {
+    JwtDecoder jwtDecoder(@Qualifier("outfit-service-audience-validator") OAuth2TokenValidator<Jwt> audienceValidator,
+                          @Qualifier("outfit-service-issuer-validator") OAuth2TokenValidator<Jwt> issuerValidator) {
 
-        NimbusJwtDecoder jwtDecoder = (NimbusJwtDecoder) JwtDecoders.fromOidcIssuerLocation(
-                oAuth2ResourceServerProperties.getJwt().getIssuerUri());
-
-        OAuth2TokenValidator<Jwt> skipIssuerValidation =
-                jwt -> OAuth2TokenValidatorResult.success();
-
-        OAuth2TokenValidator<Jwt> withIssuer =
-                JwtValidators.createDefaultWithIssuer(
-                        oAuth2ResourceServerProperties.getJwt().getIssuerUri());
-
-        OAuth2TokenValidator<Jwt> withAudience =
-                new DelegatingOAuth2TokenValidator<>(skipIssuerValidation, audienceValidator);
+        NimbusJwtDecoder jwtDecoder = JwtDecoders.fromOidcIssuerLocation(oAuth2ResourceServerProperties.getJwt().getIssuerUri());
+        OAuth2TokenValidator<Jwt> withAudience = new DelegatingOAuth2TokenValidator<>(issuerValidator, audienceValidator);
 
         jwtDecoder.setJwtValidator(withAudience);
 
