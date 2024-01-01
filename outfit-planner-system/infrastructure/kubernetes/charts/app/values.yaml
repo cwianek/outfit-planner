@@ -16,3 +16,4 @@ app:
     enabled: false
   volume:
     enabled: false
+  imagePullPolicy: IfNotPresent

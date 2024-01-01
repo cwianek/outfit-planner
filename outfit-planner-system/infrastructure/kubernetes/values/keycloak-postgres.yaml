@@ -13,4 +13,4 @@ app:
         value: keycloak
   service:
     port: 5439
-    type: LoadBalancer
+    type: ClusterIP

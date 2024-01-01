@@ -3,15 +3,25 @@ kind: Ingress
 metadata:
   name: {{ .Values.ingress.name }}
   annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"  # Optional: Redirect HTTP to HTTPS
-    # nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    kubernetes.io/ingress.class: nginx
+
+    {{- if .Values.ingress.clusterIssuer }}
+      cert-manager.io/cluster-issuer: {{ .Values.ingress.clusterIssuer}}
+      acme.cert-manager.io/http01-edit-in-place: "true"
+    {{- end}}
+
 spec:
   ingressClassName: nginx
   tls:
     {{- range .Values.ingress.tls }}
     - hosts:
-        - {{ .host | quote }}
+      {{- range .hosts }}
+        - {{ . | quote }}
+      {{- end }}
+      {{- if .secretName }}
       secretName: {{ .secretName }}
+      {{- end}}
     {{- end }}
   rules:
     {{- range .Values.ingress.rules }}

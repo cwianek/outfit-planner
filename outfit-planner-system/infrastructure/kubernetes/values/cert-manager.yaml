@@ -1,0 +1,14 @@
+namespace: "default"
+clusterResourceNamespace: "default"
+ingressShim:
+  defaultIssuerKind: "ClusterIssuer"
+  defaultIssuerName: "letsencrypt-prod"
+acme:
+  enabled: true
+podDnsConfig:
+  nameservers:
+    - 8.8.8.8
+    - 8.8.4.4
+podDnsPolicy: "None"
+global:
+  logLevel: 5

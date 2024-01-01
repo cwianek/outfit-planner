@@ -38,6 +38,7 @@ spec:
             - name: {{ .Values.app.initContainer.volumeName }}
               mountPath: {{ .Values.app.initContainer.mountPath }}
           {{- end }}
+          imagePullPolicy: {{ .Values.app.imagePullPolicy }}
       {{- end }}
       containers:
         - name: {{ .Values.app.name }}
@@ -66,7 +67,7 @@ spec:
             - name: {{ .Values.app.volume.volumeName }}
               mountPath: {{ .Values.app.volume.mountPath }}
           {{- end }}
-          imagePullPolicy: Always
+          imagePullPolicy: {{ .Values.app.imagePullPolicy }}
       {{- if .Values.app.disableServiceLinks }}
       enableServiceLinks: false
       {{- end }}

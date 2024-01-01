@@ -15,5 +15,4 @@ app:
         value: http://products.outfitplanner.com
   service:
     port: 80
-    externalName: outfits-dns
     type: ClusterIP

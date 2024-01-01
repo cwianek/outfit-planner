@@ -1,23 +1,15 @@
 ingress:
   name: outfit-planner-ingress
+  clusterIssuer: letsencrypt-prod
   tls:
     - hosts:
-        - "*.outfitplanner.com"
-      secretName: outfitplanner-tls
+        - dashboard.outfitplanner.cloud
+        - keycloak-server.outfitplanner.cloud
+        - outfits.outfitplanner.cloud
+        - products.outfitplanner.cloud
   rules:
-    - host: "dashboard.outfitplanner.com"
+    - host: "dashboard.outfitplanner.cloud"
       paths:
-        #this remote is necessary because otherwise host header is not set
-        - path: /remote/outfits
-          backend:
-            service:
-              name: outfits
-              port: 80
-        - path: /remote/products
-          backend:
-            service:
-              name: products
-              port: 80
         - path: /api/products
           backend:
             service:
@@ -32,22 +24,22 @@ ingress:
           backend:
             service:
               name: dashboard
-              port: 80
-    - host: "keycloak-server.outfitplanner.com"
+              port: 8099
+    - host: "keycloak-server.outfitplanner.cloud"
       paths:
         - path: /
           backend:
             service:
               name: keycloak-server
               port: 80
-    - host: "products.outfitplanner.com"
+    - host: "products.outfitplanner.cloud"
       paths:
         - path: /
           backend:
             service:
               name: products
               port: 80
-    - host: "outfits.outfitplanner.com"
+    - host: "outfits.outfitplanner.cloud"
       paths:
         - path: /
           backend:

@@ -12,7 +12,7 @@ auth:
     - outfit-service
 service:
   nameOverride: outfits-mongodb
-  type: LoadBalancer
+  type: ClusterIP
 
 #mongo:
 #  name: outfits-mongodb

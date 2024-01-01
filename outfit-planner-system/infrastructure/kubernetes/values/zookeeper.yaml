@@ -19,4 +19,4 @@ app:
         value: "zookeeper:2888:3888"
   service:
     port: 2181
-    type: LoadBalancer
+    type: ClusterIP

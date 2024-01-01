@@ -25,4 +25,4 @@ app:
     command: [ 'sh', '-c', 'until nslookup zookeeper.default.svc.cluster.local; do echo waiting for zookeeper; sleep 2; done;' ]
   service:
     port: 9092
-    type: LoadBalancer
+    type: ClusterIP

@@ -8,4 +8,4 @@ app:
         value: empty
   service:
     port: 2006
-    type: LoadBalancer
+    type: ClusterIP

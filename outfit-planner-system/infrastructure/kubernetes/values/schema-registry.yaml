@@ -31,10 +31,5 @@ app:
         done;
   service:
     port: 8081
-    type: LoadBalancer
+    type: ClusterIP
   disableServiceLinks: true
-#  volumes:
-#    - name: dashboard-certs
-#      secret:
-#        name: dashboard-certs
-#      mountPath: /etc/nginx/certs

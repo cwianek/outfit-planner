@@ -26,33 +26,12 @@ app:
         value: keycloak
       - key: KEYCLOAK_IMPORT
         value: /tmp/outfit-planner-config.json
-      - key: KC_HTTPS_CERTIFICATE_FILE
-        value: /opt/keycloak/conf/outfitplanner.com.crt
-      - key: KC_HTTPS_CERTIFICATE_KEY_FILE
-        value: /opt/keycloak/conf/outfitplanner.com.key
       - key: KEYCLOAK_ADMIN
         value: admin
       - key: KEYCLOAK_ADMIN_PASSWORD
         value: admin
-      #      - key: KC_HEALTH_ENABLED
-      #        value: "true"
-#      - key: KC_HOSTNAME
-#        value: keycloak-server
       - key: KC_PROXY
         value: edge
-  volume:
-    secret: true
-    volumeName: outfitplanner-certs
-    mountPath: /opt/keycloak/conf
-  #    volumeMount:
-  #      - name: keycloak-certs
-  #        mountPath: /opt/keycloak/conf
-  #    config:
-  #      - name: keycloak-server-config-map
-  #  volumes:
-  #    - name: keycloak-certs
-  #      secret:
-  #        secretName: keycloak-certs
   service:
     port: 80
-    type: LoadBalancer
+    type: ClusterIP
