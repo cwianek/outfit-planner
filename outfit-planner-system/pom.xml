@@ -29,7 +29,7 @@
         <kafka-avro-serializer.version>7.5.3</kafka-avro-serializer.version>
         <avro.version>1.11.3</avro.version>
         <spring.version>3.2.0</spring.version>
-        <javacv-platform.version>1.5.8</javacv-platform.version>
+        <javacv-platform.version>1.5.9</javacv-platform.version>
         <docker.sock.path.default>/var/run/docker.sock</docker.sock.path.default>
         <version.maven.war.plugin>3.4.0</version.maven.war.plugin>
     </properties>
