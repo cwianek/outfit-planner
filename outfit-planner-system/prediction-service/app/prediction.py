@@ -1,15 +1,11 @@
-import pymongo
-from pymongo import ReturnDocument
 import pandas as pd
 from sklearn import preprocessing
 from sklearn.neighbors import KNeighborsClassifier
 import numpy as np
-from bson.json_util import dumps
 from matplotlib import pyplot as plt
 import random
-import os, sys, io
+import io
 import base64
-import scipy.sparse as sp
 
 weatherCodeCategories = [
  "0",

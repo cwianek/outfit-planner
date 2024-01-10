@@ -1,8 +1,7 @@
-from bson.json_util import dumps
 from flask import jsonify, request, Blueprint
 from werkzeug.wrappers import Request
 from app.prediction import predict
-import sys
+import json
 
 prediction_controller = Blueprint('prediction', __name__)
 
@@ -10,8 +9,6 @@ prediction_controller = Blueprint('prediction', __name__)
 def predict_outfits():
     req = request.get_json()
     predictions = predict(req['outfits'], req['weatherConditions'])
+    predictions = {int(key): value for key, value in predictions.items()}
 
-    return toRest({"predictions": predictions})
-
-def toRest(model):
-    return jsonify(dumps(model))
+    return jsonify({"predictions": predictions})
