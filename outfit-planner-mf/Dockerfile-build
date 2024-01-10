@@ -10,7 +10,7 @@ RUN npm install
 RUN nx build ${APP_NAME}
 
 
-FROM nginx:1.21-alpine
+FROM nginx:1.25-alpine
 ARG APP_NAME
 
 WORKDIR /app
