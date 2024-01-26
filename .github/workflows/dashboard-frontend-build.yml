@@ -3,7 +3,7 @@ name: Build and push dashboard-frontend docker image
 on:
   push:
     paths:
-      - 'outfit-planner-system/outfit-planner-mf/dashboard/**'
+      - 'outfit-planner-system/outfit-planner-mf/**'
       - '.github/workflows/dashboard-frontend-build.yml'
 
 jobs:
@@ -26,7 +26,13 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t rzodkiewkowypotwor/dashboard-frontend:1.0.14-SNAPSHOT \
+          if [ "${{ github.ref }}" == "refs/heads/master" ]; then
+            TAG="latest"
+          else
+            # Extract branch name from GitHub context
+            TAG=$(echo "${{ github.ref }}" | sed 's/refs\/heads\///')
+          fi
+          docker build -t rzodkiewkowypotwor/dashboard-frontend:${TAG} \
           --build-arg APP_NAME=dashboard \
           -f outfit-planner-mf/Dockerfile-build outfit-planner-mf/.
-          docker push rzodkiewkowypotwor/dashboard-frontend:1.0.14-SNAPSHOT
+          docker push rzodkiewkowypotwor/dashboard-frontend:${TAG}
