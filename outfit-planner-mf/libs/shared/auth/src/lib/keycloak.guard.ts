@@ -40,7 +40,7 @@ export class KeycloakGuard implements CanActivate {
 
   private isLoggedIn = (): Observable<boolean> => {
     return this.initializeKeycloak().pipe(
-      switchMap(() => this.keycloak.isLoggedIn())
+      map(() => this.keycloak.isLoggedIn())
     )
   }
 

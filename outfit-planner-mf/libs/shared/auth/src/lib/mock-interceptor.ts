@@ -23,7 +23,7 @@ export class MockInterceptor implements HttpInterceptor {
   }
 
   private appendWordAfterSecondSlash(inputUrl: string, wordToAppend: string): string {
-    const urlParts = inputUrl.match(/[^/"]+|"(?:\\"|[^"])+"/g) || [];
+    const urlParts: string[] = inputUrl.match(/[^/"]+|"(?:\\"|[^"])+"/g) || [];
     if (urlParts && urlParts.length >= 3) {
       urlParts.splice(2, 0, wordToAppend);
     } else {
