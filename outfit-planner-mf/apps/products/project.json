@@ -31,10 +31,8 @@
         ],
         "styles": [
           "apps/products/src/styles.scss",
-          "node_modules/bootstrap/dist/css/bootstrap.min.css",
           "node_modules/primeicons/primeicons.css",
           "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
-          "node_modules/primeng/resources/primeng.min.css"
         ],
         "scripts": [],
         "customWebpackConfig": {
@@ -72,19 +70,21 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@nrwl/angular:webpack-dev-server",
+      "executor": "@nx/angular:module-federation-dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "products:build:production"
+          "buildTarget": "products:build:production"
         },
         "development": {
-          "browserTarget": "products:build:development"
+          "buildTarget": "products:build:development"
         }
       },
       "defaultConfiguration": "development",
       "options": {
-        "port": 4201,
-        "publicHost": "http://products.outfitplanner.com"
+        "host": "0.0.0.0",
+        "port": 4200,
+        "publicHost": "http://products.outfitplanner.com",
+        "disableHostCheck": true
       }
     },
     "extract-i18n": {

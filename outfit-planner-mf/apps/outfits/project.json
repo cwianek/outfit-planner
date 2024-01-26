@@ -71,19 +71,21 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@nrwl/angular:webpack-dev-server",
+      "executor": "@nx/angular:module-federation-dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "outfits:build:production"
+          "buildTarget": "outfits:build:production"
         },
         "development": {
-          "browserTarget": "outfits:build:development"
+          "buildTarget": "outfits:build:development"
         }
       },
       "defaultConfiguration": "development",
       "options": {
-        "port": 4202,
-        "publicHost": "http://outfits.outfitplanner.com"
+        "port": 4200,
+        "publicHost": "http://outfits.outfitplanner.com",
+        "host": "0.0.0.0",
+        "disableHostCheck": true
       }
     },
     "extract-i18n": {

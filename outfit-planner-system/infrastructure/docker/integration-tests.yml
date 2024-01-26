@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+
+  integrations-app:
+    image: rzodkiewkowypotwor/integration-tests:1.0.4-SNAPSHOT
+    environment:
+      APP_URL: https://dashboard.outfitplanner.com
+#    build:
+#      context: ../integration-tests
+#      dockerfile: Dockerfile
+#    networks:
+#      - ${GLOBAL_NETWORK}

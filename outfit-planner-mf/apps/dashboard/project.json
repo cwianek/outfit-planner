@@ -26,10 +26,8 @@
         ],
         "styles": [
           "apps/products/src/styles.scss",
-          "node_modules/bootstrap/dist/css/bootstrap.min.css",
           "node_modules/primeicons/primeicons.css",
-          "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
-          "node_modules/primeng/resources/primeng.min.css"
+          "node_modules/primeng/resources/themes/lara-light-blue/theme.css"
         ],
         "scripts": [
           "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
@@ -69,20 +67,21 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@nrwl/angular:module-federation-dev-server",
+      "executor": "@nx/angular:module-federation-dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "dashboard:build:production"
+          "buildTarget": "dashboard:build:production"
         },
         "development": {
-          "browserTarget": "dashboard:build:development"
+          "buildTarget": "dashboard:build:development"
         }
       },
       "defaultConfiguration": "development",
       "options": {
-        "port": 4200,
-        "publicHost": "http://dashboard.outfitplanner.com",
-        "skipRemotes": ["products","outfits"]
+        "buildTarget": "dashboard:build:development",
+        "host": "0.0.0.0",
+        "disableHostCheck": true,
+        "poll": 500
       }
     },
     "extract-i18n": {

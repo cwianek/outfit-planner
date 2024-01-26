@@ -1,13 +1,14 @@
-FROM node:16-alpine3.12 as build
+FROM node:18-alpine3.19 as build
 ARG APP_NAME
 
 WORKDIR /app
+COPY package*.json ./
+
+RUN npm install --production
+
 COPY . .
 
-RUN npm install -g @angular/cli
-RUN npm install -g nx
-RUN npm install
-RUN nx build ${APP_NAME}
+RUN npm exec nx build ${APP_NAME}
 
 
 FROM nginx:1.25-alpine

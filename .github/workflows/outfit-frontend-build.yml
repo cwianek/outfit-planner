@@ -3,7 +3,7 @@ name: Build and push outfits-frontend docker image
 on:
   push:
     paths:
-      - 'outfit-planner-system/outfit-planner-mf/outfits/**'
+      - 'outfit-planner-mf/**'
       - '.github/workflows/outfit-frontend-build.yml'
 
 jobs:
@@ -26,7 +26,13 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t rzodkiewkowypotwor/outfits-frontend:1.0.3-SNAPSHOT \
+          if [ "${{ github.ref }}" == "refs/heads/master" ]; then
+            TAG="latest"
+          else
+            # Extract branch name from GitHub context
+            TAG=$(echo "${{ github.sha }}")
+          fi
+          docker build -t rzodkiewkowypotwor/outfits-frontend:${TAG} \
           --build-arg APP_NAME=outfits \
           -f outfit-planner-mf/Dockerfile-build outfit-planner-mf/.
-          docker push rzodkiewkowypotwor/outfits-frontend:1.0.3-SNAPSHOT
+          docker push rzodkiewkowypotwor/outfits-frontend:${TAG}
