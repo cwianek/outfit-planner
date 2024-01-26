@@ -8,6 +8,8 @@ repositories:
     url: https://kubernetes.github.io/ingress-nginx
   - name: bitnami
     url: https://charts.bitnami.com/bitnami
+  - name: outfitplanner-repo
+    url: https://cwianek.github.io/outfit-planner
 
 releases:
 
@@ -17,7 +19,7 @@ releases:
       - ./values/outfitplanner-tls.yaml
 
   - name: prediction-service
-    chart: ./charts/app
+    chart: outfitplanner-repo/app
     values:
       - ./values/prediction-service.yaml
 
