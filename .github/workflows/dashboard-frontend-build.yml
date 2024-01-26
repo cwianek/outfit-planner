@@ -3,7 +3,7 @@ name: Build and push dashboard-frontend docker image
 on:
   push:
     paths:
-      - 'outfit-planner-system/outfit-planner-mf/**'
+      - 'outfit-planner-mf/**'
       - '.github/workflows/dashboard-frontend-build.yml'
 
 jobs:
