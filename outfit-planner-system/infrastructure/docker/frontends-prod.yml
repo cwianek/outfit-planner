@@ -12,20 +12,14 @@ services:
         APP_NAME: products
     expose:
       - 80
-      - 443
     environment:
-      VIRTUAL_HOST: products
-      VIRTUAL_PORT: 443
+      VIRTUAL_HOST: products.outfitplanner.com
       NGINX_ENVSUBST_OUTPUT_DIR: /etc/nginx
-      HTTPS_METHOD: redirect
-      VIRTUAL_PROTO: https
-    volumes:
-      - ${CERTS_PATH}:/etc/nginx/certs
+      VIRTUAL_PATH: /
+      OUTFITS_HOST: http://outfits
+      PRODUCTS_HOST: http://products
     networks:
       - ${GLOBAL_NETWORK}
-    depends_on:
-      keycloak-authorization-server:
-        condition: service_healthy
 
   outfits-proxy:
     restart: always
@@ -37,20 +31,14 @@ services:
         APP_NAME: outfits
     expose:
       - 80
-      - 443
     environment:
-      VIRTUAL_HOST: outfits
-      VIRTUAL_PORT: 443
+      VIRTUAL_HOST: outfits.outfitplanner.com
       NGINX_ENVSUBST_OUTPUT_DIR: /etc/nginx
-      HTTPS_METHOD: redirect
-      VIRTUAL_PROTO: https
-    volumes:
-      - ${CERTS_PATH}:/etc/nginx/certs
+      VIRTUAL_PATH: /
+      OUTFITS_HOST: http://outfits
+      PRODUCTS_HOST: http://products
     networks:
       - ${GLOBAL_NETWORK}
-    depends_on:
-      keycloak-authorization-server:
-        condition: service_healthy
 
   dashboard-proxy:
     restart: always
@@ -62,27 +50,11 @@ services:
         APP_NAME: dashboard
     expose:
       - 80
-      - 443
     environment:
       VIRTUAL_HOST: ${DASHBOARD_HOST:-dashboard}
-      VIRTUAL_PORT: 443
       VIRTUAL_PATH: /
-      OUTFITS_HOST: https://outfits
-      PRODUCTS_HOST: https://products
+      OUTFITS_HOST: http://outfits
+      PRODUCTS_HOST: http://products
       NGINX_ENVSUBST_OUTPUT_DIR: /etc/nginx
-      HTTPS_METHOD: redirect
-      VIRTUAL_PROTO: https
-    volumes:
-      - ${CERTS_PATH}:/etc/nginx/certs
     networks:
       - ${GLOBAL_NETWORK}
-    depends_on:
-      keycloak-authorization-server:
-        condition: service_healthy
-
-#networks:
-#  outfit-planner-system:
-#    driver: bridge
-#    ipam:
-#      config:
-#        - subnet: 172.50.0.0/24

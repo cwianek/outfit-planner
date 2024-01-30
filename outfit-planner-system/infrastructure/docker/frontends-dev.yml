@@ -4,7 +4,7 @@ volumes:
   frontend-app:
     driver_opts:
       type: none
-      device: ${OUTFIT_PLANNER_MF_PATH}
+      device: ${OUTFIT_PLANNER_MF_PATH}/apps
       o: bind
 
 services:
@@ -12,55 +12,52 @@ services:
   products-app:
     hostname: products-development
     ports:
-      - "4201:4201"
+      - "4201:4200"
     build:
       context: ../../../outfit-planner-mf
       dockerfile: Dockerfile-serve
     environment:
       APP_NAME: products
       VIRTUAL_HOST: products.outfitplanner.com
-      VIRTUAL_PORT: 4201
       VIRTUAL_PATH: /
     volumes:
-      - frontend-app:/app
+      - frontend-app:/app/apps
     networks:
       - outfit-planner-system
     expose:
-      - 4201
+      - 4200
 #
   outfits-app:
     hostname: outfits-development
     ports:
-      - "4202:4202"
+      - "4202:4200"
     build:
       context: ../../../outfit-planner-mf
       dockerfile: Dockerfile-serve
     environment:
       APP_NAME: outfits
       VIRTUAL_HOST: outfits.outfitplanner.com
-      VIRTUAL_PORT: 4202
       VIRTUAL_PATH: /
     volumes:
-      - frontend-app:/app
+      - frontend-app:/app/apps
     networks:
       - ${GLOBAL_NETWORK}
     expose:
-      - 4202
+      - 4200
 
   dashboard-app:
     hostname: dashboard-development
     build:
       context: ../../../outfit-planner-mf
       dockerfile: Dockerfile-serve
+    ports:
+      - "4203:4200"
     environment:
       APP_NAME: dashboard
       VIRTUAL_HOST: ${DASHBOARD_HOST}
-      VIRTUAL_PORT: 4200
       VIRTUAL_PATH: /
-      OUTFITS_HOST: https://outfits.outfitplanner.com
-      PRODUCTS_HOST: https://products.outfitplanner.com
     volumes:
-      - frontend-app:/app
+      - frontend-app:/app/apps
     networks:
       - ${GLOBAL_NETWORK}
     expose:
