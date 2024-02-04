@@ -47,7 +47,7 @@
     "@nrwl/nx-cloud": "latest",
     "@nrwl/workspace": "17.2.8",
     "@schematics/angular": "~17.1.0",
-    "@types/jest": "29.5.11",
+    "@types/jest": "29.5.12",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "cypress": "^13.0.0",
