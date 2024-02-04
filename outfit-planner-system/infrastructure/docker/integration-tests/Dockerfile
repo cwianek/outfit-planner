@@ -8,7 +8,7 @@ ENV SE_OFFLINE false
 
 USER root
 
-RUN chmod +x /app/entrypoint.sh
+RUN chmod +x /usr/src/app/entrypoint.sh
 
 RUN apt-get update && apt-get install -y openjdk-17-jdk && rm -rf /var/lib/apt/lists/*
 #COPY integration-tests.jar /usr/src/app
