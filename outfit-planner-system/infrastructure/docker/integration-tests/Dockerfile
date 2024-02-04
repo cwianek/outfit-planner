@@ -1,16 +1,14 @@
-FROM selenium/standalone-chrome:4.16.1-20231219
+FROM openjdk:17-jdk-slim
 
-COPY . /usr/src/app
+COPY . /app
 
-WORKDIR /usr/src/app
-
-ENV SE_OFFLINE false
+WORKDIR /app
 
 USER root
 
-RUN chmod +x /usr/src/app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
 
-RUN apt-get update && apt-get install -y openjdk-17-jdk && rm -rf /var/lib/apt/lists/*
+#RUN #apt-get update && apt-get install -y openjdk-17-jdk && rm -rf /var/lib/apt/lists/*
 #COPY integration-tests.jar /usr/src/app
 
 
@@ -24,4 +22,4 @@ RUN apt-get update && apt-get install -y openjdk-17-jdk && rm -rf /var/lib/apt/l
 #COPY target/your-tests.jar /usr/src/app/
 
 # Specify the command to run on container startup
-CMD ["/usr/src/app/entrypoint.sh"]
+CMD ["/app/entrypoint.sh"]
