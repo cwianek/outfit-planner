@@ -4,6 +4,7 @@ COPY . /usr/src/app
 
 WORKDIR /usr/src/app
 
+ENV SE_OFFLINE false
 
 USER root
 RUN apt-get update && apt-get install -y openjdk-17-jdk && rm -rf /var/lib/apt/lists/*

@@ -64,7 +64,7 @@ jobs:
         run: |
           set -x
           # Replace this with your Docker build command
-          docker build -t rzodkiewkowypotwor/integration-tests:1.0.1-SNAPSHOT -f outfit-planner-system/infrastructure/docker/integration-tests/Dockerfile outfit-planner-system/infrastructure/docker/integration-tests/.
+          docker build -t rzodkiewkowypotwor/integration-tests:1.0.2-SNAPSHOT -f outfit-planner-system/infrastructure/docker/integration-tests/Dockerfile outfit-planner-system/infrastructure/docker/integration-tests/.
           set +x
 
       - name: Login to Docker Hub
@@ -76,4 +76,4 @@ jobs:
       - name: Push Docker image
         run: |
           # Replace this with your Docker push command
-          docker push rzodkiewkowypotwor/integration-tests:1.0.1-SNAPSHOT
+          docker push rzodkiewkowypotwor/integration-tests:1.0.2-SNAPSHOT
