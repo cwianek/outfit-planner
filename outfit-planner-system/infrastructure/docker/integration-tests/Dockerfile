@@ -1,4 +1,4 @@
-FROM selenium/standalone-chrome:4.17.0-20240123
+FROM selenium/standalone-chrome:4.16.1-20231219
 
 COPY . /usr/src/app
 
