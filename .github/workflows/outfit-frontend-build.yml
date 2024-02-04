@@ -30,7 +30,7 @@ jobs:
             TAG="latest"
           else
             # Extract branch name from GitHub context
-            TAG=$(echo "${{ github.ref }}" | sed 's/refs\/heads\///')
+            TAG=$(echo "${{ github.sha }}")
           fi
           docker build -t rzodkiewkowypotwor/outfits-frontend:${TAG} \
           --build-arg APP_NAME=outfits \
