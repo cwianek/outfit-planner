@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'outfit-planner-system/integration-tests/**'
+      - '.github/workflows/integration-tests.yml'
 
 jobs:
   build:
