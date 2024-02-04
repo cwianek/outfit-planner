@@ -1,0 +1,78 @@
+name: Build and push product-service to Docker Hub
+
+on:
+  push:
+    paths:
+      - 'outfit-planner-system/integration-tests/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+
+      - name: Build artifacts
+        env:
+          FILE_PATH: /integration-tests/pom.xml
+        run: |
+          cd $GITHUB_WORKSPACE/outfit-planner-system
+          # Replace this with your build command
+          mvn install -Dmaven.test.skip=true -Dfile.path=${FILE_PATH}
+          cp integration-tests/target/integration-tests-1.0-SNAPSHOT.jar integration-tests.jar
+
+      - name: List artifacts before upload
+        run: |
+          ls -R
+
+
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: outfit-planner-integration-tests
+          path: |
+            outfit-planner-system/integration-tests.jar
+
+  docker:
+    runs-on: ubuntu-latest
+
+    needs: build  # Ensure the 'build' job completes before starting this job
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: outfit-planner-integration-tests
+          path: outfit-planner-system/infrastructure/docker/integration-tests  # Adjust the path based on your build output
+
+      - name: List downloaded files
+        run: |
+          ls -R outfit-planner-system/infrastructure/docker/integration-tests
+
+      - name: Build Docker image
+        run: |
+          set -x
+          # Replace this with your Docker build command
+          docker build -t rzodkiewkowypotwor/integration-tests:1.0.0-SNAPSHOT -f outfit-planner-system/infrastructure/docker/integration-tests/Dockerfile outfit-planner-system/infrastructure/docker/integration-tests/.
+          set +x
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Push Docker image
+        run: |
+          # Replace this with your Docker push command
+          docker push rzodkiewkowypotwor/integration-tests:1.0.0-SNAPSHOT

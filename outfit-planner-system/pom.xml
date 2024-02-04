@@ -11,6 +11,7 @@
         <module>product-service</module>
         <module>infrastructure</module>
         <module>outfit-service</module>
+        <module>integration-tests</module>
     </modules>
     <packaging>pom</packaging>
 
