@@ -1,5 +1,5 @@
 FROM selenium/standalone-chrome:latest
-ARG APP_URL
+
 COPY . /usr/src/app
 
 WORKDIR /usr/src/app
@@ -21,4 +21,4 @@ RUN apt-get update && apt-get install -y openjdk-17-jdk && rm -rf /var/lib/apt/l
 #COPY target/your-tests.jar /usr/src/app/
 
 # Specify the command to run on container startup
-CMD ["java", "-jar", "integration-tests.jar", "$APP_URL"]
+CMD ["/usr/src/app/entrypoint.sh"]
