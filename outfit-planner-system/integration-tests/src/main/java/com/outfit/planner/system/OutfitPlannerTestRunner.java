@@ -5,6 +5,7 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
@@ -28,7 +29,9 @@ public class OutfitPlannerTestRunner {
         Selenide.sleep(5000);
 
         open(url);
+        Selenide.sleep(2000);
 
+        $(By.cssSelector(".shadow.dashboard-view__header span")).should(Condition.visible);
         SelenideElement header = $(By.cssSelector(".shadow.dashboard-view__header span"));
         header.shouldHave(Condition.text("Your AI powered outfit planner"));
         log.info("[INTEGRATION_TESTS] Header text {}", header.getText());
