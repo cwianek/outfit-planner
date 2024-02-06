@@ -22,6 +22,10 @@ jobs:
           tar -xzf /tmp/helmfile.tar.gz -C /usr/local/bin/
           chmod +x /usr/local/bin/helmfile
 
+      - name: Install helm-diff plugin
+        run: |
+          helm plugin install https://github.com/databus23/helm-diff
+
       ## makes sure cluster is up and running
       - run: |
           kubectl cluster-info
