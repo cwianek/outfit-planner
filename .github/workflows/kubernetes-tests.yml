@@ -1,0 +1,33 @@
+name: Lint and Test Charts
+
+on:
+  push:
+    paths:
+      - '.github/workflows/kubernetes-tests.yml'
+
+jobs:
+  Test-on-cluster:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      ## starts the cluster
+      - name: Testing on a k8s Kind Cluster
+        uses: helm/kind-action@v1.4.0
+
+      - name: Install Helmfile
+        run: |
+          wget https://github.com/helmfile/helmfile/releases/download/v0.161.0/helmfile_0.161.0_linux_amd64.tar.gz -O /tmp/helmfile.tar.gz
+          tar -xzf /tmp/helmfile.tar.gz -C /usr/local/bin/
+          chmod +x /usr/local/bin/helmfile
+
+      ## makes sure cluster is up and running
+      - run: |
+          kubectl cluster-info
+          kubectl get nodes
+
+      - name : Preparing cluster for kube-ez
+        run: |
+          cd $GITHUB_WORKSPACE/outfit-planner-system/infrastructure/kubernetes
+          helmfile --file helmfile.yaml apply

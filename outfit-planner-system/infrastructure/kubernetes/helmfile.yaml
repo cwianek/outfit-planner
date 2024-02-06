@@ -1,5 +1,13 @@
-helmDefaults:
-  kubeContext: minikube
+#helmDefaults:
+#  kubeContext: minikube
+
+#environments:
+#  test:
+#    values:
+#      - ./env/test.yaml
+#  prod:
+#    values:
+#      - ./env/prod.yaml
 
 repositories:
   - name: stable
@@ -96,3 +104,11 @@ releases:
         value: "true"
     values:
       - ./values/ingress.yaml
+
+#  - name: selenium-chrome
+#    chart: ./charts/selenium-chrome
+#
+#  - name: integration-tests
+#    chart: ./charts/integration-tests
+#    values:
+#      - ./values/integration-tests.yaml
