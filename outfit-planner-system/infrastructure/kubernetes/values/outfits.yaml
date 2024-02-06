@@ -3,7 +3,7 @@ app:
   replicaCount: 1
   container:
     image: rzodkiewkowypotwor/outfits-frontend
-    tag: { { .Values.global.commitSha | default "1.0.3-SNAPSHOT" } }
+    tag: {{ default .Values.global.commitSha "1.0.3-SNAPSHOT" | quote }}
     port: 80
     env:
 #      - key: VIRTUAL_HOST

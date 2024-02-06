@@ -2,7 +2,7 @@ app:
   name: prediction-service
   container:
     image: rzodkiewkowypotwor/prediction-service
-    tag: {{ .Values.global.commitSha | default "0.0.1" }}
+    tag: {{ default .Values.global.commitSha "0.0.1" | quote }}
     port: 2006
     env:
       - key: empty

@@ -3,7 +3,7 @@ app:
   replicaCount: 1
   container:
     image: rzodkiewkowypotwor/dashboard-frontend
-    tag: {{ .Values.global.commitSha | default "latest" }}
+    tag: {{ default .Values.global.commitSha "latest" | quote }}
     port: 80
     env:
       - key: NGINX_ENVSUBST_OUTPUT_DIR

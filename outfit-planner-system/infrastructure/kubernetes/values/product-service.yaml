@@ -3,7 +3,7 @@ app:
   replicaCount: 1
   container:
     image: rzodkiewkowypotwor/product-service
-    tag: {{ .Values.global.commitSha | default "1.0.5-SNAPSHOT" }}
+    tag: {{ default .Values.global.commitSha "1.0.5-SNAPSHOT" | quote }}
     port: 8184
     env:
       - key: JAVA_OPTS
