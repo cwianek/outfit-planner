@@ -36,3 +36,16 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE/outfit-planner-system/infrastructure/kubernetes
           helmfile --file helmfile.yaml apply
+
+
+      - name: Wait for Pods to be Running
+        run: |
+          kubectl wait --for=condition=Ready pod --all --timeout=300s
+
+      - name: Print Events for All Pods
+        run: |
+          kubectl get pods --all-namespaces -o json | jq -r '.items[] | "\(.metadata.namespace)/\(.metadata.name)"' | xargs -I {} kubectl get events --namespace={} --sort-by=.metadata.creationTimestamp
+
+      - name: Print Logs for All Pods
+        run: |
+          kubectl get pods --all-namespaces -o json | jq -r '.items[] | "\(.metadata.namespace)/\(.metadata.name)"' | xargs -I {} kubectl logs --namespace={} {}
