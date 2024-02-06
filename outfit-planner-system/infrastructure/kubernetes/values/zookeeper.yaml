@@ -2,7 +2,8 @@ app:
   name: zookeeper
   replicaCount: 1
   container:
-    image: confluentinc/cp-zookeeper:7.2.1
+    image: confluentinc/cp-zookeeper
+    tag: 7.2.1
     port: 2181
     env:
       - key: ZOOKEEPER_SERVER_ID

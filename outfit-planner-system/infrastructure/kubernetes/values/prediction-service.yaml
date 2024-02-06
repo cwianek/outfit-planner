@@ -1,7 +1,8 @@
 app:
   name: prediction-service
   container:
-    image: rzodkiewkowypotwor/prediction-service:0.0.1
+    image: rzodkiewkowypotwor/prediction-service
+    tag: ${ENV_COMMIT_SHA:-0.0.1}
     port: 2006
     env:
       - key: empty

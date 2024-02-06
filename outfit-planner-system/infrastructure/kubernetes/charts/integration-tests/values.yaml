@@ -1,0 +1,15 @@
+name: integration-tests
+replicaCount: 1
+image:
+  repository: rzodkiewkowypotwor/integration-tests
+  tag: 1.0.12-SNAPSHOT
+  pullPolicy: IfNotPresent
+service:
+  port: 80
+  type: ClusterIP
+container:
+  env:
+    - key: REMOTE_URL
+      value: http://selenium-chrome-service.default.svc.cluster.local:4444/wd/hub
+    - key: APP_URL
+      value: http://dashboard

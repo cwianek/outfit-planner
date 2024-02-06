@@ -1,10 +1,15 @@
 name: Build and push integration-tests to Docker Hub
 
+#on:
+#  push:
+#    paths:
+#      - 'outfit-planner-system/integration-tests/**'
+#      - '.github/workflows/integration-tests.yml'
+#  pull_request:
+#    branches:
+#      - master
 on:
-  push:
-    paths:
-      - 'outfit-planner-system/integration-tests/**'
-      - '.github/workflows/integration-tests.yml'
+  workflow_call:
 
 jobs:
   build:
@@ -60,20 +65,20 @@ jobs:
         run: |
           ls -R outfit-planner-system/infrastructure/docker/integration-tests
 
-      - name: Build Docker image
-        run: |
-          set -x
-          # Replace this with your Docker build command
-          docker build -t rzodkiewkowypotwor/integration-tests:1.0.12-SNAPSHOT -f outfit-planner-system/infrastructure/docker/integration-tests/Dockerfile outfit-planner-system/infrastructure/docker/integration-tests/.
-          set +x
-
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Push Docker image
+      - name: Build Docker image
         run: |
-          # Replace this with your Docker push command
-          docker push rzodkiewkowypotwor/integration-tests:1.0.12-SNAPSHOT
+          if [ "${{ github.ref }}" == "refs/heads/master" ]; then
+          TAG="latest"
+          else
+          # Extract branch name from GitHub context
+          TAG=$(echo "${{ github.sha }}")
+          fi
+          
+          docker build -t rzodkiewkowypotwor/integration-tests:${TAG} -f outfit-planner-system/infrastructure/docker/integration-tests/Dockerfile outfit-planner-system/infrastructure/docker/integration-tests/.
+          docker push rzodkiewkowypotwor/integration-tests:${TAG}

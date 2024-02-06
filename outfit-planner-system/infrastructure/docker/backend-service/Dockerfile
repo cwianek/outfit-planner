@@ -4,9 +4,9 @@ COPY . /app/
 WORKDIR /app
 
 #only for github action
-RUN if [ -f artifact.war ]; then \
+RUN if [ -f *artifact*.war ]; then \
         echo "Artifact found. Copying var file."; \
-        cp artifact.war /opt/jboss/wildfly/standalone/deployments/ ; \
+        cp *artifact*.war /opt/jboss/wildfly/standalone/deployments/ ; \
     else \
         echo "Folder 'outfit-planner-system' not found. Skipping file copy."; \
     fi

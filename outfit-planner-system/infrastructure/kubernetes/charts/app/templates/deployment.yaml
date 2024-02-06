@@ -42,7 +42,7 @@ spec:
       {{- end }}
       containers:
         - name: {{ .Values.app.name }}
-          image: {{ .Values.app.container.image }}
+          image: {{ .Values.app.container.image }}{{ if .Values.app.container.tag }}:{{ .Values.app.container.tag }}{{ end }}
           {{- if .Values.app.container.args }}
           args: {{- range .Values.app.container.args }}
             - {{.}}

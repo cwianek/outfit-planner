@@ -1,10 +1,16 @@
 name: Build and push dashboard-frontend docker image
 
+#on:
+#  push:
+#    paths:
+#      - 'outfit-planner-mf/**'
+#      - '.github/workflows/dashboard-frontend-build.yml'
+#  pull_request:
+#    branches:
+#      - master
 on:
-  push:
-    paths:
-      - 'outfit-planner-mf/**'
-      - '.github/workflows/dashboard-frontend-build.yml'
+  workflow_call:
+
 
 jobs:
   build:

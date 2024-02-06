@@ -1,0 +1,2 @@
+#global:
+#  commitSha: ${ENV_COMMIT_SHA:-latest}

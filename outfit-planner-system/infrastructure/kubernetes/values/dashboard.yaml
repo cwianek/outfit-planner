@@ -2,7 +2,8 @@ app:
   name: dashboard
   replicaCount: 1
   container:
-    image: rzodkiewkowypotwor/dashboard-frontend:1.0.14-SNAPSHOT
+    image: rzodkiewkowypotwor/dashboard-frontend
+    tag: ${ENV_COMMIT_SHA:-latest}
     port: 80
     env:
       - key: NGINX_ENVSUBST_OUTPUT_DIR
@@ -14,3 +15,4 @@ app:
   service:
     port: 80
     type: ClusterIP
+  imagePullPolicy: Always

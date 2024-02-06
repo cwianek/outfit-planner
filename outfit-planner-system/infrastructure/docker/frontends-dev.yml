@@ -6,6 +6,11 @@ volumes:
       type: none
       device: ${OUTFIT_PLANNER_MF_PATH}/apps
       o: bind
+  libs:
+    driver_opts:
+      type: none
+      device: ${OUTFIT_PLANNER_MF_PATH}/libs
+      o: bind
 
 services:
 
@@ -22,6 +27,7 @@ services:
       VIRTUAL_PATH: /
     volumes:
       - frontend-app:/app/apps
+      - libs:/app/libs
     networks:
       - outfit-planner-system
     expose:
@@ -40,6 +46,7 @@ services:
       VIRTUAL_PATH: /
     volumes:
       - frontend-app:/app/apps
+      - libs:/app/libs
     networks:
       - ${GLOBAL_NETWORK}
     expose:
@@ -58,6 +65,7 @@ services:
       VIRTUAL_PATH: /
     volumes:
       - frontend-app:/app/apps
+      - libs:/app/libs
     networks:
       - ${GLOBAL_NETWORK}
     expose:
