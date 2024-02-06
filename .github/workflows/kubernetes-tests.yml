@@ -40,7 +40,19 @@ jobs:
 
       - name: Wait for Pods to be Running
         run: |
-          kubectl wait --for=condition=Ready pod --all --timeout=300s
+          timeout=360
+          interval=30
+          elapsed=0
+          
+          while [[ $elapsed -lt $timeout ]]; do
+            echo "Waiting for pods to be ready. Elapsed time: $elapsed seconds."
+            kubectl get pods --all-namespaces
+            sleep $interval
+            elapsed=$((elapsed + interval))
+          done
+          
+          echo "Timeout reached. Exiting..."
+          exit 1
 
       - name: Print Events for All Pods
         run: |
