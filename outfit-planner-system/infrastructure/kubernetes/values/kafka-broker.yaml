@@ -2,7 +2,8 @@ app:
   name: kafka-broker-1
   replicaCount: 1
   container:
-    image: confluentinc/cp-kafka:7.2.1
+    image: confluentinc/cp-kafka
+    tag: 7.2.1
     port: 9092
     env:
       - key: KAFKA_BROKER_ID

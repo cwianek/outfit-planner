@@ -2,7 +2,8 @@ app:
   name: outfits
   replicaCount: 1
   container:
-    image: rzodkiewkowypotwor/outfits-frontend:1.0.3-SNAPSHOT
+    image: rzodkiewkowypotwor/outfits-frontend
+    tag: { { .Values.global.commitSha | default "1.0.3-SNAPSHOT" } }
     port: 80
     env:
 #      - key: VIRTUAL_HOST

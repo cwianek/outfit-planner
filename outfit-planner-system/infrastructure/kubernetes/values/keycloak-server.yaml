@@ -2,7 +2,8 @@ app:
   name: keycloak-server
   replicaCount: 1
   container:
-    image: rzodkiewkowypotwor/keycloak-server:0.0.2
+    image: rzodkiewkowypotwor/keycloak-server
+    tag: {{ .Values.global.commitSha | default "0.0.2" }}
     port: 8080
     args: [ "start-dev", "--import-realm", "--http-port=8080", "--https-port=443" ]
     env:

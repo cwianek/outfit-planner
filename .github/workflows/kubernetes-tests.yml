@@ -38,8 +38,8 @@ jobs:
       - name : Preparing cluster for kube-ez
         run: |
           cd $GITHUB_WORKSPACE/outfit-planner-system/infrastructure/kubernetes
-          helmfile --file helmfile.yaml apply
-
+          echo "global:\n  commitSha: $GITHUB_SHA" > values/global-values.yaml
+          helmfile --file helmfile.yaml  apply
 
       - name: Wait for Pods to be Running
         run: |

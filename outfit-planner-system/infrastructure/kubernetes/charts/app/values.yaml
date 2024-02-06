@@ -4,6 +4,7 @@ app:
   replicaCount: 1
   container:
     image: add-image-here
+    tag: tag
     port: 8080
     config: []
     env:

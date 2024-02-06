@@ -29,6 +29,7 @@ releases:
   - name: prediction-service
     chart: outfitplanner-repo/app
     values:
+      - ./values/global-values.yaml
       - ./values/prediction-service.yaml
 
   - name: ingress-nginx
@@ -43,26 +44,31 @@ releases:
   - name: outfits-service
     chart: ./charts/app
     values:
+      - ./values/global-values.yaml
       - ./values/outfits-service.yaml
 
   - name: product-service
     chart: ./charts/app
     values:
+      - ./values/global-values.yaml
       - ./values/product-service.yaml
 
   - name: dashboard
     chart: ./charts/app
     values:
+      - ./values/global-values.yaml
       - ./values/dashboard.yaml
 
   - name: outfits
     chart: ./charts/app
     values:
+      - ./values/global-values.yaml
       - ./values/outfits.yaml
 
   - name: products
     chart: ./charts/app
     values:
+      - ./values/global-values.yaml
       - ./values/products.yaml
 
   - name: schema-registry
@@ -88,6 +94,7 @@ releases:
   - name: keycloak-server
     chart: ./charts/app
     values:
+      - ./values/global-values.yaml
       - ./values/keycloak-server.yaml
 
   - name: my-mongodb-release
@@ -111,4 +118,5 @@ releases:
   - name: integration-tests
     chart: ./charts/integration-tests
     values:
+      - ./values/global-values.yaml
       - ./values/integration-tests.yaml
