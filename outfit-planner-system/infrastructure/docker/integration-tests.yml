@@ -3,11 +3,12 @@ version: '3.7'
 services:
 
   integrations-app:
-    image: rzodkiewkowypotwor/integration-tests:1.0.4-SNAPSHOT
+    image: rzodkiewkowypotwor/integration-tests:1.0.8-SNAPSHOT
     environment:
       APP_URL: https://dashboard.outfitplanner.com
+      REMOTE_URL: http://localhost:4444/wd/hub
 #    build:
 #      context: ../integration-tests
 #      dockerfile: Dockerfile
-#    networks:
-#      - ${GLOBAL_NETWORK}
+    networks:
+      - ${GLOBAL_NETWORK}

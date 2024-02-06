@@ -4,6 +4,9 @@ on:
   push:
     paths:
       - 'outfit-planner-system/infrastructure/docker/keycloak/.version'
+  pull_request:
+    branches:
+      - master
 
 jobs:
   build:

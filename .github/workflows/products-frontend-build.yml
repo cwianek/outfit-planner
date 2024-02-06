@@ -5,6 +5,9 @@ on:
     paths:
       - 'outfit-planner-mf/**'
       - '.github/workflows/products-frontend-build.yml'
+  pull_request:
+    branches:
+      - master
 
 jobs:
   build:

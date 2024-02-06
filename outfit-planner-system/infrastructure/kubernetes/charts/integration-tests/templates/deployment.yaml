@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: integration-tests
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: integration-tests
+  template:
+    metadata:
+      labels:
+        app: integration-tests
+    spec:
+      containers:
+        - name: integration-tests
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 80
+          {{- if .Values.container.env }}
+          env:
+            {{- range .Values.container.env }}
+            - name: {{ .key }}
+              value: {{ quote .value }}
+            {{- end }}
+          {{- end }}

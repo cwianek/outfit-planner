@@ -5,6 +5,9 @@ on:
     paths:
       - 'outfit-planner-system/integration-tests/**'
       - '.github/workflows/integration-tests.yml'
+  pull_request:
+    branches:
+      - master
 
 jobs:
   build:

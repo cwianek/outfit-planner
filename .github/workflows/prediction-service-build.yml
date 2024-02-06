@@ -4,6 +4,9 @@ on:
   push:
     paths:
       - 'outfit-planner-system/prediction-service/.version'
+  pull_request:
+    branches:
+      - master
 
 jobs:
   build:

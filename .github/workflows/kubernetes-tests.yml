@@ -4,6 +4,9 @@ on:
   push:
     paths:
       - '.github/workflows/kubernetes-tests.yml'
+  pull_request:
+    branches:
+      - master
 
 jobs:
   Test-on-cluster:

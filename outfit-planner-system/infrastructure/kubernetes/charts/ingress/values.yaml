@@ -1,0 +1,3 @@
+ingress:
+  name: outfit-planner-ingress
+  clusterIssuer: cluster-issuer

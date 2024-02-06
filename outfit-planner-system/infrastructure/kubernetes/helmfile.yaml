@@ -105,10 +105,10 @@ releases:
     values:
       - ./values/ingress.yaml
 
-#  - name: selenium-chrome
-#    chart: ./charts/selenium-chrome
-#
-#  - name: integration-tests
-#    chart: ./charts/integration-tests
-#    values:
-#      - ./values/integration-tests.yaml
+  - name: selenium-chrome
+    chart: ./charts/selenium-chrome
+
+  - name: integration-tests
+    chart: ./charts/integration-tests
+    values:
+      - ./values/integration-tests.yaml
