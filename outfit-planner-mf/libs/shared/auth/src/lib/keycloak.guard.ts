@@ -4,7 +4,7 @@ import {
   RouterStateSnapshot
 } from '@angular/router';
 import {KeycloakService} from 'keycloak-angular';
-import {from, map, Observable, of, shareReplay, switchMap} from "rxjs";
+import {from, map, Observable, of, shareReplay, switchMap, catchError, timeout} from "rxjs";
 import {UserService} from "./user.service";
 
 export const KEYCLOAK_GUARD_CONFIG = new InjectionToken<string>('KeycloakGuardConfig');
@@ -40,7 +40,12 @@ export class KeycloakGuard implements CanActivate {
 
   private isLoggedIn = (): Observable<boolean> => {
     return this.initializeKeycloak().pipe(
-      map(() => this.keycloak.isLoggedIn())
+      map(() => this.keycloak.isLoggedIn()),
+      timeout(3000),
+      catchError((error) => {
+        console.error("Unable to init keycloak", error);
+        return of(false);
+      })
     )
   }
 

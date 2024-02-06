@@ -1,12 +1,9 @@
 package com.outfit.planner.system;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
-import org.openqa.selenium.chrome.ChromeOptions;
-
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
@@ -14,22 +11,13 @@ import static com.codeborne.selenide.Selenide.open;
 public class OutfitPlannerTestRunner {
 
     public static void main(String[] args) {
-        String url = (args.length > 0) ? args[0] : "https://dashboard.outfitplanner.com";
-        log.info("Hello from here arhs {}", url);
-        System.out.println("kekekeke helo");
+        String url = (args.length > 0) ? args[0] : "http://dashboard-development:4200";
 
-//        try {
-            test1(url);
-//        }catch (Exception e){
-//            System.exit(1);
-//        }
+        test1(url);
     }
 
     private static void test1(String url) {
-        Selenide.sleep(5000);
-
         open(url);
-        Selenide.sleep(2000);
 
         $(By.cssSelector(".shadow.dashboard-view__header span")).should(Condition.visible);
         SelenideElement header = $(By.cssSelector(".shadow.dashboard-view__header span"));
