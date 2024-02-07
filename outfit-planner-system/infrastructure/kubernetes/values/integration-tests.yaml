@@ -6,4 +6,4 @@ container:
     - key: REMOTE_URL
       value: http://selenium-chrome-service.default.svc.cluster.local:4444/wd/hub
     - key: APP_URL
-      value: http://dashboard_
+      value: http://dashboard
