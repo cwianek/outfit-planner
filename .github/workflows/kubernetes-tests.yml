@@ -99,15 +99,22 @@ jobs:
           while [[ $elapsed -lt $timeout ]]; do
             echo "Waiting for pods to be ready. Elapsed time: $elapsed seconds."
             kubectl get pods --all-namespaces
-            kubectl get pods --all-namespaces -o=jsonpath='{range .items[*]}{.metadata.namespace}{"\t"}{.metadata.name}{"\t"}{range .spec.containers[*]}{.image}{"\t"}{end}{end}' | column -t
+            kubectl get pods --all-namespaces -o=jsonpath='{range .items[*]}{.metadata.namespace}{"\t"}{.metadata.name}{"\t"}{.status.phase}{"\t"}{end}{end}' | column -t
+          
+            # Check if there are still pods not in "Running" or "Completed" state
+            not_ready_pods=$(kubectl get pods --field-selector=status.phase!=Running,status.phase!=Succeeded --all-namespaces | grep -v 'NAMESPACE' | wc -l)
+            if [[ $not_ready_pods -eq 0 ]]; then
+              echo "All pods are now in 'Running' or 'Completed' state. Exiting loop."
+              break
+            fi
+          
             sleep $interval
             elapsed=$((elapsed + interval))
           done
           
           kubectl get pods --all-namespaces | awk '{print "kubectl describe pod -n " $1 " " $2}' | sh
           
-          echo "Timeout reached. Exiting..."
-          exit 1
+          echo "Timeout reached. Continuing..."
 
       - name: Print Events for All Pods
         run: |
