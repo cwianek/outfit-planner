@@ -1,4 +1,4 @@
 image:
   repository: rzodkiewkowypotwor/integration-tests
-  tag: 1.0.12-SNAPSHOT
+  tag: {{ env "ENV_COMMIT_SHA" | default "latest" }}
   pullPolicy: IfNotPresent

@@ -27,7 +27,7 @@ releases:
       - ./values/outfitplanner-tls.yaml
 
   - name: prediction-service
-    chart: outfitplanner-repo/app
+    chart: ./charts/app
     values:
       - ./values/global-values.yaml
       - ./values/prediction-service.yaml
