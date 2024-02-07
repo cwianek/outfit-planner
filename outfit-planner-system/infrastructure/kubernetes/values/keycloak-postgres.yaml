@@ -3,6 +3,7 @@ app:
   replicaCount: 1
   container:
     image: postgres
+    tag: latest
     port: 5432
     env:
       - key: POSTGRES_DB
