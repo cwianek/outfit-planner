@@ -1,3 +1,9 @@
 image:
   repository: rzodkiewkowypotwor/integration-tests
   pullPolicy: IfNotPresent
+container:
+  env:
+    - key: REMOTE_URL
+      value: http://selenium-chrome-service.default.svc.cluster.local:4444/wd/hub
+    - key: APP_URL
+      value: http://dashboard_
