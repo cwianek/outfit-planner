@@ -2,7 +2,6 @@ app:
   name: prediction-service
   container:
     image: rzodkiewkowypotwor/prediction-service
-    tag: {{ env "ENV_COMMIT_SHA" | default "latest" }}
     port: 2006
     env:
       - key: empty

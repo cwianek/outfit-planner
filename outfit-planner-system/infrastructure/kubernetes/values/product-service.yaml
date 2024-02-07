@@ -3,7 +3,6 @@ app:
   replicaCount: 1
   container:
     image: rzodkiewkowypotwor/product-service
-    tag: {{ env "ENV_COMMIT_SHA" | default "latest" }}
     port: 8184
     env:
       - key: JAVA_OPTS
