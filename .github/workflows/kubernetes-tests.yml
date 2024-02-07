@@ -104,6 +104,8 @@ jobs:
             elapsed=$((elapsed + interval))
           done
           
+          kubectl get pods --all-namespaces | awk '{print "kubectl describe pod -n " $1 " " $2}' | sh
+          
           echo "Timeout reached. Exiting..."
           exit 1
 
