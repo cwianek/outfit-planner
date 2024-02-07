@@ -99,6 +99,7 @@ jobs:
           while [[ $elapsed -lt $timeout ]]; do
             echo "Waiting for pods to be ready. Elapsed time: $elapsed seconds."
             kubectl get pods --all-namespaces
+            kubectl get pods --all-namespaces -o=jsonpath='{range .items[*]}{.metadata.namespace}{"\t"}{.metadata.name}{"\t"}{range .spec.containers[*]}{.image}{"\t"}{end}{end}' | column -t
             sleep $interval
             elapsed=$((elapsed + interval))
           done
