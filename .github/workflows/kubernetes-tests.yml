@@ -8,6 +8,7 @@ on:
 #    branches:
 #      - master
 
+
 jobs:
   build-dashboard-frontend:
     uses: cwianek/outfit-planner/.github/workflows/dashboard-frontend-build.yml@master
