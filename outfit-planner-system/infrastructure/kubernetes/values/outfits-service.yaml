@@ -3,7 +3,6 @@ app:
   replicaCount: 1
   container:
     image: rzodkiewkowypotwor/outfit-service
-    tag: ${ENV_COMMIT_SHA:-1.0.8-SNAPSHOT}
     port: 8185
     env:
     - key: JAVA_OPTS

@@ -8,7 +8,6 @@ on:
 #    branches:
 #      - master
 
-
 jobs:
   build-dashboard-frontend:
     uses: cwianek/outfit-planner/.github/workflows/dashboard-frontend-build.yml@master
@@ -63,6 +62,12 @@ jobs:
       - name: Testing on a k8s Kind Cluster
         uses: helm/kind-action@v1.4.0
 
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
       - name: Install Helmfile
         run: |
           wget https://github.com/helmfile/helmfile/releases/download/v0.161.0/helmfile_0.161.0_linux_amd64.tar.gz -O /tmp/helmfile.tar.gz
@@ -83,7 +88,7 @@ jobs:
           cd $GITHUB_WORKSPACE/outfit-planner-system/infrastructure/kubernetes
           helmfile --file helmfile.yaml  apply
         env:
-          ENV_COMMIT_SHA: ${{ github.sha }}
+          ENV_COMMIT_SHA: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && 'latest' || github.sha }}
 
       - name: Wait for Pods to be Running
         run: |
@@ -94,17 +99,19 @@ jobs:
           while [[ $elapsed -lt $timeout ]]; do
             echo "Waiting for pods to be ready. Elapsed time: $elapsed seconds."
             kubectl get pods --all-namespaces
+            kubectl get pods --all-namespaces -o=jsonpath='{range .items[*]}{.metadata.namespace}{"\t"}{.metadata.name}{"\t"}{.status.phase}{"\t"}{"\n"}{end}' | column -t
+          
+            # Check if there are still pods not in "Running" or "Completed" state
+            not_ready_pods=$(kubectl get pods --field-selector=status.phase!=Running,status.phase!=Succeeded --all-namespaces | grep -v 'NAMESPACE' | wc -l)
+            if [[ $not_ready_pods -eq 0 ]]; then
+              echo "All pods are now in 'Running' or 'Completed' state. Exiting loop."
+              break
+            fi
+          
             sleep $interval
             elapsed=$((elapsed + interval))
           done
           
-          echo "Timeout reached. Exiting..."
-          exit 1
-
-      - name: Print Events for All Pods
-        run: |
-          kubectl get pods --all-namespaces -o json | jq -r '.items[] | "\(.metadata.namespace)/\(.metadata.name)"' | xargs -I {} kubectl get events --namespace={} --sort-by=.metadata.creationTimestamp
-
-      - name: Print Logs for All Pods
-        run: |
-          kubectl get pods --all-namespaces -o json | jq -r '.items[] | "\(.metadata.namespace)/\(.metadata.name)"' | xargs -I {} kubectl logs --namespace={} {}
+          # Check if there are still pods not in "Running" or "Completed" state after the timeout
+          echo "Timeout reached. Printing logs for all pods..."
+          kubectl get pods --all-namespaces -o json | jq -r '.items[] | "kubectl logs -n \(.metadata.namespace) \(.metadata.name)"' | sh

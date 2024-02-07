@@ -3,7 +3,6 @@ app:
   replicaCount: 1
   container:
     image: rzodkiewkowypotwor/outfits-frontend
-    tag: ${ENV_COMMIT_SHA:-1.0.3-SNAPSHOT}
     port: 80
     env:
 #      - key: VIRTUAL_HOST

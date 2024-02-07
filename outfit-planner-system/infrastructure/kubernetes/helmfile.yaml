@@ -27,10 +27,12 @@ releases:
       - ./values/outfitplanner-tls.yaml
 
   - name: prediction-service
-    chart: outfitplanner-repo/app
+    chart: ./charts/app
     values:
-      - ./values/global-values.yaml
       - ./values/prediction-service.yaml
+      - app:
+          container:
+            tag: {{ env "ENV_COMMIT_SHA" | default "latest" }}
 
   - name: ingress-nginx
     chart: ingress-nginx/ingress-nginx
@@ -44,32 +46,42 @@ releases:
   - name: outfits-service
     chart: ./charts/app
     values:
-      - ./values/global-values.yaml
       - ./values/outfits-service.yaml
+      - app:
+          container:
+            tag: {{ env "ENV_COMMIT_SHA" | default "latest" }}
 
   - name: product-service
     chart: ./charts/app
     values:
-      - ./values/global-values.yaml
       - ./values/product-service.yaml
+      - app:
+          container:
+            tag: {{ env "ENV_COMMIT_SHA" | default "latest" }}
 
   - name: dashboard
     chart: ./charts/app
     values:
-      - ./values/global-values.yaml
       - ./values/dashboard.yaml
+      - app:
+          container:
+            tag: {{ env "ENV_COMMIT_SHA" | default "latest" }}
 
   - name: outfits
     chart: ./charts/app
     values:
-      - ./values/global-values.yaml
       - ./values/outfits.yaml
+      - app:
+          container:
+            tag: {{ env "ENV_COMMIT_SHA" | default "latest" }}
 
   - name: products
     chart: ./charts/app
     values:
-      - ./values/global-values.yaml
       - ./values/products.yaml
+      - app:
+          container:
+            tag: {{ env "ENV_COMMIT_SHA" | default "latest" }}
 
   - name: schema-registry
     chart: ./charts/app
@@ -94,8 +106,10 @@ releases:
   - name: keycloak-server
     chart: ./charts/app
     values:
-      - ./values/global-values.yaml
       - ./values/keycloak-server.yaml
+      - app:
+          container:
+            tag: {{ env "ENV_COMMIT_SHA" | default "latest" }}
 
   - name: my-mongodb-release
     namespace: default
@@ -118,5 +132,6 @@ releases:
   - name: integration-tests
     chart: ./charts/integration-tests
     values:
-      - ./values/global-values.yaml
       - ./values/integration-tests.yaml
+      - image:
+          tag: {{ env "ENV_COMMIT_SHA" | default "latest" }}

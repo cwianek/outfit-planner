@@ -1,2 +1,3 @@
-#global:
-#  commitSha: ${ENV_COMMIT_SHA:-latest}
+app:
+  container:
+    tag: {{ env "ENV_COMMIT_SHA" | default "latest" }}
