@@ -99,7 +99,7 @@ jobs:
           while [[ $elapsed -lt $timeout ]]; do
             echo "Waiting for pods to be ready. Elapsed time: $elapsed seconds."
             kubectl get pods --all-namespaces
-            kubectl get pods --all-namespaces -o=jsonpath='{range .items[*]}{.metadata.namespace}{"\t"}{.metadata.name}{"\t"}{.status.phase}{"\t"}{end}{end}' | column -t
+            kubectl get pods --all-namespaces -o=jsonpath='{range .items[*]}{.metadata.namespace}{"\t"}{.metadata.name}{"\t"}{.status.phase}{"\t"}{"\n"}{end}' | column -t
           
             # Check if there are still pods not in "Running" or "Completed" state
             not_ready_pods=$(kubectl get pods --field-selector=status.phase!=Running,status.phase!=Succeeded --all-namespaces | grep -v 'NAMESPACE' | wc -l)
@@ -112,14 +112,6 @@ jobs:
             elapsed=$((elapsed + interval))
           done
           
-          kubectl get pods --all-namespaces | awk '{print "kubectl describe pod -n " $1 " " $2}' | sh
-          
-          echo "Timeout reached. Continuing..."
-
-      - name: Print Events for All Pods
-        run: |
-          kubectl get pods --all-namespaces -o json | jq -r '.items[] | "\(.metadata.namespace)/\(.metadata.name)"' | xargs -I {} kubectl get events --namespace={} --sort-by=.metadata.creationTimestamp
-
-      - name: Print Logs for All Pods
-        run: |
-          kubectl get pods --all-namespaces -o json | jq -r '.items[] | "\(.metadata.namespace)/\(.metadata.name)"' | xargs -I {} kubectl logs --namespace={} {}
+          # Check if there are still pods not in "Running" or "Completed" state after the timeout
+          echo "Timeout reached. Printing logs for all pods..."
+          kubectl get pods --all-namespaces -o json | jq -r '.items[] | "kubectl logs -n \(.metadata.namespace) \(.metadata.name)"' | sh
