@@ -5,8 +5,7 @@ on:
     paths:
       - '.github/workflows/kubernetes-tests.yml'
   pull_request:
-    branches:
-      - master
+  merge_group:
 
 jobs:
   build-dashboard-frontend:
