@@ -25,3 +25,10 @@ spec:
               value: {{ quote .value }}
             {{- end }}
           {{- end }}
+          volumeMounts:
+            - name: test-results
+              mountPath: /app/test-results
+      volumes:
+        - name: test-results
+          persistentVolumeClaim:
+            claimName: test-results-pvc
