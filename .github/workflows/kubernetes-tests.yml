@@ -4,9 +4,9 @@ on:
   push:
     paths:
       - '.github/workflows/kubernetes-tests.yml'
-#  pull_request:
-#    branches:
-#      - master
+  pull_request:
+    branches:
+      - master
 
 jobs:
   build-dashboard-frontend:
@@ -90,12 +90,6 @@ jobs:
         env:
           ENV_COMMIT_SHA: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && 'latest' || github.sha }}
 
-      - name: Get Integration Tests Pod Name
-        id: get_pod_name
-        run: |
-          INTEGRATION_TESTS_POD=$(kubectl get pods -l app=integration-tests -o jsonpath="{.items[0].metadata.namespace}/{.items[0].metadata.name}" -n default)
-          echo "Integration Tests Pod Name: $INTEGRATION_TESTS_POD"
-          echo "::set-output name=pod_name::$INTEGRATION_TESTS_POD"
 
       - name: Wait for Pods to be Running
         run: |
@@ -121,20 +115,21 @@ jobs:
           
           kubectl get pods --all-namespaces -o json | jq -r '.items[] | "kubectl logs -n \(.metadata.namespace) \(.metadata.name)"' | sh
 
-          mkdir -p $GITHUB_WORKSPACE/test-results/
-          
-          echo "[kek] Integration Tests Pod Name: $INTEGRATION_TESTS_POD"
-          
+      - name: Check tests status
+        run: |
           INTEGRATION_TESTS_POD=$(kubectl get pods -l app=integration-tests -o jsonpath="{.items[0].metadata.name}" -n default)
           echo "[kek] Integration Tests Pod Name: $INTEGRATION_TESTS_POD"
           
-          kubectl cp $INTEGRATION_TESTS_POD:/app/test-results/. $GITHUB_WORKSPACE/test-results/
-          
-      - name: Print Content of Files
+          kubectl cp $INTEGRATION_TESTS_POD:/app/test_status.txt $GITHUB_WORKSPACE/test_status.txt
+
+      - name: Check tests status
         run: |
-          # Print the content of each file in the test-results directory
-          for file in $GITHUB_WORKSPACE/test-results/*; do
-            echo "Content of $file:"
-            cat $file
-            echo "---------------------"
-          done
+          TEST_STATUS=$(cat $GITHUB_WORKSPACE/test_status.txt)
+
+          # Check the test status and exit with an error if it's a failure
+          if [ "$TEST_STATUS" = "failure" ]; then
+            echo "Integration tests failed. Exiting with an error."
+            exit 1
+          else
+            echo "Integration tests passed. Continuing..."
+          fi
