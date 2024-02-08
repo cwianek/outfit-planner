@@ -2,8 +2,8 @@ name: Lint and Test Charts
 
 on:
   push:
-    paths:
-      - '.github/workflows/kubernetes-tests.yml'
+    branches:
+      - master
   pull_request:
   merge_group:
 
