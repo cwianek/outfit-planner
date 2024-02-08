@@ -131,15 +131,11 @@ jobs:
       - name: Check tests status
         run: |
           
-          check_file_exists() {
-            kubectl exec $INTEGRATION_TESTS_POD -- test -e /app/test_status.txt
-          }
-          
           INTEGRATION_TESTS_POD=$(kubectl get pods -l app=integration-tests -o jsonpath="{.items[0].metadata.name}" -n default)
           echo "[kek] Integration Tests Pod Name: $INTEGRATION_TESTS_POD"
           
           timeout 2m bash -c \
-          'until check_file_exists; do
+          'until kubectl exec $INTEGRATION_TESTS_POD -- test -e /app/test_status.txt; do
               echo "Waiting for test_status.txt to exist..."
               sleep 5
           done'
