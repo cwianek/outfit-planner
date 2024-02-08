@@ -134,11 +134,15 @@ jobs:
           INTEGRATION_TESTS_POD=$(kubectl get pods -l app=integration-tests -o jsonpath="{.items[0].metadata.name}" -n default)
           echo "[kek] Integration Tests Pod Name: $INTEGRATION_TESTS_POD"
           
-          timeout 2m bash -c \
-          'until kubectl exec $INTEGRATION_TESTS_POD -- test -e /app/test_status.txt; do
+          for _ in {1..30}; do
+            if kubectl exec $INTEGRATION_TESTS_POD -- test -e /app/test_status.txt; then
+              echo "test_status.txt found. Continuing..."
+              break
+            else
               echo "Waiting for test_status.txt to exist..."
               sleep 5
-          done'
+            fi
+          done
           
           kubectl cp $INTEGRATION_TESTS_POD:/app/test_status.txt $GITHUB_WORKSPACE/test_status.txt
 
