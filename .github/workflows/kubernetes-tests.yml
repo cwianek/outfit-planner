@@ -114,12 +114,17 @@ jobs:
           
           # Get and describe pods with errors
           error_pods=$(kubectl get pods --field-selector=status.phase!=Running,status.phase!=Succeeded --all-namespaces | grep -v 'NAMESPACE' | awk '{print $2}')
-          for pod in $error_pods; do
-            echo "Describing pod with errors: $pod \n\n"
-            kubectl describe pod $pod --namespace=$(kubectl get pod $pod -o=jsonpath='{.metadata.namespace}')
-          done
-
-          echo "\n\n All logs \n\n"
+          if [[ $error_pods -gt 0 ]]; then    
+            for pod in $error_pods; do
+              echo "Describing pod with errors: $pod \n\n"
+              kubectl describe pod $pod --namespace=$(kubectl get pod $pod -o=jsonpath='{.metadata.namespace}')
+            done
+          
+           echo "Error: Some pods are not in 'Running' or 'Completed' state after the timeout. Exiting with an error."
+           exit 1
+          fi
+          
+          echo "All logs:"
           
           kubectl get pods --all-namespaces -o json | jq -r '.items[] | "kubectl logs -n \(.metadata.namespace) \(.metadata.name)"' | sh
 
