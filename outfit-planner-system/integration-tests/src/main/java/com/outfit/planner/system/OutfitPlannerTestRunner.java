@@ -11,6 +11,8 @@ import static com.codeborne.selenide.Selenide.open;
 public class OutfitPlannerTestRunner {
 
     public static void main(String[] args) {
+        log.info("[INTEGRATION_TESTS] Running integration tests");
+
         String url = (args.length > 0) ? args[0] : "http://dashboard-development:4200";
 
         test1(url);

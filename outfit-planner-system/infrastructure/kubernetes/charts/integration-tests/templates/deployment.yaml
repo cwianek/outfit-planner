@@ -28,6 +28,14 @@ spec:
           volumeMounts:
             - name: test-results
               mountPath: /app/test-results
+      {{- if .Values.initContainer }}
+      initContainers:
+        - name: {{ .Values.initContainer.name }}
+          image: {{ .Values.initContainer.image }}
+          command: {{- range .Values.initContainer.command }}
+            - {{.}}
+          {{- end }}
+      {{- end }}
       volumes:
         - name: test-results
           persistentVolumeClaim:

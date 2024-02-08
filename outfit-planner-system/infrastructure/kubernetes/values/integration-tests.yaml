@@ -7,3 +7,7 @@ container:
       value: http://selenium-chrome-service.default.svc.cluster.local:4444/wd/hub
     - key: APP_URL
       value: http://dashboard
+initContainer:
+  name: init-wait-for-dashboard
+  image: busybox
+  command: [ 'sh', '-c', 'until nslookup dashboard.default.svc.cluster.local; do echo waiting for dashboard; sleep 2; done;' ]
