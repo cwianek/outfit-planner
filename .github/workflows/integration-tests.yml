@@ -32,19 +32,19 @@ jobs:
           cd $GITHUB_WORKSPACE/outfit-planner-system
           # Replace this with your build command
           mvn install -Dmaven.test.skip=true -Dfile.path=${FILE_PATH}
-#          cp integration-tests/target/integration-tests-1.0-SNAPSHOT.jar integration-tests.jar
-#
-#      - name: List artifacts before upload
-#        run: |
-#          ls -R
+          cp integration-tests/target/integration-tests-1.0-SNAPSHOT.jar integration-tests-1.0-SNAPSHOT.jar
+
+      - name: List artifacts before upload
+        run: |
+          ls -R
 
 
-#      - name: Archive production artifacts
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: outfit-planner-integration-tests
-#          path: |
-#            outfit-planner-system/integration-tests.jar
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: outfit-planner-integration-tests
+          path: |
+            outfit-planner-system/integration-tests-1.0-SNAPSHOT.jar
 
   docker:
     runs-on: ubuntu-latest
@@ -55,11 +55,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-#      - name: Download artifacts
-#        uses: actions/download-artifact@v4
-#        with:
-#          name: outfit-planner-integration-tests
-#          path: outfit-planner-system/infrastructure/docker/integration-tests  # Adjust the path based on your build output
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: outfit-planner-integration-tests
+          path: outfit-planner-system/infrastructure/integration-tests/target  # Adjust the path based on your build output
 
       - name: List downloaded files
         run: |
