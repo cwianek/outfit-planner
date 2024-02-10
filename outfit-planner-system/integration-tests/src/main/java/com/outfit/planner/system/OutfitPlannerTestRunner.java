@@ -1,32 +1,40 @@
 package com.outfit.planner.system;
 
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.SelenideElement;
-import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.By;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import org.junit.platform.engine.discovery.DiscoverySelectors;
+import org.junit.platform.launcher.Launcher;
+import org.junit.platform.launcher.LauncherDiscoveryRequest;
+import org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder;
+import org.junit.platform.launcher.core.LauncherFactory;
+import org.junit.platform.launcher.listeners.SummaryGeneratingListener;
+import org.junit.platform.launcher.listeners.TestExecutionSummary;
 
-@Slf4j
+import java.io.PrintWriter;
+
 public class OutfitPlannerTestRunner {
 
     public static void main(String[] args) {
-        log.info("[INTEGRATION_TESTS] Running integration tests");
+        String packageName = "com.outfit.planner.system";
+        Launcher launcher = LauncherFactory.create();
+        LauncherDiscoveryRequest request = LauncherDiscoveryRequestBuilder
+                .request()
+                .selectors(DiscoverySelectors.selectPackage(packageName))
+                .build();
 
-        String url = (args.length > 0) ? args[0] : "http://dashboard-development:4200";
+        SummaryGeneratingListener listener = new SummaryGeneratingListener();
+        launcher.registerTestExecutionListeners(listener);
+        launcher.execute(request);
 
-        test1(url);
-    }
+        TestExecutionSummary summary = listener.getSummary();
 
-    private static void test1(String url) {
-        open(url);
+        try (PrintWriter printWriter = new PrintWriter(System.out)) {
+            summary.printTo(printWriter);
+        }
 
-        $(By.cssSelector(".shadow.dashboard-view__header span")).should(Condition.visible);
-        SelenideElement header = $(By.cssSelector(".shadow.dashboard-view__header span"));
-        header.shouldHave(Condition.text("Your AI powered outfit planner"));
-        log.info("[INTEGRATION_TESTS] Header text {}", header.getText());
-
-        log.info("[INTEGRATION_TESTS] Test has been completed successfully");
+        if (summary.getTestsFailedCount() > 0) {
+            System.exit(1);
+        } else {
+            System.exit(0);
+        }
     }
 
 }
