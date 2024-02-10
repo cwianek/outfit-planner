@@ -59,7 +59,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: outfit-planner-integration-tests
-          path: outfit-planner-system/infrastructure/integration-tests/target  # Adjust the path based on your build output
+          path: outfit-planner-system/integration-tests/target  # Adjust the path based on your build output
 
       - name: List downloaded files
         run: |
