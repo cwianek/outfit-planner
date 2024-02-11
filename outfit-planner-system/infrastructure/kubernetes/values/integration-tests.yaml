@@ -16,4 +16,4 @@ container:
 initContainer:
   name: init-wait-for-dashboard
   image: busybox
-  command: [ 'sh', '-c', 'until nslookup keycloak-server.default.svc.cluster.local && wget -q -O /dev/null http://keycloak-server.default.svc.cluster.local/realms/outfitplanner-realm; do echo waiting for keycloak-server; sleep 2; done;' ]
+  command: [ 'sh', '-c', 'until nslookup keycloak-server.default.svc.cluster.local && wget -q -O /dev/null http://keycloak-server.default.svc.cluster.local/realms/outfitplanner-realm && nslookup product-service.default.svc.cluster.local; do echo waiting for keycloak-server and products; sleep 2; done; sleep 10;' ]
