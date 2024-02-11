@@ -123,10 +123,6 @@ jobs:
            echo "Error: Some pods are not in 'Running' or 'Completed' state after the timeout. Exiting with an error."
            exit 1
           fi
-          
-          echo "All logs:"
-          
-          kubectl get pods --all-namespaces -o json | jq -r '.items[] | "kubectl logs -n \(.metadata.namespace) \(.metadata.name)"' | sh
 
       - name: Check tests status
         run: |
@@ -145,6 +141,12 @@ jobs:
           done
           
           kubectl cp $INTEGRATION_TESTS_POD:/app/test_status.txt $GITHUB_WORKSPACE/test_status.txt
+
+      - name: Print all logs
+        if: always()
+        run: |
+          echo "All logs:"
+          kubectl get pods --all-namespaces -o json | jq -r '.items[] | "kubectl logs -n \(.metadata.namespace) \(.metadata.name)"' | sh
 
       - name: Check tests status
         run: |
