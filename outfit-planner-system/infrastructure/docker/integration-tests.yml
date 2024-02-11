@@ -14,6 +14,8 @@ services:
       APP_URL: http://dashboard.outfitplanner.com
       REMOTE_URL: http://selenium-chrome:4444/wd/hub
       KEYCLOAK_URL: http://keycloak-server.outfitplanner.com:8082
+      PRODUCT_SERVICE_URL: http://product-service:8184
+      PRODUCTS_APP_URL: http://products
     networks:
       - outfit-planner_outfit-planner-system
 

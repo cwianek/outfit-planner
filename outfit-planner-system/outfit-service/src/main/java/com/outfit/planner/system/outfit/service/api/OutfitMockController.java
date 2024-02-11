@@ -41,6 +41,4 @@ public class OutfitMockController {
         return ResponseEntity.ok(outfitsDTOs);
     }
 
-
-
 }

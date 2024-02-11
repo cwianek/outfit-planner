@@ -1,4 +1,4 @@
-package com.outfit.planner.system.keycloak;
+package com.outfit.planner.system.product.service;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
-public class KeycloakTestConfig {
+public class ProductServiceTestConfig {
 
     @Bean
     @Primary
@@ -16,7 +16,7 @@ public class KeycloakTestConfig {
 
     @Bean
     public WebClient webClient(WebClient.Builder webClientBuilder) {
-        String systemPropertyValue = System.getProperty("KEYCLOAK_URL");
+        String systemPropertyValue = System.getProperty("PRODUCT_SERVICE_URL", "http://localhost:8184");
         return webClientBuilder.baseUrl(systemPropertyValue).build();
     }
 

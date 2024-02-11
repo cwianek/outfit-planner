@@ -1,5 +1,6 @@
 package com.outfit.planner.system;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.platform.engine.discovery.DiscoverySelectors;
 import org.junit.platform.launcher.Launcher;
 import org.junit.platform.launcher.LauncherDiscoveryRequest;
@@ -10,6 +11,7 @@ import org.junit.platform.launcher.listeners.TestExecutionSummary;
 
 import java.io.PrintWriter;
 
+@Slf4j
 public class OutfitPlannerTestRunner {
 
     public static void main(String[] args) {
@@ -27,6 +29,7 @@ public class OutfitPlannerTestRunner {
         TestExecutionSummary summary = listener.getSummary();
 
         try (PrintWriter printWriter = new PrintWriter(System.out)) {
+            summary.printFailuresTo(printWriter);
             summary.printTo(printWriter);
         }
 

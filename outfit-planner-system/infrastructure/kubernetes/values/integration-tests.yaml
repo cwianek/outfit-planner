@@ -9,6 +9,10 @@ container:
       value: http://dashboard
     - key: KEYCLOAK_URL
       value: http://keycloak-server
+    - key: PRODUCT_SERVICE_URL
+      value: http://product-service:8184
+    - key: PRODUCTS_APP_URL
+      value: http://products
 initContainer:
   name: init-wait-for-dashboard
   image: busybox

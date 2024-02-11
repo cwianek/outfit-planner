@@ -1,4 +1,4 @@
-package com.outfit.planner.system;
+package com.outfit.planner.system.keycloak;
 
 import com.outfit.planner.system.keycloak.KeycloakTestConfig;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = KeycloakTestConfig.class)
-//@AutoConfigureWebTestClient
 public class KeycloakRestTest {
 
     @Autowired
