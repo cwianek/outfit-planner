@@ -158,7 +158,7 @@ services:
       - "${CERTS_PATH}:/opt/keycloak/conf/"
     networks:
       - ${GLOBAL_NETWORK}
-    command: [ 'start-dev',  '--import-realm', '--http-port 8082', '--https-port 443' ]
+    command: [ 'start-dev',  '--import-realm', '--http-port=8082', '--https-port=443' ]
     healthcheck:
       test: [ "CMD", "curl", "--head", "-fsS", "http://localhost:8082/health/ready" ]
       interval: 10s
