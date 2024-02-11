@@ -87,7 +87,7 @@ jobs:
           cd $GITHUB_WORKSPACE/outfit-planner-system/infrastructure/kubernetes
           helmfile --file helmfile.yaml  apply
         env:
-          ENV_COMMIT_SHA: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && 'latest' || github.sha }}
+          ENV_COMMIT_SHA: ${{ github.ref == 'refs/heads/master' && 'latest' || github.sha }}
 
 
       - name: Wait for Pods to be Running
