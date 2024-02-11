@@ -24,7 +24,7 @@ public class ProductServiceRestTest {
     private WebClient webClient;
 
     @Test
-    public void testKeycloakRealmHasBeenImported() {
+    public void testProductsMock() {
         ParameterizedTypeReference<List<Object>> response = new ParameterizedTypeReference<List<Object>>() {};
         List<Object> responseBody = webClient.get()
                 .uri("/api/products/mock")
