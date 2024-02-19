@@ -114,6 +114,9 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-logging</artifactId>
+<!--            LoggerFactory is not a Logback LoggerContext but Logback is on the classpath. Either remove Logback or the competing implementation -->
+<!--            (class org.slf4j.impl.Slf4jLoggerFactory loaded from jar:file:/opt/jboss/wildfly/modules/system/layers/base/org/slf4j/impl/main/slf4j-jboss-logmanager-1.1.0.Final.jar!/). -->
+<!--            If you are using WebLogic you will need to add 'org.slf4j' to prefer-application-packages in WEB-INF/weblogic.xml: org.slf4j.impl.Slf4jLoggerFactory-->
             <exclusions>
                 <exclusion>
                     <groupId>ch.qos.logback</groupId>
