@@ -3,6 +3,16 @@ entries:
   app:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2024-03-04T13:19:44.916198516Z"
+    description: A Helm chart for Kubernetes
+    digest: e82a91ca424a273b72ac247f8a7cc5f08fcd0d126a316786208167222fc68bfe
+    name: app
+    type: application
+    urls:
+    - https://github.com/cwianek/outfit-planner/releases/download/app-0.1.1/app-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2024-01-01T20:02:37.591343542Z"
     description: A Helm chart for Kubernetes
     digest: deb9dc1d9952489c8cb34df4852679ef045d472e92d904cad5363d7042dd684a
@@ -22,6 +32,16 @@ entries:
   ingress:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2024-03-04T13:19:45.025044513Z"
+    description: A Helm chart for Kubernetes
+    digest: 4f50433186c79196b0250ed5b23699732bd3adf31c3c6b0ed60e7ba16c7620d7
+    name: ingress
+    type: application
+    urls:
+    - https://github.com/cwianek/outfit-planner/releases/download/ingress-0.1.1/ingress-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2024-01-01T20:02:37.839574381Z"
     description: A Helm chart for Kubernetes
     digest: bd0c5dbc5254781872789c14fb662708736c454d43730ff157a0b431f9438695
@@ -30,6 +50,17 @@ entries:
     urls:
     - https://github.com/cwianek/outfit-planner/releases/download/ingress-0.1.0/ingress-0.1.0.tgz
     version: 0.1.0
+  integration-tests:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-03-04T13:19:45.15236242Z"
+    description: A Helm chart for Kubernetes
+    digest: ef4c5756ed5e1c7ab2626bb1c8bd06a98d5fede4a92de312e47e1781e0d4adce
+    name: integration-tests
+    type: application
+    urls:
+    - https://github.com/cwianek/outfit-planner/releases/download/integration-tests-0.1.2/integration-tests-0.1.2.tgz
+    version: 0.1.2
   keycloak-server:
   - apiVersion: v2
     appVersion: 1.16.0
@@ -52,4 +83,15 @@ entries:
     urls:
     - https://github.com/cwianek/outfit-planner/releases/download/secrets-0.1.0/secrets-0.1.0.tgz
     version: 0.1.0
-generated: "2024-01-01T20:02:38.115657924Z"
+  selenium-chrome:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-03-04T13:19:45.27360563Z"
+    description: A Helm chart for Kubernetes
+    digest: aec47922b7c2fd45f6404d3afc1de122a97a0bd2c485e892e6f940751a060679
+    name: selenium-chrome
+    type: application
+    urls:
+    - https://github.com/cwianek/outfit-planner/releases/download/selenium-chrome-0.1.0/selenium-chrome-0.1.0.tgz
+    version: 0.1.0
+generated: "2024-03-04T13:19:45.273628944Z"
