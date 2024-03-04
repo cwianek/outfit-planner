@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'outfit-planner-system/outfit-planner-system/infrastructure/kubernetes/charts/**'
+      - '.github/workflows/release-charts.yml'
 
 jobs:
   release:
@@ -30,3 +31,4 @@ jobs:
           charts_dir: outfit-planner-system/infrastructure/kubernetes/charts
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          CR_SKIP_EXISTING: true
