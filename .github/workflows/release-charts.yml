@@ -4,7 +4,6 @@ on:
   push:
     paths:
       - 'outfit-planner-system/outfit-planner-system/infrastructure/kubernetes/charts/**'
-      - '.github/workflows/release-charts.yml'
 
 jobs:
   release:
@@ -21,7 +20,7 @@ jobs:
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
       - name: Install Helm
-        uses: azure/setup-helm@v3
+        uses: azure/setup-helm@v4
         with:
           version: v3.8.1
 
