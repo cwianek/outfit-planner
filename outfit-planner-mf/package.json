@@ -21,7 +21,7 @@
     "@popperjs/core": "^2.11.6",
     "@types/node": "^20.11.7",
     "bootstrap": "^5.3.2",
-    "keycloak-angular": "^15.0.0",
+    "keycloak-angular": "^15.2.1",
     "keycloak-js": "^23.0.0",
     "primeicons": "^7.0.0",
     "primeng": "^17.0.0",
