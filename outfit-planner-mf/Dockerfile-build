@@ -11,7 +11,7 @@ COPY . .
 RUN npm exec nx build ${APP_NAME}
 
 
-FROM nginx:1.25-alpine
+FROM nginx:1.26-alpine
 ARG APP_NAME
 
 WORKDIR /app
