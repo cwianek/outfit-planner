@@ -107,7 +107,7 @@ releases:
   - name: my-mongodb-release
     namespace: default
     chart: bitnami/mongodb
-    version: 16.3.0
+    version: 16.3.1
     values:
       - ./values/outfits-mongodb.yaml
 
