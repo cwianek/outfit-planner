@@ -1,7 +1,7 @@
 Flask==3.1.1
 Flask-Cors==5.0.1
 gunicorn==23.0.0
-numpy==2.3.0
+numpy==2.3.1
 pandas==2.2.3
 scikit-learn==1.6.0
 matplotlib==3.10.3
